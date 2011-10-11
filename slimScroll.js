@@ -10,13 +10,23 @@
 	jQuery.fn.extend({
 		slimScroll: function() {
 
-			var isOverPanel = false;
-			var isOverBar = false;
-			var isDragg = false;
-			var queueHide = null;
+			var isOverPanel, isOverBar, isDragg, queueHide,
+				divS = '<div></div>',
+				size = '7px';
 			
+			//used in event handlers and for better minification
+			var me = this;
+			
+			//wrap content
+			var wrapper = $(divS).css({
+				position: 'relative',
+				width: me.width(),
+				height: me.height(),
+				overflow: 'hidden'
+			}).attr({ 'class': 'slimScrollContent' });
+
 			//create scrollbar rail
-			var rail  = $('<div></div>').css({
+			var rail  = $(divS).css({
 				width: '15px',
 				height: '100%',
 				position: 'absolute',
@@ -25,35 +35,42 @@
 			});
 			
 			//create scrollbar
-			var bar = $('<div class="slimScrollBar"></div>').css({
+			var bar = $(divS).css({
 				background: '#000',
-				width: '7px',
+				width: size,
 				position: 'absolute',
 				top: 0,
 				right: 0,
 				opacity: 0.4,
 				display: 'none',
-				MozBorderRadius: '7px',
-				zIndex:99
-			});
+				MozBorderRadius: size,
+				WebkitBorderRadius: size,
+				BorderRadius: size,
+				zIndex: 99
+			}).attr({ 'class': 'slimScrollBar '});
 			
 			//calculate scrollbar height
 			var height = (this.height() * this.height()) / this[0].scrollHeight;
 			bar.css({ height: height + 'px' });
 
-			//update parent position
-			this.css({ position: 'relative' });
-
+			//wrap it
+			me.wrap(wrapper);
+			
 			//append to parent div
-			this.append(bar);
-			this.append(rail);
+			me.parent().append(bar);
+			me.parent().append(rail);
 			
 			//make it draggable
 			bar.draggable({ 
 				axis: 'y', 
 				containment: 'parent',
 				start: function() { isDragg = true; },
-				stop: function() { isDragg = false; }
+				stop: function() { isDragg = false; },
+				drag: function(e) 
+				{ 
+					//scroll content
+					scrollContent(0, $(this).position().top, false);
+				}
 			});
 			
 			//on rail over
@@ -71,7 +88,7 @@
 			});		
 				
 			//show on parent mouseover
-			this.hover(function(){
+			me.hover(function(){
 				isOverPanel = true;
 				showBar();
 				hideBar();
@@ -80,22 +97,39 @@
 				hideBar();
 			});
 			
-			var t = this;
 			var _onWheel = function(e)
 			{
+				//use mouse wheel only when mouse is over
 				if (!isOverPanel) { return; }
 				
 				var delta = 0;
-				
 				if (e.wheelDelta) { delta = e.wheelDelta/120; }
 				if (e.detail) { delta = e.detail / 3; }
-				var mDelta = delta * 30;
+
+				//scroll content
+				scrollContent(0, delta, true);
+			}
+			
+			var scrollContent = function(x, y, isWheel)
+			{
+				var delta = y;
 				
-				var scroll = t.scrollTop();
-				t.scrollTop(scroll + mDelta);
-				
-				//update bar position
-				//bar.css({ top: t.scrollTop() + 'px'});
+				if (isWheel)
+				{
+					delta = me.scrollTop() + y * 30;
+					
+					//move bar, make sure it doesn't go out
+					delta = delta < 0 ? 0 : delta;
+					delta = delta > me.height() ? me.height() : delta;
+					bar.css({ top: delta + 'px' });
+				} 
+				else
+				{
+
+				}
+
+				//scroll content
+				me.scrollTop(delta);
 				
 				//ensure bar is visible
 				showBar();
@@ -103,14 +137,14 @@
 
 			var attachWheel = function()
 			{
-				if (this.addEventListener)
+				if (addEventListener)
 				{
-					this.addEventListener('DOMMouseScroll', _onWheel, false );
-					this.addEventListener('mousewheel', _onWheel, false );
+					addEventListener('DOMMouseScroll', _onWheel, false );
+					addEventListener('mousewheel', _onWheel, false );
 				} 
 				else
 				{
-					this.onmousewheel = _onWheel;
+					onmousewheel = _onWheel;
 				}
 			}
 
@@ -132,5 +166,4 @@
 		}
 	});
 
-})(jQuery);	
-
+})(jQuery);
