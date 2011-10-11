@@ -11,13 +11,14 @@
 		slimScroll: function(o) {
 
 			var isOverPanel, isOverBar, isDragg, queueHide,
-				divS = '<div></div>';
-			
-			var o = o || {};
-			var size = o.size || '7px';
-			var color = o.color || '#000';
-			var position = o.position || 'right';
-			var opacity = o.opacity || .4;
+				divS = '<div></div>',
+				minBarHeight = 30,
+				wheelStep = 30,
+				o = o || {},
+				size = o.size || '7px',
+				color = o.color || '#000',
+				position = o.position || 'right',
+				opacity = o.opacity || .4;
 			
 			//used in event handlers and for better minification
 			var me = this;
@@ -25,8 +26,8 @@
 			//wrap content
 			var wrapper = $(divS).css({
 				position: 'relative',
-				width: me.width(),
-				height: me.height(),
+				width: me.outerWidth(),
+				height: me.outerHeight(),
 				overflow: 'hidden'
 			}).attr({ 'class': 'slimScrollContent' });
 
@@ -57,8 +58,9 @@
 			rail.css(posCss);
 			bar.css(posCss);
 
-			//calculate scrollbar height
-			var height = (this.height() * this.height()) / this[0].scrollHeight;
+			//calculate scrollbar height and make sure it is not too small
+			var height = Math.max((me.outerHeight() / me[0].scrollHeight) 
+				* me.outerHeight(), minBarHeight);
 			bar.css({ height: height + 'px' });
 
 			//wrap it
@@ -73,7 +75,7 @@
 				axis: 'y', 
 				containment: 'parent',
 				start: function() { isDragg = true; },
-				stop: function() { isDragg = false; },
+				stop: function() { isDragg = false; hideBar(); },
 				drag: function(e) 
 				{ 
 					//scroll content
@@ -111,31 +113,34 @@
 				if (!isOverPanel) { return; }
 				
 				var delta = 0;
-				if (e.wheelDelta) { delta = e.wheelDelta/120; }
+				if (e.wheelDelta) { delta = -e.wheelDelta/120; }
 				if (e.detail) { delta = e.detail / 3; }
 
 				//scroll content
 				scrollContent(0, delta, true);
 			}
-			
+
 			var scrollContent = function(x, y, isWheel)
 			{
 				var delta = y;
 				
 				if (isWheel)
 				{
-					delta = me.scrollTop() + y * 30;
-					
-					//move bar, make sure it doesn't go out
-					delta = delta < 0 ? 0 : delta;
-					var maxTop = me.height() - bar.height();
-					delta = delta > maxTop ? maxTop : delta;
-					bar.css({ top: delta + 'px' });
-				} 
-				else
-				{
+					//move bar with mouse wheel
+					delta = bar.position().top + y * wheelStep;
 
+					//move bar, make sure it doesn't go out
+					delta = Math.max(delta, 0);
+					var maxTop = me.outerHeight() - bar.outerHeight();
+					delta = Math.min(delta, maxTop);
+					
+					//scroll the scrollbar
+					bar.css({ top: delta + 'px' });
 				}
+			
+				//calculate actual scroll amount
+				percentScroll = parseInt(bar.position().top) / (me.outerHeight() - bar.outerHeight());
+				delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
 				//scroll content
 				me.scrollTop(delta);
@@ -146,14 +151,14 @@
 
 			var attachWheel = function()
 			{
-				if (addEventListener)
+				if (this.addEventListener)
 				{
-					addEventListener('DOMMouseScroll', _onWheel, false );
-					addEventListener('mousewheel', _onWheel, false );
+					this.addEventListener('DOMMouseScroll', _onWheel, false );
+					this.addEventListener('mousewheel', _onWheel, false );
 				} 
 				else
 				{
-					onmousewheel = _onWheel;
+					this.onmousewheel = _onWheel;
 				}
 			}
 
