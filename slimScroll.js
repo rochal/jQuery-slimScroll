@@ -8,11 +8,16 @@
 (function($) {
 
 	jQuery.fn.extend({
-		slimScroll: function() {
+		slimScroll: function(o) {
 
 			var isOverPanel, isOverBar, isDragg, queueHide,
-				divS = '<div></div>',
-				size = '7px';
+				divS = '<div></div>';
+			
+			var o = o || {};
+			var size = o.size || '7px';
+			var color = o.color || '#000';
+			var position = o.position || 'right';
+			var opacity = o.opacity || .4;
 			
 			//used in event handlers and for better minification
 			var me = this;
@@ -30,25 +35,28 @@
 				width: '15px',
 				height: '100%',
 				position: 'absolute',
-				top: 0,
-				right: 0
+				top: 0
 			});
-			
+				
 			//create scrollbar
 			var bar = $(divS).css({
-				background: '#000',
+				background: color,
 				width: size,
 				position: 'absolute',
 				top: 0,
-				right: 0,
-				opacity: 0.4,
+				opacity: opacity,
 				display: 'none',
 				MozBorderRadius: size,
 				WebkitBorderRadius: size,
 				BorderRadius: size,
 				zIndex: 99
 			}).attr({ 'class': 'slimScrollBar '});
-			
+
+			//set position
+			var posCss = (position == 'right') ? { right: 0 } : { left: 0 };
+			rail.css(posCss);
+			bar.css(posCss);
+
 			//calculate scrollbar height
 			var height = (this.height() * this.height()) / this[0].scrollHeight;
 			bar.css({ height: height + 'px' });
@@ -120,7 +128,8 @@
 					
 					//move bar, make sure it doesn't go out
 					delta = delta < 0 ? 0 : delta;
-					delta = delta > me.height() ? me.height() : delta;
+					var maxTop = me.height() - bar.height();
+					delta = delta > maxTop ? maxTop : delta;
 					bar.css({ top: delta + 'px' });
 				} 
 				else
