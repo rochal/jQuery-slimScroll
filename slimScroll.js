@@ -151,14 +151,14 @@
 
 			var attachWheel = function()
 			{
-				if (this.addEventListener)
+				if (window.addEventListener)
 				{
-					this.addEventListener('DOMMouseScroll', _onWheel, false );
-					this.addEventListener('mousewheel', _onWheel, false );
+					me.addEventListener('DOMMouseScroll', _onWheel, false );
+					me.addEventListener('mousewheel', _onWheel, false );
 				} 
 				else
 				{
-					this.onmousewheel = _onWheel;
+					window.onmousewheel = _onWheel;
 				}
 			}
 
