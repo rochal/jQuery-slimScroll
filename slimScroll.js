@@ -26,11 +26,20 @@
 			//wrap content
 			var wrapper = $(divS).css({
 				position: 'relative',
-				width: me.outerWidth(),
-				height: me.outerHeight(),
 				overflow: 'hidden'
-			}).attr({ 'class': 'slimScrollContent' });
-
+			}).attr({ 'class': 'slimScrollDiv' });
+			
+			//set size if required
+			if (o.width) { wrapper.css({ width: o.width}); }
+			if (o.height) { wrapper.css({ height: o.height}); }
+			
+			//update style for the div
+			me.css({
+				overflow: 'hidden',
+				width: wrapper.width(),
+				height: wrapper.height()
+			});
+			
 			//create scrollbar rail
 			var rail  = $(divS).css({
 				width: '15px',
@@ -40,18 +49,21 @@
 			});
 				
 			//create scrollbar
-			var bar = $(divS).css({
-				background: color,
-				width: size,
-				position: 'absolute',
-				top: 0,
-				opacity: opacity,
-				display: 'none',
-				MozBorderRadius: size,
-				WebkitBorderRadius: size,
-				BorderRadius: size,
-				zIndex: 99
-			}).attr({ 'class': 'slimScrollBar '});
+			var bar = $(divS).attr({ 
+				'class': 'slimScrollBar ', 
+				style: 'border-radius: ' + size 
+				}).css({
+					background: color,
+					width: size,
+					position: 'absolute',
+					top: 0,
+					opacity: opacity,
+					display: 'none',
+					BorderRadius: size,
+					MozBorderRadius: size,
+					WebkitBorderRadius: size,
+					zIndex: 99
+			});
 
 			//set position
 			var posCss = (position == 'right') ? { right: '1px' } : { left: '1px' };

@@ -14,8 +14,7 @@
 		h1 { font-size:20px; margin:0 }
 		h2 { font-size:14px; margin:0 }
 		p { margin:5px 0; }
-		#test1, #test2, #test3 { padding:10px; width:300px; height:200px; overflow:hidden; }
-		.slimScrollContent { float:left; margin:10px; border:1px solid #ccc;  }
+		.slimScrollDiv { border: 1px solid #ccc; margin:10px; }
 	</style>
   </head>
   <body>
@@ -53,13 +52,20 @@
 	    
 	  <script type="text/javascript">
 		  $(function(){
-			  $('#test1').slimScroll();
+			  $('#test1').slimScroll({
+				  width: '300px',
+				  height: '250px'
+			  });
 			  $('#test2').slimScroll({
-				  position: 'left'
+				  position: 'left',
+				  width: '300px',
+				  height: '250px'
 			  });
 			  $('#test3').slimScroll({
 				  color: '#00f',
-				  size: '10px'
+				  size: '10px',
+				  width: '300px',
+				  height: '250px'				  
 			  });
 		  });
 	  </script>
