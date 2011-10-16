@@ -40,8 +40,6 @@
 				height: height			
 			});
 			
-			console.log(wrapper.outerWidth());
-			console.log(wrapper);
 			//create scrollbar rail
 			var rail  = $(divS).css({
 				width: '15px',
@@ -126,12 +124,18 @@
 				//use mouse wheel only when mouse is over
 				if (!isOverPanel) { return; }
 				
+				var e = e || window.event;
+				
 				var delta = 0;
 				if (e.wheelDelta) { delta = -e.wheelDelta/120; }
 				if (e.detail) { delta = e.detail / 3; }
 
 				//scroll content
 				scrollContent(0, delta, true);
+				
+				//stop window scroll
+				if (e.preventDefault) { e.preventDefault(); }
+				e.returnValue = false;				
 			}
 
 			var scrollContent = function(x, y, isWheel)
@@ -172,7 +176,7 @@
 				} 
 				else
 				{
-					window.onmousewheel = _onWheel;
+					window.onmousewheel = document.onmousewheel = _onWheel;
 				}
 			}
 
