@@ -15,6 +15,8 @@
 				minBarHeight = 30,
 				wheelStep = 30,
 				o = o || {},
+				width = o.width || 'auto',
+				height = o.height || '250px',
 				size = o.size || '7px',
 				color = o.color || '#000',
 				position = o.position || 'right',
@@ -26,20 +28,20 @@
 			//wrap content
 			var wrapper = $(divS).css({
 				position: 'relative',
-				overflow: 'hidden'
+				overflow: 'hidden',
+				width: width,
+				height: height
 			}).attr({ 'class': 'slimScrollDiv' });
-			
-			//set size if required
-			if (o.width) { wrapper.css({ width: o.width}); }
-			if (o.height) { wrapper.css({ height: o.height}); }
-			
+
 			//update style for the div
 			me.css({
 				overflow: 'hidden',
-				width: wrapper.width(),
-				height: wrapper.height()
+				width: width,
+				height: height			
 			});
 			
+			console.log(wrapper.outerWidth());
+			console.log(wrapper);
 			//create scrollbar rail
 			var rail  = $(divS).css({
 				width: '15px',
