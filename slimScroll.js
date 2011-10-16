@@ -54,7 +54,7 @@
 			}).attr({ 'class': 'slimScrollBar '});
 
 			//set position
-			var posCss = (position == 'right') ? { right: 0 } : { left: 0 };
+			var posCss = (position == 'right') ? { right: '1px' } : { left: '1px' };
 			rail.css(posCss);
 			bar.css(posCss);
 
@@ -153,8 +153,8 @@
 			{
 				if (window.addEventListener)
 				{
-					me.addEventListener('DOMMouseScroll', _onWheel, false );
-					me.addEventListener('mousewheel', _onWheel, false );
+					this.addEventListener('DOMMouseScroll', _onWheel, false );
+					this.addEventListener('mousewheel', _onWheel, false );
 				} 
 				else
 				{
