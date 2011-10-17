@@ -15,8 +15,8 @@
 				minBarHeight = 30,
 				wheelStep = 30,
 				o = o || {},
-				width = o.width || 'auto',
-				height = o.height || '250px',
+				cwidth = o.width || 'auto',
+				cheight = o.height || '250px',
 				size = o.size || '7px',
 				color = o.color || '#000',
 				position = o.position || 'right',
@@ -29,15 +29,15 @@
 			var wrapper = $(divS).css({
 				position: 'relative',
 				overflow: 'hidden',
-				width: width,
-				height: height
+				width: cwidth,
+				height: cheight
 			}).attr({ 'class': 'slimScrollDiv' });
 
 			//update style for the div
 			me.css({
 				overflow: 'hidden',
-				width: width,
-				height: height			
+				width: cwidth,
+				height: cheight
 			});
 			
 			//create scrollbar rail
@@ -176,7 +176,7 @@
 				} 
 				else
 				{
-					window.onmousewheel = document.onmousewheel = _onWheel;
+					document.attachEvent("onmousewheel", _onWheel)
 				}
 			}
 
