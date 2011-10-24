@@ -189,6 +189,10 @@
 						* me.outerHeight(), minBarHeight);
 					bar.css({ height: height + 'px' });
 					clearTimeout(queueHide);
+					
+					if(height >= me.outerHeight()) {
+						return;
+					}
 					bar.fadeIn('fast');
 				}
 
