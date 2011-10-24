@@ -74,11 +74,6 @@
 				rail.css(posCss);
 				bar.css(posCss);
 
-				//calculate scrollbar height and make sure it is not too small
-				var height = Math.max((me.outerHeight() / me[0].scrollHeight) 
-					* me.outerHeight(), minBarHeight);
-				bar.css({ height: height + 'px' });
-
 				//wrap it
 				me.wrap(wrapper);
 
@@ -189,6 +184,10 @@
 
 				var showBar = function()
 				{
+					//calculate scrollbar height and make sure it is not too small
+					var height = Math.max((me.outerHeight() / me[0].scrollHeight) 
+						* me.outerHeight(), minBarHeight);
+					bar.css({ height: height + 'px' });
 					clearTimeout(queueHide);
 					bar.fadeIn('fast');
 				}
