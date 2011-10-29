@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.2.4
+ * Version: 0.2.5
  * 
  */
 (function($) {
@@ -14,7 +14,7 @@
 			//do it for every element that matches selector
 			this.each(function(){
 
-			var isOverPanel, isOverBar, isDragg, queueHide,
+			var isOverPanel, isOverBar, isDragg, queueHide, barHeight,
 				divS = '<div></div>',
 				minBarHeight = 30,
 				wheelStep = 30,
@@ -24,7 +24,8 @@
 				size = o.size || '7px',
 				color = o.color || '#000',
 				position = o.position || 'right',
-				opacity = o.opacity || .4;
+				opacity = o.opacity || .4,
+				alwaysVisible = o.alwaysVisible === true;
 			
 				//used in event handlers and for better minification
 				var me = $(this);
@@ -62,7 +63,7 @@
 						position: 'absolute',
 						top: 0,
 						opacity: opacity,
-						display: 'none',
+						display: alwaysVisible ? 'block' : 'none',
 						BorderRadius: size,
 						MozBorderRadius: size,
 						WebkitBorderRadius: size,
@@ -182,15 +183,24 @@
 				//attach scroll events
 				attachWheel();
 
-				var showBar = function()
+				var getBarHeight = function()
 				{
 					//calculate scrollbar height and make sure it is not too small
-					var height = Math.max((me.outerHeight() / me[0].scrollHeight) 
-						* me.outerHeight(), minBarHeight);
-					bar.css({ height: height + 'px' });
+					barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
+					bar.css({ height: barHeight + 'px' });
+				}
+
+				//set up initial height
+				getBarHeight();
+
+				var showBar = function()
+				{
+					//recalculate bar height
+					getBarHeight();
 					clearTimeout(queueHide);
 					
-					if(height >= me.outerHeight()) {
+					//show only when required
+					if(barHeight >= me.outerHeight()) {
 						return;
 					}
 					bar.fadeIn('fast');
@@ -198,9 +208,13 @@
 
 				var hideBar = function()
 				{
-					queueHide = setTimeout(function(){
-						if (!isOverBar && !isDragg) { bar.fadeOut('slow'); }
-					}, 1000);
+					//only hide when options allow it
+					if (!alwaysVisible)
+					{
+						queueHide = setTimeout(function(){
+							if (!isOverBar && !isDragg) { bar.fadeOut('slow'); }
+						}, 1000);
+					}
 				}
 
 			});
