@@ -24,6 +24,7 @@
 				size = o.size || '7px',
 				color = o.color || '#000',
 				position = o.position || 'right',
+				distance = o.distance || '1px',
 				opacity = o.opacity || .4,
 				alwaysVisible = o.alwaysVisible === true;
 			
@@ -71,7 +72,7 @@
 				});
 
 				//set position
-				var posCss = (position == 'right') ? { right: '1px' } : { left: '1px' };
+				var posCss = (position == 'right') ? { right: distance } : { left: distance };
 				rail.css(posCss);
 				bar.css(posCss);
 
