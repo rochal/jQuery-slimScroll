@@ -22,7 +22,7 @@
 	  <h1>jQuery slimScroll</h1>
 	  <h2>Facebook-like jQuery Scrollbar</h1>
 	  
-	  <hr /><h2>chainability test & always visible test</h2>
+	  <hr /><h2>chainability & always visible & start at the bottom test</h2>
 	  <div id="test1">
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rhoncus, felis interdum condimentum consectetur, nisl libero elementum eros, vehicula congue lacus eros non diam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus mauris lorem, lacinia id tempus non, imperdiet et leo. Cras sit amet erat sit amet lacus egestas placerat. Aenean ultricies ultrices mauris ac congue. In vel tortor vel velit tristique tempus ac id nisi. Proin quis lorem velit. Nunc dui dui, blandit a ullamcorper vitae, congue fringilla lectus. Aliquam ultricies malesuada feugiat. Vestibulum placerat turpis et eros lobortis vel semper sapien pulvinar.</p>
 		<p>Pellentesque rhoncus aliquet porta. Sed vel magna eu turpis pharetra consequat ut vitae lectus. In molestie sollicitudin mi sit amet convallis. Aliquam erat volutpat. Nullam feugiat placerat ipsum eget malesuada. Nulla facilisis nunc non dolor vehicula pretium. Sed dui magna, sodales id pharetra non, ullamcorper eu sapien. Mauris ac consectetur leo. Mauris consequat, lectus ut bibendum pulvinar, leo magna feugiat enim, eu commodo lacus sem vel ante. Sed tempus metus eget leo mollis vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
@@ -88,7 +88,8 @@
 		  $(function(){
 			  $('#test1').slimScroll({
 				  height: '250px',
-				  alwaysVisible: true
+				  alwaysVisible: true,
+				  start: 'bottom'
 			  }).css({ background: '#ccc', paddingRight: '10px' });
 			  $('#test2').slimScroll({
 				  position: 'left',

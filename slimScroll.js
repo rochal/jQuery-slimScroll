@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.2.6
+ * Version: 0.2.7
  * 
  */
 (function($) {
@@ -25,6 +25,7 @@
 				color = o.color || '#000',
 				position = o.position || 'right',
 				distance = o.distance || '1px',
+				start = o.start || 'top',
 				opacity = o.opacity || .4,
 				alwaysVisible = o.alwaysVisible === true;
 			
@@ -70,6 +71,9 @@
 						WebkitBorderRadius: size,
 						zIndex: 99
 				});
+
+				//check start position
+				if (start == 'bottom') { bar.css({ bottom:0, top: 'auto' }); }
 
 				//set position
 				var posCss = (position == 'right') ? { right: distance } : { left: distance };
@@ -217,7 +221,6 @@
 						}, 1000);
 					}
 				}
-
 			});
 			
 			//maintain chainability
