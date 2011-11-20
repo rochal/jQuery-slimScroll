@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.2.7
+ * Version: 0.3.0
  * 
  */
 (function($) {
@@ -17,8 +17,9 @@
 			var isOverPanel, isOverBar, isDragg, queueHide, barHeight,
 				divS = '<div></div>',
 				minBarHeight = 30,
-				wheelStep = 30,
+				releaseScroll = false,
 				o = ops || {},
+				wheelStep = parseInt(o.wheelStep) || 20,
 				cwidth = o.width || 'auto',
 				cheight = o.height || '250px',
 				size = o.size || '7px',
@@ -27,7 +28,10 @@
 				distance = o.distance || '1px',
 				start = o.start || 'top',
 				opacity = o.opacity || .4,
-				alwaysVisible = o.alwaysVisible === true;
+				alwaysVisible = o.alwaysVisible === true,
+				railVisible = o.railVisible || false,
+				railColor = o.railColor || '#333',
+				railOpacity = o.railOpacity || 0.2;
 			
 				//used in event handlers and for better minification
 				var me = $(this);
@@ -49,10 +53,15 @@
 
 				//create scrollbar rail
 				var rail  = $(divS).css({
-					width: '15px',
+					width: size,
 					height: '100%',
 					position: 'absolute',
-					top: 0
+					top: 0,
+					display: (alwaysVisible && railVisible) ? 'block' : 'none',
+					'border-radius': size,
+					background: railColor,
+					opacity: railOpacity,
+					zIndex: 90
 				});
 
 				//create scrollbar
@@ -71,9 +80,6 @@
 						WebkitBorderRadius: size,
 						zIndex: 99
 				});
-
-				//check start position
-				if (start == 'bottom') { bar.css({ bottom:0, top: 'auto' }); }
 
 				//set position
 				var posCss = (position == 'right') ? { right: distance } : { left: distance };
@@ -136,14 +142,14 @@
 					if (e.detail) { delta = e.detail / 3; }
 
 					//scroll content
-					scrollContent(0, delta, true);
+					scrollContent(delta, true);
 
 					//stop window scroll
-					if (e.preventDefault) { e.preventDefault(); }
-					e.returnValue = false;
+					if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
+					if (!releaseScroll) { e.returnValue = false; }
 				}
 
-				var scrollContent = function(x, y, isWheel)
+				var scrollContent = function(y, isWheel, isJump)
 				{
 					var delta = y;
 
@@ -162,8 +168,15 @@
 					}
 
 					//calculate actual scroll amount
-					percentScroll = parseInt(bar.position().top) / (me.outerHeight() - bar.outerHeight());
+					var percentScroll = parseInt(bar.position().top) / (me.outerHeight() - bar.outerHeight());
 					delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
+
+					if (isJump)
+					{
+						delta = y;
+						var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
+						bar.css({ top: offsetTop + 'px' });
+					}
 
 					//scroll content
 					me.scrollTop(delta);
@@ -206,9 +219,12 @@
 					
 					//show only when required
 					if(barHeight >= me.outerHeight()) {
+						//allow window scroll
+						releaseScroll = true;
 						return;
 					}
 					bar.fadeIn('fast');
+					if (railVisible) { rail.fadeIn('fast'); }
 				}
 
 				var hideBar = function()
@@ -217,9 +233,29 @@
 					if (!alwaysVisible)
 					{
 						queueHide = setTimeout(function(){
-							if (!isOverBar && !isDragg) { bar.fadeOut('slow'); }
+							if (!isOverBar && !isDragg) 
+							{ 
+								bar.fadeOut('slow');
+								rail.fadeOut('slow');
+							}
 						}, 1000);
 					}
+				}
+
+				//check start position
+				if (start == 'bottom') 
+				{
+					//scroll content to bottom
+					bar.css({ top: 'auto', bottom: 0 });
+					scrollContent(0, true);
+				}
+				else if (typeof start == 'object')
+				{
+					//scroll content
+					scrollContent($(start).position().top, null, true);
+
+					//make sure bar stays hidden
+					if (!alwaysVisible) { bar.hide(); }
 				}
 			});
 			
