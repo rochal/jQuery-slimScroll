@@ -23,7 +23,10 @@
         alwaysVisible : true,
         railVisible : false,
         railColor : '#333',
-        railOpacity : '0.2'
+        railOpacity : '0.2',
+        railClass : 'slimScrollRail',
+        barClass : 'slimScrollBar',
+        wrapperClass : 'slimScrollDiv'
       };
 
       var o = ops = $.extend( defaults , options );
@@ -53,12 +56,14 @@
         var me = $(this);
 
         // wrap content
-        var wrapper = $(divS).css({
-          position: 'relative',
-          overflow: 'hidden',
-          width: cwidth,
-          height: cheight
-        }).attr({ 'class': 'slimScrollDiv' });
+        var wrapper = $(divS)
+          .addClass( o.wrapperClass )
+          .css({
+            position: 'relative',
+            overflow: 'hidden',
+            width: cwidth,
+            height: cheight
+          });
 
         // update style for the div
         me.css({
@@ -68,34 +73,36 @@
         });
 
         // create scrollbar rail
-        var rail  = $(divS).css({
-          width: size,
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          display: (alwaysVisible && railVisible) ? 'block' : 'none',
-          'border-radius': size,
-          background: railColor,
-          opacity: railOpacity,
-          zIndex: 90
-        });
+        var rail  = $(divS)
+          .addClass( o.railClass )
+          .css({
+            width: size,
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            display: (alwaysVisible && railVisible) ? 'block' : 'none',
+            'border-radius': size,
+            background: railColor,
+            opacity: railOpacity,
+            zIndex: 90
+          });
 
         // create scrollbar
-        var bar = $(divS).attr({ 
-          'class': 'slimScrollBar ', 
-          style: 'border-radius: ' + size 
-          }).css({
+        var bar = $(divS)
+          .addClass( o.barClass )
+          .css({
             background: color,
             width: size,
             position: 'absolute',
             top: 0,
             opacity: opacity,
             display: alwaysVisible ? 'block' : 'none',
+            'border-radius' : size,
             BorderRadius: size,
             MozBorderRadius: size,
             WebkitBorderRadius: size,
             zIndex: 99
-        });
+          });
 
         // set position
         var posCss = (position == 'right') ? { right: distance } : { left: distance };
