@@ -183,6 +183,9 @@
 
 					//ensure bar is visible
 					showBar();
+
+          // trigger hide when scroll is stopped
+          hideBar();
 				}
 
 				var attachWheel = function()
