@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.3.0
+ * Version: 0.4.0
  * 
  */
 (function($) {
@@ -20,7 +20,7 @@
         distance : '1px',
         start : 'top',
         opacity : .4,
-        alwaysVisible : true,
+        alwaysVisible : false,
         railVisible : false,
         railColor : '#333',
         railOpacity : '0.2',
