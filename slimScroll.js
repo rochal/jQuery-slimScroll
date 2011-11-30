@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.4.0
+ * Version: 0.4.1
  * 
  */
 (function($) {
@@ -179,7 +179,7 @@
           if (isWheel)
           {
             // move bar with mouse wheel
-            delta = bar.position().top + y * wheelStep;
+            delta = parseInt( bar.css('top') ) + y * wheelStep;
 
             // move bar, make sure it doesn't go out
             delta = Math.max(delta, 0);
@@ -191,7 +191,7 @@
           }
 
           // calculate actual scroll amount
-          var percentScroll = parseInt(bar.position().top) / (me.outerHeight() - bar.outerHeight());
+          var percentScroll = parseInt( bar.css('top') ) / (me.outerHeight() - bar.outerHeight());
           delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
           if (isJump)
