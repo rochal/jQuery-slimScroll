@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.4.1
+ * Version: 0.4.3
  * 
  */
 (function($) {
@@ -34,7 +34,7 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, barHeight,
+      var isOverPanel, isOverBar, isDragg, queueHide, barHeight, percentScroll,
         divS = '<div></div>',
         minBarHeight = 30,
         releaseScroll = false,
@@ -182,16 +182,15 @@
             delta = parseInt(bar.css('top')) + y * wheelStep / 100 * bar.outerHeight();
 
             // move bar, make sure it doesn't go out
-            delta = Math.max(delta, 0);
             var maxTop = me.outerHeight() - bar.outerHeight();
-            delta = Math.min(delta, maxTop);
+            delta = Math.min(Math.max(delta, 0), maxTop);
 
             // scroll the scrollbar
             bar.css({ top: delta + 'px' });
           }
 
           // calculate actual scroll amount
-          var percentScroll = parseInt( bar.css('top') ) / (me.outerHeight() - bar.outerHeight());
+          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
           delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
           if (isJump)
@@ -209,7 +208,6 @@
 
           // trigger hide when scroll is stopped
           hideBar();
-
         }
 
         var attachWheel = function()
@@ -243,7 +241,10 @@
           // recalculate bar height
           getBarHeight();
           clearTimeout(queueHide);
-          
+
+          // release wheel when bar reached top or bottom
+          releaseScroll = percentScroll == ~~ percentScroll;
+
           // show only when required
           if(barHeight >= me.outerHeight()) {
             //allow window scroll
