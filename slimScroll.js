@@ -273,7 +273,7 @@
         if (start == 'bottom') 
         {
           // scroll content to bottom
-          bar.css({ top: 'auto', bottom: 0 });
+          bar.css({ top: me.outerHeight() - bar.outerHeight() });
           scrollContent(0, true);
         }
         else if (typeof start == 'object')
