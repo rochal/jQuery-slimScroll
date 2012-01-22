@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.4.3
+ * Version: 0.4.4
  * 
  */
 (function($) {
@@ -26,7 +26,8 @@
         railOpacity : '0.2',
         railClass : 'slimScrollRail',
         barClass : 'slimScrollBar',
-        wrapperClass : 'slimScrollDiv'
+        wrapperClass : 'slimScrollDiv',
+        resumePageScroll: false
       };
 
       var o = ops = $.extend( defaults , options );
@@ -50,7 +51,8 @@
         alwaysVisible = o.alwaysVisible,
         railVisible = o.railVisible,
         railColor = o.railColor,
-        railOpacity = o.railOpacity;
+        railOpacity = o.railOpacity,
+        resumePageScroll = o.resumePageScroll;
       
         // used in event handlers and for better minification
         var me = $(this);
@@ -243,7 +245,7 @@
           clearTimeout(queueHide);
 
           // release wheel when bar reached top or bottom
-          releaseScroll = percentScroll == ~~ percentScroll;
+          releaseScroll = resumePageScroll && percentScroll == ~~ percentScroll;
 
           // show only when required
           if(barHeight >= me.outerHeight()) {
