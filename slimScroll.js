@@ -26,7 +26,8 @@
         railOpacity : '0.2',
         railClass : 'slimScrollRail',
         barClass : 'slimScrollBar',
-        wrapperClass : 'slimScrollDiv'
+        wrapperClass : 'slimScrollDiv',
+        barHolder: null
       };
 
       var o = ops = $.extend( defaults , options );
@@ -50,7 +51,8 @@
         alwaysVisible = o.alwaysVisible,
         railVisible = o.railVisible,
         railColor = o.railColor,
-        railOpacity = o.railOpacity;
+        railOpacity = o.railOpacity,
+        barHolder = o.barHolder;
       
         // used in event handlers and for better minification
         var me = $(this);
@@ -112,9 +114,22 @@
         // wrap it
         me.wrap(wrapper);
 
-        // append to parent div
-        me.parent().append(bar);
-        me.parent().append(rail);
+        // append to bar holder or parent div
+        if (barHolder) {
+          var internalHolder = $(divS)
+            .css({
+              position: 'relative', 
+              height: me.parent().height()
+            })
+            .append(bar)
+            .append(rail);
+          $(barHolder)
+            .css({ width: size })
+            .append(internalHolder);
+        } else {
+          me.parent().append(bar);
+          me.parent().append(rail);
+        }
 
         // make it draggable
         bar.draggable({ 
