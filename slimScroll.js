@@ -57,6 +57,12 @@
         // used in event handlers and for better minification
         var me = $(this);
 
+        //ensure we are not binding it again
+        if (me.parent().hasClass('slimScrollDiv'))
+        {
+            return;
+        }
+
         // wrap content
         var wrapper = $(divS)
           .addClass( o.wrapperClass )
