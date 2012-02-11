@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.4.4
+ * Version: 0.5.0
  * 
  */
 (function($) {
@@ -27,7 +27,8 @@
         railClass : 'slimScrollRail',
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
-        allowPageScroll: false
+        allowPageScroll: false,
+        scroll: 0
       };
 
       var o = ops = $.extend( defaults , options );
@@ -52,7 +53,8 @@
         railVisible = o.railVisible,
         railColor = o.railColor,
         railOpacity = o.railOpacity,
-        allowPageScroll = o.allowPageScroll;
+        allowPageScroll = o.allowPageScroll,
+        scroll = o.scroll;
       
         // used in event handlers and for better minification
         var me = $(this);
@@ -60,6 +62,17 @@
         //ensure we are not binding it again
         if (me.parent().hasClass('slimScrollDiv'))
         {
+            //check if we should scroll existing instance
+            if (scroll)
+            {
+                //find bar and rail
+                bar = me.parent().find('.slimScrollBar');
+                rail = me.parent().find('.slimScrollRail');
+
+                //scroll by given amount of pixels
+                scrollContent( me.scrollTop() + parseInt(scroll), false, true);
+            }
+
             return;
         }
 
@@ -180,7 +193,7 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        var scrollContent = function(y, isWheel, isJump)
+        function scrollContent(y, isWheel, isJump)
         {
           var delta = y;
 
@@ -234,7 +247,7 @@
         // attach scroll events
         attachWheel();
 
-        var getBarHeight = function()
+        function getBarHeight()
         {
           // calculate scrollbar height and make sure it is not too small
           barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
@@ -244,7 +257,7 @@
         // set up initial height
         getBarHeight();
 
-        var showBar = function()
+        function showBar()
         {
           // recalculate bar height
           getBarHeight();
@@ -263,7 +276,7 @@
           if (railVisible) { rail.stop(true,true).fadeIn('fast'); }
         }
 
-        var hideBar = function()
+        function hideBar()
         {
           // only hide when options allow it
           if (!alwaysVisible)

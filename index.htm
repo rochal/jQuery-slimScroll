@@ -68,7 +68,7 @@
 	  </table>
 			  
 <hr />
-	<h2>rail always visible test (rail color, opacity test)</h2>
+	<h2>rail always visible test (rail color, opacity test), external setting scroll value test</h2>
 	
 
 	  <div id="testrailalwaysvisible">
@@ -79,8 +79,10 @@
 		<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed pulvinar rhoncus quam, vel semper tellus viverra id. Nulla rutrum porttitor odio, a rutrum purus gravida non. Etiam ac purus augue, eget vestibulum purus. Aenean venenatis ullamcorper augue, non consequat elit tempor sed. Donec velit sapien, volutpat sed ultricies egestas, semper a ante. Fusce dapibus, quam eget auctor suscipit, nibh leo posuere ante, at auctor nisi lacus in sem. Morbi interdum consectetur euismod. Cras accumsan est lacus. Nulla eleifend, eros vel consequat commodo, arcu nunc malesuada nunc, quis sagittis felis sem ac turpis.</p>
 		<p>Nulla rhoncus elementum convallis. Mauris condimentum aliquet egestas. Ut iaculis nisi eget tellus accumsan venenatis. Maecenas imperdiet aliquam porta. Aenean ultrices dolor sed quam laoreet varius. Curabitur condimentum blandit erat, quis accumsan eros interdum vitae. Curabitur ligula arcu, sollicitudin vitae iaculis sed, blandit sit amet enim. Morbi ullamcorper, metus vel mollis tristique, arcu turpis malesuada nisi, at dignissim lorem odio a orci. Proin ultrices, ipsum ut vestibulum interdum, libero felis auctor mi, vitae convallis nisl justo ac tellus. Integer nec lacinia turpis. Etiam massa nisl, rhoncus quis rutrum in, pretium eu leo. Proin a velit ut nulla laoreet vestibulum. Curabitur eu elit vitae felis auctor tincidunt. Curabitur tincidunt, metus sed sollicitudin cursus, quam elit commodo erat, ut tempor erat sapien vitae velit. Morbi nec viverra erat.</p>
 	  </div>
-	
-	<h2>rail visible test, resumePageScroll true</h2>
+	      <input type="button" id="scrollDown" value="scroll down by 50 px" />
+      <input type="button" id="scrollUp" value="scroll up by 50 px" />
+      <hr />
+	<h2>rail visible test, allowPageScroll true</h2>
 	
 
 	  <div id="testrailvisible">
@@ -177,7 +179,7 @@
 			  $('#testrailvisible').slimscroll({
 				  width: '300px',
 				  railVisible: true,
-				  resumePageScroll: true
+				  allowPageScroll: true
 			  });
 			  $('#testrailalwaysvisible').slimscroll({
 				  width: '300px',
@@ -186,7 +188,14 @@
 				  railColor: '#f00',
 				  opacity: 1,
 				  color: '#333'
-			  });			  
+			  });
+              //scrolling buttons test
+			  $('#scrollDown').click(function(){
+				  $('#testrailalwaysvisible').slimScroll({ scroll: '50px' });
+			  });
+			  $('#scrollUp').click(function(){
+				  $('#testrailalwaysvisible').slimScroll({ scroll: '-50px' });
+			  });
 			  //no initial content
 			  var somecontent = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam sem, imperdiet at mollis vestibulum, bibendum id purus. Aliquam molestie, leo sed molestie condimentum, massa enim lobortis massa, in vulputate diam lorem quis justo. Nullam nec dignissim mi. In non varius nibh. Proin et eros nisi, eu vulputate libero. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis ultricies augue id risus dapibus blandit.</p><p>Integer malesuada molestie dolor sit amet viverra. Mauris nec urna lorem. Integer commodo feugiat ligula eget fermentum. In in tellus a risus convallis pellentesque. Cras non faucibus est. Morbi sagittis risus mollis nisl mollis ac mattis mi volutpat. Vivamus ac rutrum elit. Suspendisse semper orci vitae sapien sollicitudin mattis.</p><p>Integer malesuada molestie dolor sit amet viverra. Mauris nec urna lorem. Integer commodo feugiat ligula eget fermentum. In in tellus a risus convallis pellentesque. Cras non faucibus est. Morbi sagittis risus mollis nisl mollis ac mattis mi volutpat. Vivamus ac rutrum elit. Suspendisse semper orci vitae sapien sollicitudin mattis.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam sem, imperdiet at mollis vestibulum, bibendum id purus. Aliquam molestie, leo sed molestie condimentum, massa enim lobortis massa, in vulputate diam lorem quis justo. Nullam nec dignissim mi. In non varius nibh. Proin et eros nisi, eu vulputate libero. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis ultricies augue id risus dapibus blandit.</p><p>Integer malesuada molestie dolor sit amet viverra. Mauris nec urna lorem. Integer commodo feugiat ligula eget fermentum. In in tellus a risus convallis pellentesque. Cras non faucibus est. Morbi sagittis risus mollis nisl mollis ac mattis mi volutpat. Vivamus ac rutrum elit. Suspendisse semper orci vitae sapien sollicitudin mattis.</p><p>Integer malesuada molestie dolor sit amet viverra. Mauris nec urna lorem. Integer commodo feugiat ligula eget fermentum. In in tellus a risus convallis pellentesque. Cras non faucibus est. Morbi sagittis risus mollis nisl mollis ac mattis mi volutpat. Vivamus ac rutrum elit. Suspendisse semper orci vitae sapien sollicitudin mattis.</p>";
 			  $('#noinitialcontent').slimScroll({ 
