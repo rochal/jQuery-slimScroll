@@ -259,8 +259,8 @@
             releaseScroll = true;
             return;
           }
-          bar.fadeIn('fast');
-          if (railVisible) { rail.fadeIn('fast'); }
+          bar.stop(true,true).fadeIn('fast');
+          if (railVisible) { rail.stop(true,true).fadeIn('fast'); }
         }
 
         var hideBar = function()
