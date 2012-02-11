@@ -27,7 +27,7 @@
         railClass : 'slimScrollRail',
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
-        resumePageScroll: false
+        allowPageScroll: false
       };
 
       var o = ops = $.extend( defaults , options );
@@ -52,7 +52,7 @@
         railVisible = o.railVisible,
         railColor = o.railColor,
         railOpacity = o.railOpacity,
-        resumePageScroll = o.resumePageScroll;
+        allowPageScroll = o.allowPageScroll;
       
         // used in event handlers and for better minification
         var me = $(this);
@@ -245,7 +245,7 @@
           clearTimeout(queueHide);
 
           // release wheel when bar reached top or bottom
-          releaseScroll = resumePageScroll && percentScroll == ~~ percentScroll;
+          releaseScroll = allowPageScroll && percentScroll == ~~ percentScroll;
 
           // show only when required
           if(barHeight >= me.outerHeight()) {
