@@ -3,7 +3,6 @@
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
  * Version: 0.5.0
- * 
  */
 (function($) {
 
@@ -62,15 +61,21 @@
         //ensure we are not binding it again
         if (me.parent().hasClass('slimScrollDiv'))
         {
+            //find bar and rail
+            bar = me.parent().find('.slimScrollBar');
+            rail = me.parent().find('.slimScrollRail');
+
             //check if we should scroll existing instance
             if (scroll)
             {
-                //find bar and rail
-                bar = me.parent().find('.slimScrollBar');
-                rail = me.parent().find('.slimScrollRail');
-
                 //scroll by given amount of pixels
                 scrollContent( me.scrollTop() + parseInt(scroll), false, true);
+            }
+
+            if (cwidth || cheight)
+            {
+                me.parent().css('height', cheight);
+                me.css('height', cheight);
             }
 
             return;
