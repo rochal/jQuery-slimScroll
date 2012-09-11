@@ -231,17 +231,13 @@
           }
 
           if (isScrollTo){
-              // can only scroll to the
+              // maxScroll is most you can scroll the scrollable area
               var maxScroll = me[0].scrollHeight - me.outerHeight();
-              if (y > maxScroll) {
-                  console.log("[scrollTo] tried to scroll too much ("+y+"), max is: "+maxScroll);
-              }
+              // clip excessive scrolls to bottom of scrollable area
               delta = (y > maxScroll) ? maxScroll : y;
-              console.log("[scrollTo] scrolling to " + delta);
               var pctLocation = delta / maxScroll;
-              console.log("[scrollTo] moving scroll bar to " + Math.floor(pctLocation * 10000)/100 + "%");
+              // position the scrollbar within the track's bounds
               var offsetTop = pctLocation * (me.outerHeight() - bar.outerHeight());
-              console.log("[scrollTo] moving scroll bar to top:" + offsetTop)
               bar.css({ top: offsetTop+"px" });
           }
 
