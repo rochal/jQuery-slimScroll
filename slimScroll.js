@@ -3,7 +3,7 @@
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
  * Version: 0.5.0
- * 
+ *
  */
 (function($) {
 
@@ -28,7 +28,8 @@
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
         allowPageScroll: false,
-        scroll: 0
+        scroll: 0,
+        scrollTo: null
       };
 
       var o = ops = $.extend( defaults , options );
@@ -54,23 +55,31 @@
         railColor = o.railColor,
         railOpacity = o.railOpacity,
         allowPageScroll = o.allowPageScroll,
-        scroll = o.scroll;
-      
+        scroll = o.scroll,
+        scrollTo = o.scrollTo;
+
         // used in event handlers and for better minification
         var me = $(this);
 
         //ensure we are not binding it again
         if (me.parent().hasClass('slimScrollDiv'))
         {
+            //find bar and rail
+            bar = me.parent().find('.slimScrollBar');
+            rail = me.parent().find('.slimScrollRail');
+
             //check if we should scroll existing instance
             if (scroll)
             {
-                //find bar and rail
-                bar = me.parent().find('.slimScrollBar');
-                rail = me.parent().find('.slimScrollRail');
-
                 //scroll by given amount of pixels
                 scrollContent( me.scrollTop() + parseInt(scroll), false, true);
+            }
+
+            if (scrollTo)
+            {
+                // scroll specifically to this position
+                var scrollPos = parseInt(scrollTo)
+                scrollContent(scrollPos , false, false, true);
             }
 
             return;
@@ -138,13 +147,13 @@
         me.parent().append(rail);
 
         // make it draggable
-        bar.draggable({ 
-          axis: 'y', 
+        bar.draggable({
+          axis: 'y',
           containment: 'parent',
           start: function() { isDragg = true; },
           stop: function() { isDragg = false; hideBar(); },
-          drag: function(e) 
-          { 
+          drag: function(e)
+          {
             // scroll content
             scrollContent(0, $(this).position().top, false);
           }
@@ -193,7 +202,7 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        function scrollContent(y, isWheel, isJump)
+        function scrollContent(y, isWheel, isJump, isScrollTo)
         {
           var delta = y;
 
@@ -221,6 +230,17 @@
             bar.css({ top: offsetTop + 'px' });
           }
 
+          if (isScrollTo){
+              // maxScroll is most you can scroll the scrollable area
+              var maxScroll = me[0].scrollHeight - me.outerHeight();
+              // clip excessive scrolls to bottom of scrollable area
+              delta = (y > maxScroll) ? maxScroll : y;
+              var pctLocation = delta / maxScroll;
+              // position the scrollbar within the track's bounds
+              var offsetTop = pctLocation * (me.outerHeight() - bar.outerHeight());
+              bar.css({ top: offsetTop+"px" });
+          }
+
           // scroll content
           me.scrollTop(delta);
 
@@ -237,7 +257,7 @@
           {
             this.addEventListener('DOMMouseScroll', _onWheel, false );
             this.addEventListener('mousewheel', _onWheel, false );
-          } 
+          }
           else
           {
             document.attachEvent("onmousewheel", _onWheel)
@@ -282,8 +302,8 @@
           if (!alwaysVisible)
           {
             queueHide = setTimeout(function(){
-              if (!isOverBar && !isDragg) 
-              { 
+              if (!isOverBar && !isDragg)
+              {
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
               }
@@ -292,7 +312,7 @@
         }
 
         // check start position
-        if (start == 'bottom') 
+        if (start == 'bottom')
         {
           // scroll content to bottom
           bar.css({ top: me.outerHeight() - bar.outerHeight() });
@@ -307,7 +327,7 @@
           if (!alwaysVisible) { bar.hide(); }
         }
       });
-      
+
       // maintain chainability
       return this;
     }
