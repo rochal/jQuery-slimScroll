@@ -29,7 +29,12 @@
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
         allowPageScroll: false,
-        scroll: 0
+        scroll: 0,
+        animate: {
+          fadeIn: 200,
+          fadeOut: 600,
+          timeout: 1000
+        }
       };
 
       var o = ops = $.extend( defaults , options );
@@ -56,7 +61,8 @@
         railColor = o.railColor,
         railOpacity = o.railOpacity,
         allowPageScroll = o.allowPageScroll,
-        scroll = o.scroll;
+        scroll = o.scroll,
+        animate = o.animate;
       
         // used in event handlers and for better minification
         var me = $(this);
@@ -274,27 +280,28 @@
             releaseScroll = true;
             return;
           }
-          bar.stop(true,true).fadeIn('fast');
-          if (railVisible) { rail.stop(true,true).fadeIn('fast'); }
+          bar.stop(true,true).fadeIn(animate.fadeIn);
+          if (railVisible) { rail.stop(true,true).fadeIn(animate.fadeIn); }
         }
 
         function hideBar()
         {
+
           // only hide when options allow it
           if (!alwaysVisible)
           {
             queueHide = setTimeout(function(){
               if (!(disableFadeOut && isOverPanel) && !isOverBar && !isDragg)
               { 
-                bar.fadeOut('slow');
-                rail.fadeOut('slow');
+                bar.fadeOut(animate.fadeOut);
+                rail.fadeOut(animate.fadeOut);
               }
-            }, 1000);
+            }, animate.timeout);
           }
         }
 
         // check start position
-        if (start == 'bottom') 
+        if (start == 'bottom')
         {
           // scroll content to bottom
           bar.css({ top: me.outerHeight() - bar.outerHeight() });
