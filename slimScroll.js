@@ -31,12 +31,15 @@
         allowPageScroll: false,
         scroll: 0
       };
-
+      
       var o = ops = $.extend( defaults , options );
-
+      
+      // used in event handlers and for better minification
+      var me = $(this);
+      
       // do it for every element that matches selector
       this.each(function(){
-
+      
       var isOverPanel, isOverBar, isDragg, queueHide, barHeight, percentScroll,
         divS = '<div></div>',
         minBarHeight = 30,
@@ -57,10 +60,12 @@
         railOpacity = o.railOpacity,
         allowPageScroll = o.allowPageScroll,
         scroll = o.scroll;
-      
-        // used in event handlers and for better minification
-        var me = $(this);
-
+        
+        // optionally set height to the parent's height
+        if (cheight == 'auto') {
+          cheight = me.parent().innerHeight();
+        }
+        
         //ensure we are not binding it again
         if (me.parent().hasClass('slimScrollDiv'))
         {
