@@ -29,7 +29,9 @@
         wrapperClass : 'slimScrollDiv',
         allowPageScroll: false,
         scroll: 0,
-        scrollTo: null
+        scrollTo: null,
+        duration: false,
+        easing: "swing"
       };
 
       var o = ops = $.extend( defaults , options );
@@ -56,7 +58,9 @@
         railOpacity = o.railOpacity,
         allowPageScroll = o.allowPageScroll,
         scroll = o.scroll,
-        scrollTo = o.scrollTo;
+        scrollTo = o.scrollTo,
+        duration = o.duration,
+        easing = o.easing;
 
         // used in event handlers and for better minification
         var me = $(this);
@@ -75,11 +79,32 @@
                 scrollContent( me.scrollTop() + parseInt(scroll), false, true);
             }
 
+            // only resize slimScroll if a height was actually passed in
+            if (options.height && cheight)
+            {
+                if (duration)
+                {
+                    var $resizables = $(me).add($(me).parent());
+                    $resizables.animate({height: cheight},
+                                        duration,
+                                        easing)
+                } else
+                {
+                    me.parent().css('height', cheight);
+                    me.css('height', cheight);
+                }
+                getBarHeight(); // and resize the bar while you're at it
+            }
+
             if (scrollTo)
             {
-                // scroll specifically to this position
-                var scrollPos = parseInt(scrollTo)
-                scrollContent(scrollPos , false, false, true);
+                // use $.deferred to scroll to this position when animations end
+                me.promise().done(function(){
+                    getBarHeight(); // resize the bar once height is stable
+
+                    var scrollPos = parseInt(scrollTo)
+                    scrollContent(scrollPos , false, false, true);
+                })
             }
 
             return;
