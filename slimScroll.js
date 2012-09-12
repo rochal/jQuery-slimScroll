@@ -21,6 +21,7 @@
         start : 'top',
         opacity : .4,
         alwaysVisible : false,
+        disableFadeOut: false,
         railVisible : false,
         railColor : '#333',
         railOpacity : '0.2',
@@ -49,6 +50,7 @@
         distance = o.distance,
         start = o.start,
         opacity = o.opacity,
+        disableFadeOut = o.disableFadeOut,
         alwaysVisible = o.alwaysVisible,
         railVisible = o.railVisible,
         railColor = o.railColor,
@@ -282,7 +284,7 @@
           if (!alwaysVisible)
           {
             queueHide = setTimeout(function(){
-              if (!isOverBar && !isDragg) 
+              if (!(disableFadeOut && isOverPanel) && !isOverBar && !isDragg)
               { 
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
