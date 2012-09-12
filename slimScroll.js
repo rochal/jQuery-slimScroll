@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.5.0
+ * Version: 0.6.0
  * 
  */
 (function($) {
@@ -32,12 +32,13 @@
         scroll: 0
       };
 
-      var o = ops = $.extend( defaults , options );
+      var o = ops = $.extend(defaults, options);
 
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, barHeight, percentScroll,
+      var isOverPanel, isOverBar, isDragg, queueHide, 
+        barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
         releaseScroll = false,
@@ -80,7 +81,7 @@
 
         // wrap content
         var wrapper = $(divS)
-          .addClass( o.wrapperClass )
+          .addClass(o.wrapperClass)
           .css({
             position: 'relative',
             overflow: 'hidden',
@@ -97,7 +98,7 @@
 
         // create scrollbar rail
         var rail  = $(divS)
-          .addClass( o.railClass )
+          .addClass(o.railClass)
           .css({
             width: size,
             height: '100%',
@@ -112,7 +113,7 @@
 
         // create scrollbar
         var bar = $(divS)
-          .addClass( o.barClass )
+          .addClass(o.barClass)
           .css({
             background: color,
             width: size,
@@ -265,8 +266,20 @@
           getBarHeight();
           clearTimeout(queueHide);
 
-          // release wheel when bar reached top or bottom
-          releaseScroll = allowPageScroll && percentScroll == ~~ percentScroll;
+          // when bar reached top or bottom
+          if (percentScroll == ~~ percentScroll)
+          {
+            //release wheel 
+            releaseScroll = allowPageScroll;
+            
+            // publish approporiate event
+            if (lastScroll != percentScroll)
+            {
+                var msg = (~~percentScroll == 0) ? 'top' : 'bottom'; 
+                me.trigger('slimscroll', msg);
+            }
+          }
+          lastScroll = percentScroll;
 
           // show only when required
           if(barHeight >= me.outerHeight()) {
