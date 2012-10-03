@@ -37,7 +37,7 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, 
+      var isOverPanel, isOverBar, isDragg, queueHide, touchDif, 
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
@@ -176,6 +176,28 @@
           isOverPanel = false;
           hideBar();
         });
+
+        // support for mobile
+        me.bind('touchstart', function(e,b){
+          if (e.originalEvent.touches.length)
+          {
+            // record where touch started
+            touchDif = e.originalEvent.touches[0].pageY;
+          }            
+        });
+
+        me.bind('touchmove', function(e){
+          // prevent scrolling the page
+          e.originalEvent.preventDefault();
+          if (e.originalEvent.touches.length)
+          {
+            // see how far user swiped
+            var diff = (touchDif - e.originalEvent.touches[0].pageY) / -100;
+            // scroll content
+            scrollContent(diff, true);
+          }
+          
+        });        
 
         var _onWheel = function(e)
         {
