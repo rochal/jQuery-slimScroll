@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.6.0
+ * Version: 0.6.5
  * 
  */
 (function($) {
@@ -29,10 +29,11 @@
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
         allowPageScroll: false,
-        scroll: 0
+        scroll: 0,
+        touchScrollStep: 200
       };
 
-      var o = ops = $.extend(defaults, options);
+      var o = $.extend(defaults, options);
 
       // do it for every element that matches selector
       this.each(function(){
@@ -41,24 +42,8 @@
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
-        releaseScroll = false,
-        wheelStep = parseInt(o.wheelStep),
-        cwidth = o.width,
-        cheight = o.height,
-        size = o.size,
-        color = o.color,
-        position = o.position,
-        distance = o.distance,
-        start = o.start,
-        opacity = o.opacity,
-        disableFadeOut = o.disableFadeOut,
-        alwaysVisible = o.alwaysVisible,
-        railVisible = o.railVisible,
-        railColor = o.railColor,
-        railOpacity = o.railOpacity,
-        allowPageScroll = o.allowPageScroll,
-        scroll = o.scroll;
-      
+        releaseScroll = false;
+
         // used in event handlers and for better minification
         var me = $(this);
 
@@ -85,29 +70,29 @@
           .css({
             position: 'relative',
             overflow: 'hidden',
-            width: cwidth,
-            height: cheight
+            width: o.width,
+            height: o.height
           });
 
         // update style for the div
         me.css({
           overflow: 'hidden',
-          width: cwidth,
-          height: cheight
+          width: o.width,
+          height: o.height
         });
 
         // create scrollbar rail
         var rail  = $(divS)
           .addClass(o.railClass)
           .css({
-            width: size,
+            width: o.size,
             height: '100%',
             position: 'absolute',
             top: 0,
-            display: (alwaysVisible && railVisible) ? 'block' : 'none',
-            'border-radius': size,
-            background: railColor,
-            opacity: railOpacity,
+            display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
+            'border-radius': o.size,
+            background: o.railColor,
+            opacity: o.railOpacity,
             zIndex: 90
           });
 
@@ -115,21 +100,21 @@
         var bar = $(divS)
           .addClass(o.barClass)
           .css({
-            background: color,
-            width: size,
+            background: o.color,
+            width: o.size,
             position: 'absolute',
             top: 0,
-            opacity: opacity,
-            display: alwaysVisible ? 'block' : 'none',
-            'border-radius' : size,
-            BorderRadius: size,
-            MozBorderRadius: size,
-            WebkitBorderRadius: size,
+            opacity: o.opacity,
+            display: o.alwaysVisible ? 'block' : 'none',
+            'border-radius' : o.size,
+            BorderRadius: o.size,
+            MozBorderRadius: o.size,
+            WebkitBorderRadius: o.size,
             zIndex: 99
           });
 
         // set position
-        var posCss = (position == 'right') ? { right: distance } : { left: distance };
+        var posCss = (o.position == 'right') ? { right: o.distance } : { left: o.distance };
         rail.css(posCss);
         bar.css(posCss);
 
@@ -192,12 +177,11 @@
           if (e.originalEvent.touches.length)
           {
             // see how far user swiped
-            var diff = (touchDif - e.originalEvent.touches[0].pageY) / -100;
+            var diff = (touchDif - e.originalEvent.touches[0].pageY) / o.touchScrollStep;
             // scroll content
             scrollContent(diff, true);
           }
-          
-        });        
+        });
 
         var _onWheel = function(e)
         {
@@ -225,7 +209,7 @@
           if (isWheel)
           {
             // move bar with mouse wheel
-            delta = parseInt(bar.css('top')) + y * wheelStep / 100 * bar.outerHeight();
+            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
 
             // move bar, make sure it doesn't go out
             var maxTop = me.outerHeight() - bar.outerHeight();
@@ -292,7 +276,7 @@
           if (percentScroll == ~~ percentScroll)
           {
             //release wheel 
-            releaseScroll = allowPageScroll;
+            releaseScroll = o.allowPageScroll;
             
             // publish approporiate event
             if (lastScroll != percentScroll)
@@ -310,16 +294,16 @@
             return;
           }
           bar.stop(true,true).fadeIn('fast');
-          if (railVisible) { rail.stop(true,true).fadeIn('fast'); }
+          if (o.railVisible) { rail.stop(true,true).fadeIn('fast'); }
         }
 
         function hideBar()
         {
           // only hide when options allow it
-          if (!alwaysVisible)
+          if (!o.alwaysVisible)
           {
             queueHide = setTimeout(function(){
-              if (!(disableFadeOut && isOverPanel) && !isOverBar && !isDragg)
+              if (!(o.disableFadeOut && isOverPanel) && !isOverBar && !isDragg)
               { 
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
@@ -329,19 +313,19 @@
         }
 
         // check start position
-        if (start == 'bottom') 
+        if (o.start == 'bottom') 
         {
           // scroll content to bottom
           bar.css({ top: me.outerHeight() - bar.outerHeight() });
           scrollContent(0, true);
         }
-        else if (typeof start == 'object')
+        else if (typeof o.start == 'object')
         {
           // scroll content
-          scrollContent($(start).position().top, null, true);
+          scrollContent($(o.start).position().top, null, true);
 
           // make sure bar stays hidden
-          if (!alwaysVisible) { bar.hide(); }
+          if (!o.alwaysVisible) { bar.hide(); }
         }
       });
       
