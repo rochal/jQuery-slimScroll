@@ -51,7 +51,7 @@
         if (me.parent().hasClass('slimScrollDiv'))
         {
             //check if we should scroll existing instance
-            if (o.scroll)
+            if ('scroll' in options)
             {
                 //find bar and rail
                 bar = me.parent().find('.slimScrollBar');
@@ -84,10 +84,9 @@
                 {
                     offset = value;
                 }
+		scrollContent( offset, false, true);
             }
 			
-			scrollContent( offset, false, true);
-
             return;
         }
 
