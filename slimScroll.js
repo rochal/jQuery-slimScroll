@@ -85,6 +85,8 @@
                     offset = value;
                 }
             }
+			
+			scrollContent( offset, false, true);
 
             return;
         }
