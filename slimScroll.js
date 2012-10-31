@@ -57,8 +57,33 @@
                 bar = me.parent().find('.slimScrollBar');
                 rail = me.parent().find('.slimScrollRail');
 
-                //scroll by given amount of pixels
-                scrollContent( me.scrollTop() + parseInt(o.scroll), false, true);
+				//scroll either by relative or absolute amount
+                var offset = 0;
+                var value = o.scroll;
+                if(typeof(value) == 'string')
+                {
+                    if(value.charAt(1) == '=')
+                    {
+                        //can be one of '+=', '-='
+                        offset =  me.scrollTop();
+                        var op = value.charAt(0);
+                        
+						value = parseInt(value.substr(2));
+                        
+                        if(op == '-')
+                            value *= -1;
+                        
+                        offset += value;
+                    }
+                    else
+                    {
+                        offset = parseInt(value);
+                    }
+                }
+                else
+                {
+                    offset = value;
+                }
             }
 
             return;
