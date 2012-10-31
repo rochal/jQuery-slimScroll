@@ -51,14 +51,14 @@
         if (me.parent().hasClass('slimScrollDiv'))
         {
             //check if we should scroll existing instance
-            if (scroll)
+            if (o.scroll)
             {
                 //find bar and rail
                 bar = me.parent().find('.slimScrollBar');
                 rail = me.parent().find('.slimScrollRail');
 
                 //scroll by given amount of pixels
-                scrollContent( me.scrollTop() + parseInt(scroll), false, true);
+                scrollContent( me.scrollTop() + parseInt(o.scroll), false, true);
             }
 
             return;
