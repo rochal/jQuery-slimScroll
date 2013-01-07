@@ -64,6 +64,9 @@
             return;
         }
 
+        // optionally set height to the parent's height
+        o.height = (o.height == 'auto') ? me.parent().innerHeight() : o.height;
+
         // wrap content
         var wrapper = $(divS)
           .addClass(o.wrapperClass)
