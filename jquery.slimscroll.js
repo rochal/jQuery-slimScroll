@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 0.6.5
+ * Version: 1.0.0
  * 
  */
 (function($) {
@@ -28,9 +28,9 @@
         railClass : 'slimScrollRail',
         barClass : 'slimScrollBar',
         wrapperClass : 'slimScrollDiv',
-        allowPageScroll: false,
-        scroll: 0,
-        touchScrollStep: 200
+        allowPageScroll : false,
+        scroll : 0,
+        touchScrollStep : 200
       };
 
       var o = $.extend(defaults, options);
@@ -47,46 +47,34 @@
         // used in event handlers and for better minification
         var me = $(this);
 
-        //ensure we are not binding it again
+        // ensure we are not binding it again
         if (me.parent().hasClass('slimScrollDiv'))
         {
-            //check if we should scroll existing instance
-            if (options && ('scroll' in options))
-            {
-                //find bar and rail
-                bar = me.parent().find('.slimScrollBar');
-                rail = me.parent().find('.slimScrollRail');
+            // start from last bar position
+            var offset = me.scrollTop();
 
-				//scroll either by relative or absolute amount
-                var offset = 0;
-                var value = o.scroll;
-                if(typeof(value) == 'string')
-                {
-                    if(value.charAt(1) == '=')
-                    {
-                        //can be one of '+=', '-='
-                        offset =  me.scrollTop();
-                        var op = value.charAt(0);
-                        
-						value = parseInt(value.substr(2));
-                        
-                        if(op == '-')
-                            value *= -1;
-                        
-                        offset += value;
-                    }
-                    else
-                    {
-                        offset = parseInt(value);
-                    }
-                }
-                else
-                {
-                    offset = value;
-                }
-                scrollContent( offset, false, true);
+            // find bar and rail
+            bar = me.parent().find('.slimScrollBar');
+            rail = me.parent().find('.slimScrollRail');
+
+            // check if we should scroll existing instance
+            if (options)
+            {
+              if ('scrollTo' in options)
+              {
+                // jump to a static point
+                offset = parseInt(o.scrollTo);
+              }
+              else if ('scrollBy' in options)
+              {
+                // jump by value pixels
+                offset += parseInt(o.scrollBy);
+              }
+
+              //scroll content by the given offset
+              scrollContent(offset, false, true);
             }
-	
+
             return;
         }
 
@@ -197,7 +185,7 @@
           {
             // record where touch started
             touchDif = e.originalEvent.touches[0].pageY;
-          }            
+          }
         });
 
         me.bind('touchmove', function(e){

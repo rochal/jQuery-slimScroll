@@ -34,11 +34,10 @@
         }
     ],
     "files": [
-        "slimScroll.min.js",
-		"slimScroll.js",
-		"index.min.html",
-		"index.htm",
-		"README.md",
-		"package.json"
+        "jquery.slimscroll.min.js",
+        "jquery.slimscroll.js",
+        "examples/",
+        "README.md",
+        "package.json"
     ]
 }
