@@ -71,7 +71,7 @@
                 offset += parseInt(o.scrollBy);
               }
 
-              //scroll content by the given offset
+              // scroll content by the given offset
               scrollContent(offset, false, true);
             }
 
