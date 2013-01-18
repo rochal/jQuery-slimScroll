@@ -2,8 +2,8 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.0.0
- * 
+ * Version: 1.0.1
+ *
  */
 (function($) {
 
@@ -38,7 +38,7 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, touchDif, 
+      var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
@@ -145,13 +145,13 @@
         me.parent().append(rail);
 
         // make it draggable
-        bar.draggable({ 
-          axis: 'y', 
+        bar.draggable({
+          axis: 'y',
           containment: 'parent',
           start: function() { isDragg = true; },
           stop: function() { isDragg = false; hideBar(); },
-          drag: function(e) 
-          { 
+          drag: function(e)
+          {
             // scroll content
             scrollContent(0, $(this).position().top, false);
           }
@@ -266,7 +266,7 @@
           {
             this.addEventListener('DOMMouseScroll', _onWheel, false );
             this.addEventListener('mousewheel', _onWheel, false );
-          } 
+          }
           else
           {
             document.attachEvent("onmousewheel", _onWheel)
@@ -295,13 +295,13 @@
           // when bar reached top or bottom
           if (percentScroll == ~~ percentScroll)
           {
-            //release wheel 
+            //release wheel
             releaseScroll = o.allowPageScroll;
-            
+
             // publish approporiate event
             if (lastScroll != percentScroll)
             {
-                var msg = (~~percentScroll == 0) ? 'top' : 'bottom'; 
+                var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
                 me.trigger('slimscroll', msg);
             }
           }
@@ -324,7 +324,7 @@
           {
             queueHide = setTimeout(function(){
               if (!(o.disableFadeOut && isOverPanel) && !isOverBar && !isDragg)
-              { 
+              {
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
               }
@@ -333,7 +333,7 @@
         }
 
         // check start position
-        if (o.start == 'bottom') 
+        if (o.start == 'bottom')
         {
           // scroll content to bottom
           bar.css({ top: me.outerHeight() - bar.outerHeight() });
@@ -348,7 +348,7 @@
           if (!o.alwaysVisible) { bar.hide(); }
         }
       });
-      
+
       // maintain chainability
       return this;
     }
