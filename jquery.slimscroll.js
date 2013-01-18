@@ -57,6 +57,8 @@
             bar = me.parent().find('.slimScrollBar');
             rail = me.parent().find('.slimScrollRail');
 
+            getBarHeight();
+
             // check if we should scroll existing instance
             if (options)
             {
@@ -222,6 +224,7 @@
         function scrollContent(y, isWheel, isJump)
         {
           var delta = y;
+          var maxTop = me.outerHeight() - bar.outerHeight();
 
           if (isWheel)
           {
@@ -229,7 +232,6 @@
             delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
 
             // move bar, make sure it doesn't go out
-            var maxTop = me.outerHeight() - bar.outerHeight();
             delta = Math.min(Math.max(delta, 0), maxTop);
 
             // scroll the scrollbar
@@ -244,6 +246,7 @@
           {
             delta = y;
             var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
+            offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
             bar.css({ top: offsetTop + 'px' });
           }
 
