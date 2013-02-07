@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.0.6
+ * Version: 1.0.7
  *
  */
 (function($) {
@@ -234,16 +234,11 @@
             // move bar, make sure it doesn't go out
             delta = Math.min(Math.max(delta, 0), maxTop);
 
-            if (y > 0) {
-                // if scrolling down, make sure a fractional change to the
-                // scroll position isn't rounded away when the scrollbar's CSS
-                // is set
-                delta = Math.ceil(delta);
-            } else {
-                // this flooring of delta would happened automatically when
-                // bar.css is set below, but we floor here for clarity
-                delta = Math.floor(delta);
-            }
+            // if scrolling down, make sure a fractional change to the
+            // scroll position isn't rounded away when the scrollbar's CSS is set
+            // this flooring of delta would happened automatically when
+            // bar.css is set below, but we floor here for clarity
+            delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
 
             // scroll the scrollbar
             bar.css({ top: delta + 'px' });
