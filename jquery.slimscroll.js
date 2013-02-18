@@ -221,9 +221,12 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          // scroll content
-          scrollContent(delta, true);
-
+          var target = e.target || e.srcTarget;
+          if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
+            // scroll content
+            scrollContent(delta, true);
+          }
+          
           // stop window scroll
           if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
           if (!releaseScroll) { e.returnValue = false; }
