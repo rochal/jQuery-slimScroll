@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.0.8
+ * Version: 1.0.9
  *
  */
 (function($) {
@@ -226,7 +226,7 @@
             // scroll content
             scrollContent(delta, true);
           }
-          
+
           // stop window scroll
           if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
           if (!releaseScroll) { e.returnValue = false; }
