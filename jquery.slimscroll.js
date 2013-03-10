@@ -30,7 +30,9 @@
         wrapperClass : 'slimScrollDiv',
         allowPageScroll : false,
         scroll : 0,
-        touchScrollStep : 200
+        touchScrollStep : 200,
+        // whether  we should use jQuery UI Draggable to enable bar dragging
+        railDraggable : true
       };
 
       var o = $.extend(defaults, options);
@@ -109,7 +111,7 @@
         });
 
         // create scrollbar rail
-        var rail  = $(divS)
+        var rail = $(divS)
           .addClass(o.railClass)
           .css({
             width: o.size,
@@ -153,17 +155,20 @@
         me.parent().append(rail);
 
         // make it draggable
-        bar.draggable({
-          axis: 'y',
-          containment: 'parent',
-          start: function() { isDragg = true; },
-          stop: function() { isDragg = false; hideBar(); },
-          drag: function(e)
-          {
-            // scroll content
-            scrollContent(0, $(this).position().top, false);
-          }
-        });
+        if (o.useDraggable)
+        {
+          bar.draggable({
+            axis: 'y',
+            containment: 'parent',
+            start: function() { isDragg = true; },
+            stop: function() { isDragg = false; hideBar(); },
+            drag: function(e)
+            {
+              // scroll content
+              scrollContent(0, $(this).position().top, false);
+            }
+          });
+        }
 
         // on rail over
         rail.hover(function(){
