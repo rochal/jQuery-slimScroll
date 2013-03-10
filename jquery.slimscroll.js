@@ -50,14 +50,14 @@
         var me = $(this);
 
         // ensure we are not binding it again
-        if (me.parent().hasClass('slimScrollDiv'))
+        if (me.parent().hasClass(o.wrapperClass))
         {
             // start from last bar position
             var offset = me.scrollTop();
 
             // find bar and rail
-            bar = me.parent().find('.slimScrollBar');
-            rail = me.parent().find('.slimScrollRail');
+            bar = me.parent().find('.' + o.barClass);
+            rail = me.parent().find('.' + o.railClass);
 
             getBarHeight();
 
