@@ -241,6 +241,8 @@
         {
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
+          
+          me.trigger('slimscrolling');
 
           if (isWheel)
           {
