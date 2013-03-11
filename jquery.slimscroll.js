@@ -241,8 +241,6 @@
         {
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
-          
-          me.trigger('slimscrolling');
 
           if (isWheel)
           {
@@ -276,6 +274,9 @@
 
           // scroll content
           me.scrollTop(delta);
+
+          // fire scrolling event
+          me.trigger('slimscrolling', ~~delta);
 
           // ensure bar is visible
           showBar();
