@@ -155,7 +155,7 @@
         me.parent().append(rail);
 
         // make it draggable
-        if (o.useDraggable)
+        if (o.railDraggable)
         {
           bar.draggable({
             axis: 'y',
