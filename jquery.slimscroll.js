@@ -100,7 +100,7 @@
             getBarHeight();
 
             // check if we should scroll existing instance
-            if (options)
+            if ($.isPlainObject(options))
             {
               if ('scrollTo' in options)
               {
@@ -253,7 +253,29 @@
           }
         });
 
-        var _onWheel = function(e)
+        // check start position
+        if (o.start === 'bottom')
+        {
+          // scroll content to bottom
+          bar.css({ top: me.outerHeight() - bar.outerHeight() });
+          scrollContent(0, true);
+        }
+        else if (o.start !== 'top')
+        {
+          // assume jQuery selector
+          scrollContent($(o.start).position().top, null, true);
+
+          // make sure bar stays hidden
+          if (!o.alwaysVisible) { bar.hide(); }
+        }
+
+        // attach scroll events
+        attachWheel();
+
+        // set up initial height
+        getBarHeight();
+
+        function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
           if (!isOverPanel) { return; }
@@ -323,7 +345,7 @@
           hideBar();
         }
 
-        var attachWheel = function()
+        function attachWheel()
         {
           if (window.addEventListener)
           {
@@ -336,18 +358,16 @@
           }
         }
 
-        // attach scroll events
-        attachWheel();
-
         function getBarHeight()
         {
           // calculate scrollbar height and make sure it is not too small
           barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
           bar.css({ height: barHeight + 'px' });
-        }
 
-        // set up initial height
-        getBarHeight();
+          // hide scrollbar if content is not long enough
+          var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          bar.css({ display: display });
+        }
 
         function showBar()
         {
@@ -356,7 +376,7 @@
           clearTimeout(queueHide);
 
           // when bar reached top or bottom
-          if (percentScroll == ~~ percentScroll)
+          if (percentScroll == ~~percentScroll)
           {
             //release wheel
             releaseScroll = o.allowPageScroll;
@@ -395,21 +415,6 @@
           }
         }
 
-        // check start position
-        if (o.start == 'bottom')
-        {
-          // scroll content to bottom
-          bar.css({ top: me.outerHeight() - bar.outerHeight() });
-          scrollContent(0, true);
-        }
-        else if (typeof o.start == 'object')
-        {
-          // scroll content
-          scrollContent($(o.start).position().top, null, true);
-
-          // make sure bar stays hidden
-          if (!o.alwaysVisible) { bar.hide(); }
-        }
       });
 
       // maintain chainability
