@@ -388,6 +388,10 @@
                 me.trigger('slimscroll', msg);
             }
           }
+          else
+          {
+            releaseScroll = false;
+          }
           lastScroll = percentScroll;
 
           // show only when required
