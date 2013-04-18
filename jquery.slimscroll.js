@@ -106,7 +106,7 @@
               if ( 'height' in options && options.height == 'auto' ) {
                 me.parent().css('height', 'auto');
                 me.css('height', 'auto');
-                var height = me.parent().parent().innerHeight();
+                var height = me.parent().parent().height();
                 me.parent().css('height', height);
                 me.css('height', height);
               }
@@ -138,7 +138,7 @@
         }
 
         // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().innerHeight() : o.height;
+        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
 
         // wrap content
         var wrapper = $(divS)
