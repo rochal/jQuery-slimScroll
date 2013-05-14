@@ -202,7 +202,7 @@
         me.parent().append(rail);
 
         // make it draggable
-        if (o.railDraggable)
+        if (o.railDraggable && jQuery.ui && typeof(jQuery.ui.draggable) == 'function')
         {
           bar.draggable({
             axis: 'y',
