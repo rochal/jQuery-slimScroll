@@ -202,7 +202,7 @@
         me.parent().append(rail);
 
         // make it draggable
-        if (o.railDraggable)
+        if (o.railDraggable && typeof(bar.draggable) == 'function')
         {
           bar.draggable({
             axis: 'y',
