@@ -295,7 +295,7 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          var target = e.target || e.srcTarget;
+          var target = e.target || e.srcTarget || e.srcElement;
           if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
             // scroll content
             scrollContent(delta, true);
