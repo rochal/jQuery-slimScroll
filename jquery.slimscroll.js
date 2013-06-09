@@ -20,9 +20,6 @@
 
         // width in pixels of the scrollbar and rail
         size : '7px',
-        
-        // oversize width in pixels of the scrollbar and rail
-        overSize : '14px',
 
         // scrollbar color, accepts any hex/color value
         color: '#000',
@@ -81,7 +78,7 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isOverRail, isDragg, queueHide, touchDif,
+      var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
@@ -222,24 +219,16 @@
 
         // on rail over
         rail.hover(function(){
-          isOverRail = true;
           showBar();
-          overSizeBar();
-          console.log("over");
         }, function(){
-          isOverRail = true;
           hideBar();
-          normalSizeBar();
-          console.log("outover");
         });
 
         // on bar over
         bar.hover(function(){
           isOverBar = true;
-          overSizeBar();
         }, function(){
           isOverBar = false;
-          normalSizeBar();
         });
 
         // show on parent mouseover
@@ -385,34 +374,10 @@
           bar.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = me.outerHeight() - barHeight <= 1 ? 'none' : 'block';
+          var display = barHeight == me.outerHeight() ? 'none' : 'block';
           bar.css({ display: display });
-          if (o.railVisible) { rail.css({ display: display }); }
         }
 
-        function overSizeBar(){
-        	if (isOverBar || isOverRail){
-        		bar.css('width', o.overSize);
-                rail.css('width', o.overSize);
-        	}
-        }
-        
-        function normalSizeBar(check){
-        	if(typeof check === "undefined"){
-        		check = true;
-        	}
-        	if (check){
-        		if (!isOverBar && !isOverRail && !isDragg){
-            		bar.css('width', o.size);
-                    rail.css('width', o.size);
-            	}
-        	}else{
-        		bar.css('width', o.size);
-                rail.css('width', o.size);
-        	}
-        	
-        }
-        
         function showBar()
         {
           // recalculate bar height
@@ -439,7 +404,7 @@
           lastScroll = percentScroll;
 
           // show only when required
-          if(barHeight >= me.outerHeight() - 1) {
+          if(barHeight >= me.outerHeight()) {
             //allow window scroll
             releaseScroll = true;
             return;
@@ -458,11 +423,9 @@
               {
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
-                normalSizeBar(false);
               }
             }, 1000);
           }
-          
         }
 
       });
