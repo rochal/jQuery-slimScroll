@@ -20,6 +20,9 @@
 
         // width in pixels of the scrollbar and rail
         size : '7px',
+        
+        // oversize width in pixels of the scrollbar and rail
+        overSize : '14px',
 
         // scrollbar color, accepts any hex/color value
         color: '#000',
@@ -78,7 +81,7 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
+      var isOverPanel, isOverBar, isOverRail, isDragg, queueHide, touchDif,
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
         minBarHeight = 30,
@@ -106,7 +109,7 @@
               if ( 'height' in options && options.height == 'auto' ) {
                 me.parent().css('height', 'auto');
                 me.css('height', 'auto');
-                var height = me.parent().parent().innerHeight();
+                var height = me.parent().parent().height();
                 me.parent().css('height', height);
                 me.css('height', height);
               }
@@ -138,7 +141,7 @@
         }
 
         // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().innerHeight() : o.height;
+        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
 
         // wrap content
         var wrapper = $(divS)
@@ -202,7 +205,7 @@
         me.parent().append(rail);
 
         // make it draggable
-        if (o.railDraggable)
+        if (o.railDraggable && $.ui && typeof($.ui.draggable) == 'function')
         {
           bar.draggable({
             axis: 'y',
@@ -219,16 +222,24 @@
 
         // on rail over
         rail.hover(function(){
+          isOverRail = true;
           showBar();
+          overSizeBar();
+          console.log("over");
         }, function(){
+          isOverRail = true;
           hideBar();
+          normalSizeBar();
+          console.log("outover");
         });
 
         // on bar over
         bar.hover(function(){
           isOverBar = true;
+          overSizeBar();
         }, function(){
           isOverBar = false;
+          normalSizeBar();
         });
 
         // show on parent mouseover
@@ -374,10 +385,34 @@
           bar.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          var display = me.outerHeight() - barHeight <= 1 ? 'none' : 'block';
           bar.css({ display: display });
+          if (o.railVisible) { rail.css({ display: display }); }
         }
 
+        function overSizeBar(){
+        	if (isOverBar || isOverRail){
+        		bar.css('width', o.overSize);
+                rail.css('width', o.overSize);
+        	}
+        }
+        
+        function normalSizeBar(check){
+        	if(typeof check === "undefined"){
+        		check = true;
+        	}
+        	if (check){
+        		if (!isOverBar && !isOverRail && !isDragg){
+            		bar.css('width', o.size);
+                    rail.css('width', o.size);
+            	}
+        	}else{
+        		bar.css('width', o.size);
+                rail.css('width', o.size);
+        	}
+        	
+        }
+        
         function showBar()
         {
           // recalculate bar height
@@ -397,10 +432,14 @@
                 me.trigger('slimscroll', msg);
             }
           }
+          else
+          {
+            releaseScroll = false;
+          }
           lastScroll = percentScroll;
 
           // show only when required
-          if(barHeight >= me.outerHeight()) {
+          if(barHeight >= me.outerHeight() - 1) {
             //allow window scroll
             releaseScroll = true;
             return;
@@ -419,9 +458,11 @@
               {
                 bar.fadeOut('slow');
                 rail.fadeOut('slow');
+                normalSizeBar(false);
               }
             }, 1000);
           }
+          
         }
 
       });
