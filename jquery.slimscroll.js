@@ -202,18 +202,43 @@
         me.parent().append(rail);
 
         // make it draggable
-        if (o.railDraggable && $.ui && typeof($.ui.draggable) == 'function')
-        {
-          bar.draggable({
-            axis: 'y',
-            containment: 'parent',
-            start: function() { isDragg = true; },
-            stop: function() { isDragg = false; hideBar(); },
-            drag: function(e)
-            {
-              // scroll content
-              scrollContent(0, $(this).position().top, false);
-            }
+        // if (o.railDraggable && $.ui && typeof($.ui.draggable) == 'function')
+        // {
+        //   bar.draggable({
+        //     axis: 'y',
+        //     containment: 'parent',
+        //     start: function() { isDragg = true; },
+        //     stop: function() { isDragg = false; hideBar(); },
+        //     drag: function(e)
+        //     {
+        //       // scroll content
+        //       scrollContent(0, $(this).position().top, false);
+        //     }
+        //   });
+        // }
+        // make it draggable and no longer dependent on the jqueryUI
+        if (o.railDraggable){
+          bar.bind("mousedown", function(e) {
+            var $doc = $(document);
+            isDragg = true;
+            t = parseFloat(bar.css('top'));
+            pageY = e.pageY;          
+
+            $doc.bind("mousemove.slimscroll", function(e){
+              currTop = t + e.pageY - pageY;
+              bar.css('top', currTop);
+              scrollContent(0, bar.position().top, false);// scroll content
+            });
+
+            $doc.bind("mouseup.slimscroll", function(e) {
+              isDragg = false;hideBar();
+              $doc.unbind('.slimscroll');
+            });
+            return false;
+          }).bind("selectstart.slimscroll", function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
           });
         }
 
