@@ -70,7 +70,13 @@
         wheelStep : 20,
 
         // scroll amount applied when user is using gestures
-        touchScrollStep : 200
+        touchScrollStep : 200,
+        
+        // sets border radius
+        borderRadius: '7px',
+        
+        // sets border radius of the rail
+        railBorderRadius: '7px'
       };
 
       var o = $.extend(defaults, options);
@@ -166,7 +172,7 @@
             position: 'absolute',
             top: 0,
             display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
-            'border-radius': o.size,
+            'border-radius': o.railBorderRadius,
             background: o.railColor,
             opacity: o.railOpacity,
             zIndex: 90
@@ -182,10 +188,10 @@
             top: 0,
             opacity: o.opacity,
             display: o.alwaysVisible ? 'block' : 'none',
-            'border-radius' : o.size,
-            BorderRadius: o.size,
-            MozBorderRadius: o.size,
-            WebkitBorderRadius: o.size,
+            'border-radius' : o.borderRadius,
+            BorderRadius: o.borderRadius,
+            MozBorderRadius: o.borderRadius,
+            WebkitBorderRadius: o.borderRadius,
             zIndex: 99
           });
 
