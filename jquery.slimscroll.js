@@ -366,6 +366,7 @@
           {
             this.addEventListener('DOMMouseScroll', _onWheel, false );
             this.addEventListener('mousewheel', _onWheel, false );
+            this.addEventListener('MozMousePixelScroll', _onWheel, false );
           }
           else
           {
