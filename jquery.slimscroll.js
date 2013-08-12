@@ -257,14 +257,18 @@
         });
 
         me.bind('touchmove', function(e){
-          // prevent scrolling the page
-          e.originalEvent.preventDefault();
+          // prevent scrolling the page if necessary
+          if(!releaseScroll) 
+          {
+  		      e.originalEvent.preventDefault();
+		      }
           if (e.originalEvent.touches.length)
           {
             // see how far user swiped
             var diff = (touchDif - e.originalEvent.touches[0].pageY) / o.touchScrollStep;
             // scroll content
             scrollContent(diff, true);
+            touchDif = e.originalEvent.touches[0].pageY;
           }
         });
 
@@ -314,6 +318,7 @@
 
         function scrollContent(y, isWheel, isJump)
         {
+          releaseScroll = false;
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
 
