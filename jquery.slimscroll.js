@@ -268,6 +268,9 @@
           }
         });
 
+        // set up initial height
+        getBarHeight();
+
         // check start position
         if (o.start === 'bottom')
         {
@@ -286,9 +289,6 @@
 
         // attach scroll events
         attachWheel();
-
-        // set up initial height
-        getBarHeight();
 
         function _onWheel(e)
         {
