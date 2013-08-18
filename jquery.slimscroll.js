@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.2.0
+ * Version: 1.3.0
  *
  */
 (function($) {
@@ -40,7 +40,7 @@
         alwaysVisible : false,
 
         // check if we should hide the scrollbar when user is hovering over
-        disableFadeOut: false,
+        disableFadeOut : false,
 
         // sets visibility of the rail
         railVisible : false,
@@ -71,12 +71,12 @@
 
         // scroll amount applied when user is using gestures
         touchScrollStep : 200,
-        
+
         // sets border radius
         borderRadius: '7px',
-        
+
         // sets border radius of the rail
-        railBorderRadius: '7px'
+        railBorderRadius : '7px'
       };
 
       var o = $.extend(defaults, options);
@@ -207,28 +207,13 @@
         me.parent().append(bar);
         me.parent().append(rail);
 
-        // make it draggable
-        // if (o.railDraggable && $.ui && typeof($.ui.draggable) == 'function')
-        // {
-        //   bar.draggable({
-        //     axis: 'y',
-        //     containment: 'parent',
-        //     start: function() { isDragg = true; },
-        //     stop: function() { isDragg = false; hideBar(); },
-        //     drag: function(e)
-        //     {
-        //       // scroll content
-        //       scrollContent(0, $(this).position().top, false);
-        //     }
-        //   });
-        // }
         // make it draggable and no longer dependent on the jqueryUI
         if (o.railDraggable){
           bar.bind("mousedown", function(e) {
             var $doc = $(document);
             isDragg = true;
             t = parseFloat(bar.css('top'));
-            pageY = e.pageY;          
+            pageY = e.pageY;
 
             $doc.bind("mousemove.slimscroll", function(e){
               currTop = t + e.pageY - pageY;
@@ -283,7 +268,7 @@
 
         me.bind('touchmove', function(e){
           // prevent scrolling the page if necessary
-          if(!releaseScroll) 
+          if(!releaseScroll)
           {
   		      e.originalEvent.preventDefault();
 		      }
