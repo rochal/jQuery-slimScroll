@@ -115,6 +115,10 @@
                 var height = me.parent().parent().height();
                 me.parent().css('height', height);
                 me.css('height', height);
+              } else if ('height' in options) {
+                var h = options.height;
+                me.parent().css('height', h);
+                me.css('height', h);
               }
 
               if ('scrollTo' in options)
