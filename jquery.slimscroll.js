@@ -76,7 +76,10 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+
+        // callback to be called after the scrollbars are created
+        onCreate : null
       };
 
       var o = $.extend(defaults, options);
@@ -304,6 +307,9 @@
         // attach scroll events
         attachWheel();
 
+        // trigger the onCreate callback
+        triggerCallback('slimcreate', o.onCreate);
+
         function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
@@ -447,6 +453,17 @@
                 rail.fadeOut('slow');
               }
             }, 1000);
+          }
+        }
+
+        function triggerCallback(event, callback, params)
+        {
+          // fire external scrolling event
+          me.trigger(event, params);
+
+          // call callback
+          if ($.isFunction(callback)) {
+            callback.call(me);
           }
         }
 
