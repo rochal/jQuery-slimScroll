@@ -76,7 +76,10 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+
+        // the base z-index to use for the scroll bar. the rail gets the base, the bar gets the base + 9
+        zIndex: 90
       };
 
       var o = $.extend(defaults, options);
@@ -175,7 +178,7 @@
             'border-radius': o.railBorderRadius,
             background: o.railColor,
             opacity: o.railOpacity,
-            zIndex: 90
+            zIndex: o.zIndex
           });
 
         // create scrollbar
@@ -192,7 +195,7 @@
             BorderRadius: o.borderRadius,
             MozBorderRadius: o.borderRadius,
             WebkitBorderRadius: o.borderRadius,
-            zIndex: 99
+            zIndex: o.zIndex + 9
           });
 
         // set position
