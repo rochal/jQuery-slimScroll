@@ -140,7 +140,7 @@
               }
 
               // scroll content by the given offset
-              scrollContent(offset, false, true);
+              scrollContent(offset, false, true, o.animOptions);
             }
 
             return;
@@ -332,7 +332,7 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        function scrollContent(y, isWheel, isJump)
+        function scrollContent(y, isWheel, isJump, animOptions)
         {
           releaseScroll = false;
           var delta = y;
@@ -368,8 +368,15 @@
             bar.css({ top: offsetTop + 'px' });
           }
 
-          // scroll content
-          me.scrollTop(delta);
+          if (animOptions) {
+            // animate scrollTop
+            me.animate({
+              scrollTop: delta
+            },animOptions);
+          } else {
+            // normally scroll content
+            me.scrollTop(delta);
+          }
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
