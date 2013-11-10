@@ -322,9 +322,7 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          if (e.wheelDeltaY) {
-            scrollContentInverted(delta);
-          } else {
+          if (e.wheelDeltaX || e.deltaX || e.axis == 1) {
             var target = e.target || e.srcTarget || e.srcElement;
             if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
               // scroll content

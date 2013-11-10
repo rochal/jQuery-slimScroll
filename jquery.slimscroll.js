@@ -315,9 +315,7 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          if (e.wheelDeltaX) {
-            scrollContentInverted(delta);
-          } else {
+          if (e.wheelDeltaY || e.deltaY || e.axis == 2) {
             var target = e.target || e.srcTarget || e.srcElement;
             if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
               // scroll content
@@ -377,18 +375,6 @@
 
           // trigger hide when scroll is stopped
           hideBar();
-        }
-
-        function scrollContentInverted(x)
-        {
-          releaseScroll = false;
-          var delta = x;
-
-          // calculate actual scroll amount
-          delta = me.scrollLeft() + delta*parseInt(o.wheelStep);
-
-          // scroll content
-          me.scrollLeft(delta);
         }
 
         function attachWheel()
