@@ -16,7 +16,7 @@
         width : '250px',
 
         // height in pixels of the visible scroll area
-        height : '250px',
+        height : 'auto',
 
         // height in pixels of the scrollbar and rail
         size : '7px',
@@ -25,7 +25,7 @@
         color: '#000',
 
         // scrollbar position - top/bottom
-        position : 'top',
+        position : 'bottom',
 
         // distance in pixels between the side edge and the scrollbar
         distance : '1px',
@@ -144,7 +144,6 @@
         }
 
         // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
         o.width = (o.width == 'auto') ? me.parent().width() : o.width;
 
         // wrap content
@@ -168,8 +167,6 @@
         var rail = $(divS)
           .addClass(o.railClass)
           .css({
-            // width: o.size,
-            // height: '100%',
             width: '100%',
             height: o.size,
             position: 'absolute',
@@ -188,6 +185,7 @@
             background: o.color,
             height: o.size,
             position: 'absolute',
+            left: 0,
             opacity: o.opacity,
             display: o.alwaysVisible ? 'block' : 'none',
             'border-radius' : o.borderRadius,
@@ -214,15 +212,12 @@
           bar.bind("mousedown", function(e) {
             var $doc = $(document);
             isDragg = true;
-            // <t = parseFloat(bar.css('top'));
             t = parseFloat(bar.css('left'));
             pageY = e.pageX;
 
             $doc.bind("mousemove.slimscroll", function(e){
               currLeft = t + e.pageX - pageY;
-              // bar.css('top', currTop);
               bar.css('left', currLeft);
-              // scrollContent(0, bar.position().top, false);// scroll content
               scrollContent(0, bar.position().left, false);// scroll content
             });
 
@@ -291,18 +286,16 @@
         getBarHeight();
 
         // check start position
-        if (o.start === 'left')
+        if (o.start === 'right')
         {
-          // scroll content to left
-          // bar.css({ top: me.outerWidth() - bar.outerWidth() });
-          bar.css({ left: 0 });
+          // scroll content to rigth
+          bar.css({ left: me.outerWidth() - bar.outerWidth() });
           scrollContent(0, true);
         }
-        else if (o.start !== 'right')
+        else if (o.start !== 'left')
         {
           // assume jQuery selector
-          // scrollContent($(o.start).position().top, null, true);
-          scrollContent($(o.start).position().left, null, true);
+        scrollContent($(o.start).position().left, null, true);
 
           // make sure bar stays hidden
           if (!o.alwaysVisible) { bar.hide(); }
@@ -344,7 +337,6 @@
           if (isWheel)
           {
             // move bar with mouse wheel
-            // delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerWidth();
             delta = parseInt(bar.css('left')) + y * parseInt(o.wheelStep) / 100 * bar.outerWidth();
 
             // move bar, make sure it doesn't go out
@@ -357,12 +349,10 @@
             delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
 
             // scroll the scrollbar
-            // bar.css({ top: delta + 'px' });
             bar.css({ left: delta + 'px' });
           }
 
           // calculate actual scroll amount
-          // percentScroll = parseInt(bar.css('top')) / (me.outerWidth() - bar.outerWidth());
           percentScroll = parseInt(bar.css('left')) / (me.outerWidth() - bar.outerWidth());
           delta = percentScroll * (me[0].scrollWidth - me.outerWidth());
 
@@ -371,7 +361,6 @@
             delta = y;
             var offsetLeft = delta / me[0].scrollWidth * me.outerWidth();
             offsetLeft = Math.min(Math.max(offsetLeft, 0), maxLeft);
-            // bar.css({ top: offsetLeft + 'px' });
             bar.css({ left: offsetLeft + 'px' });
           }
 
@@ -386,18 +375,6 @@
 
           // trigger hide when scroll is stopped
           hideBar();
-        }
-
-        function scrollContentInverted(y)
-        {
-          releaseScroll = false;
-          var delta = y;
-
-          // calculate actual scroll amount
-          delta = me.scrollTop() + delta*parseInt(o.wheelStep);
-
-          // scroll content
-          me.scrollTop(delta);
         }
 
         function attachWheel()
@@ -440,7 +417,6 @@
             // publish approporiate event
             if (lastScroll != percentScroll)
             {
-                // var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
                 var msg = (~~percentScroll == 0) ? 'left' : 'right';
                 me.trigger('slimscroll', msg);
             }
