@@ -94,7 +94,7 @@
         var me = $(this);
 
         // ensure we are not binding it again
-        if (me.parent().hasClass(o.wrapperClass))
+        if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0) 
         {
             // start from last bar position
             var offset = me.scrollTop();
@@ -315,15 +315,19 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          var target = e.target || e.srcTarget || e.srcElement;
-          if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
-            // scroll content
-            scrollContent(delta, true);
-          }
+          if (e.wheelDeltaX) {
+            scrollContentInverted(delta);
+          } else {
+            var target = e.target || e.srcTarget || e.srcElement;
+            if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
+              // scroll content
+              scrollContent(delta, true);
+            }
 
-          // stop window scroll
-          if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
-          if (!releaseScroll) { e.returnValue = false; }
+            // stop window scroll
+            if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
+            if (!releaseScroll) { e.returnValue = false; }
+          }
         }
 
         function scrollContent(y, isWheel, isJump)
@@ -373,6 +377,18 @@
 
           // trigger hide when scroll is stopped
           hideBar();
+        }
+
+        function scrollContentInverted(x)
+        {
+          releaseScroll = false;
+          var delta = x;
+
+          // calculate actual scroll amount
+          delta = me.scrollLeft() + delta*parseInt(o.wheelStep);
+
+          // scroll content
+          me.scrollLeft(delta);
         }
 
         function attachWheel()
