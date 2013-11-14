@@ -87,11 +87,15 @@
       var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
         barWidth, percentScroll, lastScroll,
         divS = '<div></div>',
+        divMask = '<div></div>',
         minBarWidth = 30,
         releaseScroll = false;
 
         // used in event handlers and for better minification
         var me = $(this);
+
+        // active mask
+        var isMask = me.width() >= o.width;
 
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0 || $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0) 
@@ -145,23 +149,30 @@
 
         // optionally set height to the parent's height
         o.width = (o.width == 'auto') ? me.parent().width() : o.width;
+        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
 
         // wrap content
-        var wrapper = $(divS)
-          .addClass(o.wrapperClass)
-          .css({
-            position: 'relative',
+        var wrapper = me.parent();
+        if (!me.parent().hasClass(o.wrapperClass)) {
+          wrapper = $(divS)
+            .addClass(o.wrapperClass)
+            .css({
+              position: 'relative',
+              overflow: 'hidden',
+              width: o.width,
+              height: o.height
+            });
+
+          // update style for the div
+          me.css({
             overflow: 'hidden',
             width: o.width,
             height: o.height
           });
 
-        // update style for the div
-        me.css({
-          overflow: 'hidden',
-          width: o.width,
-          height: o.height
-        });
+          // wrap it
+          me.wrap(wrapper);
+        }
 
         // create scrollbar rail
         var rail = $(divS)
@@ -170,7 +181,7 @@
             width: '100%',
             height: o.size,
             position: 'absolute',
-            top: 0,
+            left: 0,
             display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
             'border-radius': o.railBorderRadius,
             background: o.railColor,
@@ -200,12 +211,43 @@
         rail.css(posCss);
         bar.css(posCss);
 
-        // wrap it
-        me.wrap(wrapper);
-
         // append to parent div
         me.parent().append(bar);
         me.parent().append(rail);
+
+        if (isMask && o.mask_left_url) {
+          var mask_left = $(divMask)
+            .addClass('mask_left')
+            .css({
+              width: '64px',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: bar.position().left <= 0 ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_left_url + ')',
+              backgroundRepeat: 'y',
+              zIndex: 85
+            });
+          me.parent().append(mask_left);
+        }
+
+        if (isMask && o.mask_right_url) {
+          var mask_right = $(divMask)
+            .addClass('mask_right')
+            .css({
+              width: '64px',
+              height: '100%',
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              display: bar.position().left >= me.width()-bar.width() ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_right_url + ')',
+              backgroundRepeat: 'y',
+              zIndex: 85
+            });
+          me.parent().append(mask_right);
+        }
 
         // make it draggable and no longer dependent on the jqueryUI
         if (o.railDraggable){
@@ -333,6 +375,12 @@
           releaseScroll = false;
           var delta = y;
           var maxLeft = me.outerWidth() - bar.outerWidth();
+
+          if (isMask)
+          {
+            $('.mask_left').css({display : bar.position().left <= 0 ? 'none' : 'block'});
+            $('.mask_right').css({display : bar.position().left >= me.width()-bar.width() ? 'none' : 'block'});
+          }
 
           if (isWheel)
           {

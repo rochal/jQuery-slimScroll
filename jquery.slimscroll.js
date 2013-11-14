@@ -87,11 +87,15 @@
       var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
         barHeight, percentScroll, lastScroll,
         divS = '<div></div>',
+        divMask = '<div></div>',
         minBarHeight = 30,
         releaseScroll = false;
 
         // used in event handlers and for better minification
         var me = $(this);
+
+        // active mask
+        var isMask = me.height() >= o.height;
 
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0) 
@@ -144,24 +148,31 @@
         }
 
         // optionally set height to the parent's height
+        o.width = (o.width == 'auto') ? me.parent().width() : o.width;
         o.height = (o.height == 'auto') ? me.parent().height() : o.height;
 
         // wrap content
-        var wrapper = $(divS)
-          .addClass(o.wrapperClass)
-          .css({
-            position: 'relative',
+        var wrapper = me.parent();
+        if (!me.parent().hasClass(o.wrapperClass)) {
+          wrapper = $(divS)
+            .addClass(o.wrapperClass)
+            .css({
+              position: 'relative',
+              overflow: 'hidden',
+              width: o.width,
+              height: o.height
+            });
+
+          // update style for the div
+          me.css({
             overflow: 'hidden',
             width: o.width,
             height: o.height
           });
 
-        // update style for the div
-        me.css({
-          overflow: 'hidden',
-          width: o.width,
-          height: o.height
-        });
+          // wrap it
+          me.wrap(wrapper);
+        }
 
         // create scrollbar rail
         var rail = $(divS)
@@ -200,12 +211,43 @@
         rail.css(posCss);
         bar.css(posCss);
 
-        // wrap it
-        me.wrap(wrapper);
-
         // append to parent div
         me.parent().append(bar);
         me.parent().append(rail);
+
+        if (isMask && o.mask_top_url) {
+          var mask_top = $(divMask)
+            .addClass('mask_top')
+            .css({
+              width: '100%',
+              height: '64px',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: bar.position().top <= 0 ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_top_url + ')',
+              backgroundRepeat: 'x',
+              zIndex: 85
+            });
+          me.parent().append(mask_top);
+        }
+
+        if (isMask && o.mask_bottom_url) {
+          var mask_bottom = $(divMask)
+            .addClass('mask_bottom')
+            .css({
+              width: '100%',
+              height: '64px',
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              display: bar.position().top >= me.height()-bar.height() ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_bottom_url + ')',
+              backgroundRepeat: 'x',
+              zIndex: 85
+            });
+          me.parent().append(mask_bottom);
+        }
 
         // make it draggable and no longer dependent on the jqueryUI
         if (o.railDraggable){
@@ -334,6 +376,12 @@
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
 
+          if (isMask)
+          {
+            $('.mask_top').css({display : bar.position().top <= 0 ? 'none' : 'block'});
+            $('.mask_bottom').css({display : bar.position().top >= me.height()-bar.height() ? 'none' : 'block'});
+          }
+
           if (isWheel)
           {
             // move bar with mouse wheel
@@ -363,7 +411,7 @@
             offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
             bar.css({ top: offsetTop + 'px' });
           }
-
+          
           // scroll content
           me.scrollTop(delta);
 
