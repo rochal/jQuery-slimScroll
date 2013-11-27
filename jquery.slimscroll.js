@@ -125,16 +125,7 @@
               	}
               	else if(o.scrollTo === 'bottom')
               	{
-              	  var totalHeight = me.outerHeight();
-              	  if(me.children().length > 0)
-              	  {
-              	    totalHeight=0;
-              	    $.each(me.children(), function(){
-              	    	totalHeight = totalHeight + $(this).height();
-              	    });
-              	  }
-              	  
-              	  offset = totalHeight - bar.outerHeight();
+              	  offset = me[0].scrollHeight - bar.outerHeight();
               	}
               	else
               	{
