@@ -84,11 +84,11 @@
       // do it for every element that matches selector
       this.each(function(){
 
-      var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
-        barHeight, percentScroll, lastScroll,
-        divS = '<div></div>',
-        minBarHeight = 30,
-        releaseScroll = false;
+        var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
+          barHeight, percentScroll, lastScroll,
+          divS = '<div></div>',
+          minBarHeight = 30,
+          releaseScroll = false;
 
         // used in event handlers and for better minification
         var me = $(this);
@@ -119,8 +119,19 @@
 
               if ('scrollTo' in options)
               {
-                // jump to a static point
-                offset = parseInt(o.scrollTo);
+              	if(o.scrollTo === 'top')
+              	{
+              	  offset = 0;
+              	}
+              	else if(o.scrollTo === 'bottom')
+              	{
+              	  offset = me[0].scrollHeight - bar.outerHeight();
+              	}
+              	else
+              	{
+              	  // jump to a static point
+                  offset = parseInt(o.scrollTo);	
+              	}
               }
               else if ('scrollBy' in options)
               {

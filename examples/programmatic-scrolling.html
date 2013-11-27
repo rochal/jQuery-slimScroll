@@ -68,6 +68,8 @@ $('#scrollUp').click(function(){
   </div>
   <input type="button" id="scrollDownTo" value="Scroll to 300px from the top" />
   <input type="button" id="scrollUpTo" value="Scroll to 20px from the top" />
+  <input type="button" id="scrollToBottom" value="Scroll to bottom" />
+  <input type="button" id="scrollToTop" value="Scroll to top" />
 
 
 <pre class="prettyprint">
@@ -81,6 +83,14 @@ $('#scrollDownTo').click(function(){
 
 $('#scrollUpTo').click(function(){
   $('#testDiv2').slimScroll({ scrollTo: '20px' });
+});
+
+$('#scrollToTop').click(function(){
+  $('#testDiv2').slimScroll({ scrollTo: 'top' });
+});
+
+$('#scrollToBottom').click(function(){
+  $('#testDiv2').slimScroll({ scrollTo: 'bottom' });
 });
 </pre>
 
@@ -113,7 +123,14 @@ $('#scrollUpTo').click(function(){
       $('#scrollUpTo').click(function(){
         $('#testDiv2').slimScroll({ scrollTo: '20px' });
       });
-
+      
+      $('#scrollToTop').click(function(){
+        $('#testDiv2').slimScroll({ scrollTo: 'top' });
+      });
+      
+      $('#scrollToBottom').click(function(){
+        $('#testDiv2').slimScroll({ scrollTo: 'bottom' });
+      });
     });
 </script>
 
