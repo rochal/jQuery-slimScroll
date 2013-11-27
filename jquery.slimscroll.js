@@ -125,7 +125,16 @@
               	}
               	else if(o.scrollTo === 'bottom')
               	{
-              	  offset = me.children().outerHeight() - bar.outerHeight();
+              	  var totalHeight = me.outerHeight();
+              	  if(me.children().length > 0)
+              	  {
+              	    totalHeight=0;
+              	    $.each(me.children(), function(){
+              	    	totalHeight = totalHeight + $(this).height();
+              	    });
+              	  }
+              	  
+              	  offset = totalHeight - bar.outerHeight();
               	}
               	else
               	{
