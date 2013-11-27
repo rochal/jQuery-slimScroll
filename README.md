@@ -23,20 +23,21 @@ $('document').ready(function(){
 
 | Options           | Default                   | Type              |   Description |
 | ----------------- | ------------------------- | ----------------- | --------------
-| `width`           | '300px'                   | `string`          |  |
-| `height`          | '500px'                   | `string`          |  |
-| `size`            | '10px'                    | `string`          |  |
-| `position`        | 'left'                    | `string`          |  |
-| `color`           | '#ffcc00'                 | `string[hex code]`|  |
-| `alwaysVisible`   | true                      | `boolean`         |  |
-| `distance`        | '20px'                    | `string`          |  |
-| `start`           | $('#child_image_element') | `jQuery Element`  |  |
-| `railVisible`     | true                      | `boolean`         |  |
-| `railColor`       | '#222'                    | `string[hex code]`|  |
-| `railOpacity`     | 0.3                       | `number`          |  |
-| `wheelStep`       | 10                        | `number`          |  |
-| `allowPageScroll` | false                     | `boolean`         |  |
-| `disableFadeOut`  | false                     | `string`          |  |
+| `width`           | none                      | `string`          | Width in pixels of the visible scroll area. Stretch-to-parent if not set |
+| `height`          | '250px'                   | `string`          | Height in pixels of the visible scroll area. Also supports auto to set the height to same as parent container |
+| `size`            | '7px'                     | `string`          | Width in pixels of the scrollbar |
+| `position`        | 'right'                   | `string`          | left or right. Sets the position of the scrollbar|
+| `color`           | '#000000'                 | `string[hex code]`| Color in hex of the scrollbar |
+| `alwaysVisible`   | false                     | `boolean`         | Disables scrollbar hide |
+| `distance`        | '1px'                     | `string`          | Distance in pixels from the edge of the parent element where scrollbar should appear. It is used together with `position` property |
+| `start`           | 'top'                     | `jQuery Element` or `string['top' or 'bottom']`  | top or bottom or $(selector) - defines initial position of the scrollbar. When set to bottom it automatically scrolls to the bottom of the scrollable container. When HTML element is passed, slimScroll defaults to offsetTop of this element |
+| `wheelStep`       | 20                        | `number`          | Integer value for mouse wheel delta |
+| `railVisible`     | false                     | `boolean`         | Enables scrollbar rail |
+| `railColor`       | '#333333'                 | `string[hex code]`| Sets scrollbar rail color |
+| `railOpacity`     | 0.2                       | `number`          | Sets scrollbar rail opacity |
+| `allowPageScroll` | false                     | `boolean`         | Checks if mouse wheel should scroll page when bar reaches top or bottom of the container. When set to true is scrolls the page |
+| `disableFadeOut`  | false                     | `string`          | Disables scrollbar auto fade. When set to true scrollbar doesn't disappear after some time when mouse is over the slimscroll div |
+| `touchScrollStep` | 200                       | `number`          | Allows to set different sensitivity for touch scroll events. Negative number inverts scroll direction |
  
 ####Example
 ```
@@ -54,7 +55,8 @@ $(selector).slimScroll({
     railOpacity: 0.3,
     wheelStep: 10,
     allowPageScroll: false,
-    disableFadeOut: false
+    disableFadeOut: false,
+    touchScrollStep: 100
 });
 ```
 ###Events
