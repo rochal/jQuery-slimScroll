@@ -87,7 +87,7 @@ Note: The slimscrolling event will be triggered no matter if the div has actuall
 
 * `scrollTo`
 
-Jumps to the specified scroll value. Can be called on any element with slimScroll already enabled. 
+Jumps to the specified scroll value, this also supports `top` and `bottom`. Can be called on any element with slimScroll already enabled. 
 
 ```
 $(selector).slimScroll({ 
