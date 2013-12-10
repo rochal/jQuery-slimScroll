@@ -76,7 +76,13 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+        
+        // Use a fixed height for the scroll bar
+        useFixedHeight : true,
+        
+        // the fixed height of the scroll bar
+        fixedHeight : 50
       };
 
       var o = $.extend(defaults, options);
@@ -270,8 +276,8 @@
           // prevent scrolling the page if necessary
           if(!releaseScroll)
           {
-  		      e.originalEvent.preventDefault();
-		      }
+                e.originalEvent.preventDefault();
+              }
           if (e.originalEvent.touches.length)
           {
             // see how far user swiped
@@ -392,7 +398,10 @@
         function getBarHeight()
         {
           // calculate scrollbar height and make sure it is not too small
-          barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
+          if( o.useFixedHeight )
+            barHeight = o.fixedHeight;
+          else
+            barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
           bar.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
