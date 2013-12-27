@@ -144,7 +144,7 @@
         }
 
         // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
+        o.height = (options.height == 'auto') ? me.parent().height() : options.height;
 
         // wrap content
         var wrapper = $(divS)
