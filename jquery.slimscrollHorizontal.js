@@ -219,7 +219,7 @@
           var mask_left = $(divMask)
             .addClass('mask_left')
             .css({
-              width: '64px',
+              width: '20px',
               height: '100%',
               position: 'absolute',
               top: 0,
@@ -236,7 +236,7 @@
           var mask_right = $(divMask)
             .addClass('mask_right')
             .css({
-              width: '64px',
+              width: '20px',
               height: '100%',
               position: 'absolute',
               bottom: 0,
@@ -378,8 +378,12 @@
 
           if (isMask)
           {
-            $('.mask_left').css({display : bar.position().left <= 0 ? 'none' : 'block'});
-            $('.mask_right').css({display : bar.position().left >= me.width()-bar.width() ? 'none' : 'block'});
+            me.parent().find('.mask_left').css({
+              display: bar.position().left <= 0 ? 'none' : 'block'
+            });
+            me.parent().find('.mask_right').css({
+              display: bar.position().left >= me.width()-bar.width() ? 'none' : 'block'
+            });
           }
 
           if (isWheel)

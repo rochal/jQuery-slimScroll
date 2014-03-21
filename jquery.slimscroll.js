@@ -220,7 +220,7 @@
             .addClass('mask_top')
             .css({
               width: '100%',
-              height: '64px',
+              height: '20px',
               position: 'absolute',
               top: 0,
               left: 0,
@@ -237,7 +237,7 @@
             .addClass('mask_bottom')
             .css({
               width: '100%',
-              height: '64px',
+              height: '20px',
               position: 'absolute',
               bottom: 0,
               left: 0,
@@ -378,8 +378,12 @@
 
           if (isMask)
           {
-            $('.mask_top').css({display : bar.position().top <= 0 ? 'none' : 'block'});
-            $('.mask_bottom').css({display : bar.position().top >= me.height()-bar.height() ? 'none' : 'block'});
+            me.parent().find('.mask_top').css({
+              display: bar.position().top <= 0 ? 'none' : 'block'
+            });
+            me.parent().find('.mask_bottom').css({
+              display: bar.position().top >= me.height()-bar.height() ? 'none' : 'block'
+            });
           }
 
           if (isWheel)
