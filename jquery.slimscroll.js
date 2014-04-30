@@ -129,6 +129,9 @@
               }
               else if ('destroy' in options)
               {
+                // make sure scroll is always released at this point
+                releaseScroll = true;
+
                 // remove slimscroll elements
                 bar.remove();
                 rail.remove();
