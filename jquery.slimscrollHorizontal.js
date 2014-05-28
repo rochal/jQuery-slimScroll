@@ -202,6 +202,7 @@
             background: o.color,
             height: o.size,
             position: 'absolute',
+            cursor: 'move',
             left: 0,
             opacity: o.opacity,
             display: o.alwaysVisible ? 'block' : 'none',
