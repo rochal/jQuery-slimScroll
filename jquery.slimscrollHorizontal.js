@@ -219,8 +219,10 @@
         bar.css(posCss);
 
         // append to parent div
-        me.parent().append(bar);
-        me.parent().append(rail);
+        if (o.opacity) {
+          me.parent().append(bar);
+          me.parent().append(rail);
+        }
 
         if (isMask && o.mask_left_url) {
           var mask_left = $(divMask)
