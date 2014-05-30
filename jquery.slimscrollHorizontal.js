@@ -98,7 +98,7 @@
         var isMask = me.width() >= o.width;
 
         // ensure we are not binding it again
-        if (me.parent().hasClass(o.wrapperClass)) 
+        if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0)
         {
             // start from last bar position
             var offset_horizontal = me.scrollLeft();
