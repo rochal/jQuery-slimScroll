@@ -202,7 +202,7 @@
             background: o.color,
             height: o.size,
             position: 'absolute',
-            cursor: 'move',
+            cursor: o.opacity ? 'move' : 'normal',
             left: 0,
             opacity: o.opacity,
             display: o.alwaysVisible ? 'block' : 'none',
@@ -219,10 +219,8 @@
         bar.css(posCss);
 
         // append to parent div
-        if (o.opacity) {
-          me.parent().append(bar);
-          me.parent().append(rail);
-        }
+        me.parent().append(bar);
+        me.parent().append(rail);
 
         if (isMask && o.mask_left_url) {
           var mask_left = $(divMask)
