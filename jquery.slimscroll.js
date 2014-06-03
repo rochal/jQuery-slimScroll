@@ -276,8 +276,11 @@
           {
             // see how far user swiped
             var diff = (touchDif - e.originalEvent.touches[0].pageY) / o.touchScrollStep;
-            // scroll content
-            scrollContent(diff, true);
+            var target = e.target || e.srcTarget || e.srcElement;
+            if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
+              // scroll content
+              scrollContent(diff, true);
+            }
             touchDif = e.originalEvent.touches[0].pageY;
           }
         });
