@@ -7,6 +7,8 @@
   "demo" : "http://rocha.la/jQuery-slimScroll/",
   "homepage" : "http://rocha.la/jQuery-slimScroll/",
   "download" : "http://rocha.la/jQuery-slimScroll/",
+  
+  "main": "./jquery.slimscroll.min.js",
 
   "author" : {
     "name" : "Piotr Rochala",
