@@ -8,30 +8,30 @@
 (function($) {
 
   $.fn.extend({
-    slimScroll: function(options) {
+    slimScrollH: function(options) {
 
       var defaults = {
 
         // width in pixels of the visible scroll area
-        width : 'auto',
+        width : '250px',
 
         // height in pixels of the visible scroll area
-        height : '250px',
+        height : 'auto',
 
-        // width in pixels of the scrollbar and rail
+        // height in pixels of the scrollbar and rail
         size : '7px',
 
         // scrollbar color, accepts any hex/color value
         color: '#000',
 
-        // scrollbar position - left/right
-        position : 'right',
+        // scrollbar position - top/bottom
+        position : 'bottom',
 
         // distance in pixels between the side edge and the scrollbar
         distance : '1px',
 
-        // default scroll position on load - top / bottom / $('selector')
-        start : 'top',
+        // default scroll position on load - left/right / $('selector')
+        start : 'left',
 
         // sets scrollbar opacity
         opacity : 0.4,
@@ -55,10 +55,10 @@
         railDraggable : true,
 
         // defautlt CSS class of the slimscroll rail
-        railClass : 'slimScrollRail',
+        railClass : 'slimScrollRailH',
 
         // defautlt CSS class of the slimscroll bar
-        barClass : 'slimScrollBar',
+        barClass : 'slimScrollBarH',
 
         // defautlt CSS class of the slimscroll wrapper
         wrapperClass : 'slimScrollDiv',
@@ -85,23 +85,23 @@
       this.each(function(){
 
       var isOverPanel, isOverBar, isDragg, queueHide, touchDif,
-        barHeight, percentScroll, lastScroll,
+        barWidth, percentScroll, lastScroll,
         divS = '<div></div>',
         divMask = '<div></div>',
-        minBarHeight = 30,
+        minBarWidth = 30,
         releaseScroll = false;
 
         // used in event handlers and for better minification
         var me = $(this);
 
         // active mask
-        var isMask = me.height() >= o.height;
+        var isMask = me.width() >= o.width;
 
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class');})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class');})) >= 0)
         {
             // start from last bar position
-            var offset = me.scrollTop();
+            var offset_horizontal = me.scrollLeft();
 
             // find bar and rail
             bar = me.parent().find('.' + o.barClass);
@@ -112,30 +112,30 @@
             // check if we should scroll existing instance
             if ($.isPlainObject(options))
             {
-              // Pass height: auto to an existing slimscroll object to force a resize after contents have changed
-              if ( 'height' in options ) {
-                if (options.height == 'auto') {
-                  me.parent().css('height', 'auto');
-                  me.css('height', 'auto');
-                  var height = me.parent().parent().height();
-                  me.parent().css('height', height);
-                  me.css('height', height);
+              // Pass width: auto to an existing slimscroll object to force a resize after contents have changed
+              if ( 'width' in options ) {
+                if (options.width == 'auto') {
+                  me.parent().css('width', 'auto');
+                  me.css('width', 'auto');
+                  var width = me.parent().parent().width();
+                  me.parent().css('width', width);
+                  me.css('width', width);
                 }
                 else {
-                  me.css('height', o.height);
-                  me.parent().css('height', o.height);
+                  me.css('width', o.width);
+                  me.parent().css('width', o.width);
                 }
               }
 
               if ('scrollTo' in options)
               {
                 // jump to a static point
-                offset = parseInt(o.scrollTo);
+                offset_horizontal = parseInt(o.scrollTo);
               }
               else if ('scrollBy' in options)
               {
                 // jump by value pixels
-                offset += parseInt(o.scrollBy);
+                offset_horizontal += parseInt(o.scrollBy);
               }
               else if ('destroy' in options)
               {
@@ -146,8 +146,8 @@
                 return;
               }
 
-              // scroll content by the given offset
-              scrollContent(offset, false, true);
+              // scroll content by the given offset_horizontal
+              scrollContent(offset_horizontal, false, true);
             }
 
             return;
@@ -184,10 +184,10 @@
         var rail = $(divS)
           .addClass(o.railClass)
           .css({
-            width: o.size,
-            height: '100%',
+            width: '100%',
+            height: o.size,
             position: 'absolute',
-            top: 0,
+            left: 0,
             display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
             'border-radius': o.railBorderRadius,
             background: o.railColor,
@@ -200,10 +200,10 @@
           .addClass(o.barClass)
           .css({
             background: o.color,
-            width: o.size,
+            height: o.size,
             position: 'absolute',
             cursor: o.opacity ? 'move' : 'normal',
-            top: 0,
+            left: 0,
             opacity: o.opacity,
             display: o.alwaysVisible ? 'block' : 'none',
             'border-radius' : o.borderRadius,
@@ -214,7 +214,7 @@
           });
 
         // set position
-        var posCss = (o.position == 'right') ? { right: o.distance } : { left: o.distance };
+        var posCss = (o.position == 'top') ? { top: o.distance } : { bottom: o.distance };
         rail.css(posCss);
         bar.css(posCss);
 
@@ -223,38 +223,38 @@
         me.parent().append(rail);
 
         // create masks
-        if (isMask && o.mask_top_url) {
-          var mask_top = $(divMask)
-            .addClass('mask_top')
+        if (isMask && o.mask_left_url) {
+          var mask_left = $(divMask)
+            .addClass('mask_left')
             .css({
-              width: '100%',
-              height: '20px',
+              width: '20px',
+              height: '100%',
               position: 'absolute',
               top: 0,
               left: 0,
-              display: bar.position().top <= 0 ? 'none' : 'block',
-              backgroundImage: 'url(' + o.mask_top_url + ')',
-              backgroundRepeat: 'x',
+              display: bar.position().left <= 0 ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_left_url + ')',
+              backgroundRepeat: 'y',
               zIndex: 85
             });
-          me.parent().append(mask_top);
+          me.parent().append(mask_left);
         }
 
-        if (isMask && o.mask_bottom_url) {
-          var mask_bottom = $(divMask)
-            .addClass('mask_bottom')
+        if (isMask && o.mask_right_url) {
+          var mask_right = $(divMask)
+            .addClass('mask_right')
             .css({
-              width: '100%',
-              height: '20px',
+              width: '20px',
+              height: '100%',
               position: 'absolute',
               bottom: 0,
-              left: 0,
-              display: bar.position().top >= me.height()-bar.height() ? 'none' : 'block',
-              backgroundImage: 'url(' + o.mask_bottom_url + ')',
-              backgroundRepeat: 'x',
+              right: 0,
+              display: bar.position().left >= me.width()-bar.width() ? 'none' : 'block',
+              backgroundImage: 'url(' + o.mask_right_url + ')',
+              backgroundRepeat: 'y',
               zIndex: 85
             });
-          me.parent().append(mask_bottom);
+          me.parent().append(mask_right);
         }
 
         // make it draggable and no longer dependent on the jqueryUI
@@ -262,13 +262,13 @@
           bar.bind("mousedown", function(e) {
             var $doc = $(document);
             isDragg = true;
-            t = parseFloat(bar.css('top'));
-            pageY = e.pageY;
+            t = parseFloat(bar.css('left'));
+            pageY = e.pageX;
 
             $doc.bind("mousemove.slimscroll", function(e){
-              currTop = t + e.pageY - pageY;
-              bar.css('top', currTop);
-              scrollContent(0, bar.position().top, false);// scroll content
+              currLeft = t + e.pageX - pageY;
+              bar.css('left', currLeft);
+              scrollContent(0, bar.position().left, false);// scroll content
             });
 
             $doc.bind("mouseup.slimscroll", function(e) {
@@ -336,16 +336,16 @@
         getBarHeight();
 
         // check start position
-        if (o.start === 'bottom')
+        if (o.start === 'right')
         {
-          // scroll content to bottom
-          bar.css({ top: me.outerHeight() - bar.outerHeight() });
+          // scroll content to rigth
+          bar.css({ left: me.outerWidth() - bar.outerWidth() });
           scrollContent(0, true);
         }
-        else if (o.start !== 'top')
+        else if (o.start !== 'left')
         {
           // assume jQuery selector
-          scrollContent($(o.start).position().top, null, true);
+        scrollContent($(o.start).position().left, null, true);
 
           // make sure bar stays hidden
           if (!o.alwaysVisible) { bar.hide(); }
@@ -365,7 +365,7 @@
           if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           if (e.detail) { delta = e.detail / 3; }
 
-          if (e.wheelDeltaY || e.deltaY || e.axis == 2) {
+          if (e.wheelDeltaX || e.deltaX || e.axis == 1) {
             var target = e.target || e.srcTarget || e.srcElement;
             if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
               // scroll content
@@ -382,25 +382,25 @@
         {
           releaseScroll = false;
           var delta = y;
-          var maxTop = me.outerHeight() - bar.outerHeight();
+          var maxLeft = me.outerWidth() - bar.outerWidth();
 
           if (isMask)
           {
-            me.parent().find('.mask_top').css({
-              display: bar.position().top <= 0 ? 'none' : 'block'
+            me.parent().find('.mask_left').css({
+              display: bar.position().left <= 0 ? 'none' : 'block'
             });
-            me.parent().find('.mask_bottom').css({
-              display: bar.position().top >= me.height()-bar.height() ? 'none' : 'block'
+            me.parent().find('.mask_right').css({
+              display: bar.position().left >= me.width()-bar.width() ? 'none' : 'block'
             });
           }
 
           if (isWheel)
           {
             // move bar with mouse wheel
-            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
+            delta = parseInt(bar.css('left')) + y * parseInt(o.wheelStep) / 100 * bar.outerWidth();
 
             // move bar, make sure it doesn't go out
-            delta = Math.min(Math.max(delta, 0), maxTop);
+            delta = Math.min(Math.max(delta, 0), maxLeft);
 
             // if scrolling down, make sure a fractional change to the
             // scroll position isn't rounded away when the scrollbar's CSS is set
@@ -409,23 +409,23 @@
             delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
 
             // scroll the scrollbar
-            bar.css({ top: delta + 'px' });
+            bar.css({ left: delta + 'px' });
           }
 
           // calculate actual scroll amount
-          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
-          delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
+          percentScroll = parseInt(bar.css('left')) / (me.outerWidth() - bar.outerWidth());
+          delta = percentScroll * (me[0].scrollWidth - me.outerWidth());
 
           if (isJump)
           {
             delta = y;
-            var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
-            offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
-            bar.css({ top: offsetTop + 'px' });
+            var offsetLeft = delta / me[0].scrollWidth * me.outerWidth();
+            offsetLeft = Math.min(Math.max(offsetLeft, 0), maxLeft);
+            bar.css({ left: offsetLeft + 'px' });
           }
-          
+
           // scroll content
-          me.scrollTop(delta);
+          me.scrollLeft(delta);
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
@@ -454,11 +454,11 @@
         function getBarHeight()
         {
           // calculate scrollbar height and make sure it is not too small
-          barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
-          bar.css({ height: barHeight + 'px' });
+          barWidth = Math.max((me.outerWidth() / me[0].scrollWidth) * me.outerWidth(), minBarWidth);
+          bar.css({ width: barWidth + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          var display = barWidth == me.outerWidth() ? 'none' : 'block';
           bar.css({ display: display });
         }
 
@@ -477,7 +477,7 @@
             // publish approporiate event
             if (lastScroll != percentScroll)
             {
-                var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
+                var msg = (~~percentScroll == 0) ? 'left' : 'right';
                 me.trigger('slimscroll', msg);
             }
           }
@@ -488,7 +488,7 @@
           lastScroll = percentScroll;
 
           // show only when required
-          if(barHeight >= me.outerHeight()) {
+          if(barWidth >= me.outerWidth()) {
             //allow window scroll
             releaseScroll = true;
             return;
@@ -520,7 +520,7 @@
   });
 
   $.fn.extend({
-    slimscroll: $.fn.slimScroll
+    slimscrollH: $.fn.slimScrollH
   });
 
 })(jQuery);
