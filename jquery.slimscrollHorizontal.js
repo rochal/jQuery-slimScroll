@@ -2,12 +2,12 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.3.1
+ * Version: 1.3.2
  *
  */
 (function($) {
 
-  jQuery.fn.extend({
+  $.fn.extend({
     slimScrollH: function(options) {
 
       var defaults = {
@@ -34,7 +34,7 @@
         start : 'left',
 
         // sets scrollbar opacity
-        opacity : .4,
+        opacity : 0.4,
 
         // enables always-on mode for the scrollbar
         alwaysVisible : false,
@@ -49,7 +49,7 @@
         railColor : '#333',
 
         // sets rail opacity
-        railOpacity : .2,
+        railOpacity : 0.2,
 
         // whether  we should use jQuery UI Draggable to enable bar dragging
         railDraggable : true,
@@ -98,7 +98,7 @@
         var isMask = me.width() >= o.width;
 
         // ensure we are not binding it again
-        if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class')})) >= 0)
+        if (me.parent().hasClass(o.wrapperClass) && $.inArray(o.barClass, me.parent().children().map(function(i, el){return $(el).attr('class');})) >= 0 && $.inArray(o.railClass, me.parent().children().map(function(i, el){return $(el).attr('class');})) >= 0)
         {
             // start from last bar position
             var offset_horizontal = me.scrollLeft();
@@ -222,6 +222,7 @@
         me.parent().append(bar);
         me.parent().append(rail);
 
+        // create masks
         if (isMask && o.mask_left_url) {
           var mask_left = $(divMask)
             .addClass('mask_left')
@@ -446,7 +447,7 @@
           }
           else
           {
-            document.attachEvent("onmousewheel", _onWheel)
+            document.attachEvent("onmousewheel", _onWheel);
           }
         }
 
@@ -518,8 +519,8 @@
     }
   });
 
-  jQuery.fn.extend({
-    slimscrollH: jQuery.fn.slimScrollH
+  $.fn.extend({
+    slimscrollH: $.fn.slimScrollH
   });
 
 })(jQuery);
