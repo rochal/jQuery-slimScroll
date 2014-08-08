@@ -168,7 +168,7 @@
           .addClass(o.railClass)
           .css({
             width: o.size,
-            height: '100%',
+            height: o.height ? '100%' : '',
             position: 'absolute',
             top: 0,
             display: (o.alwaysVisible && o.railVisible) ? 'block' : 'none',
