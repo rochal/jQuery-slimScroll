@@ -6,7 +6,7 @@ pre.prettyprint { padding:15px; border:1px solid #eee; border-radius:5px; backgr
 .examples { border-radius:20px; background:#fff; padding:15px;
   margin:0 150px 0 0; border-collapse: collapse; border:1px solid #000; }
 .slimScrollDiv { border:1px solid #eee; }
-#nav { position:fixed; top:0 left:0; background:#fff; padding:15px; border-radius:20px; width:200px; }
+#nav { position:fixed; top:0; left:0; background:#fff; padding:15px; border-radius:20px; width:200px; }
 #nav ul { list-style-type:square; list-style-position:inside; margin:20px 0 0 0; padding:0; }
 #nav a { text-decoration:none; color:#000; }
 #nav a:hover { text-decoration: underline }
