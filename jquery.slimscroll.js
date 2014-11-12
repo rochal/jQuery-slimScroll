@@ -1,8 +1,8 @@
-/*! Copyright (c) 2011 Piotr Rochala (http://rocha.la)
+/*! Copyright (c) 2011-2014 Piotr Rochala (http://rocha.la)
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.3.3
+ * Version: 1.3.4
  *
  */
 (function($) {
@@ -17,6 +17,9 @@
 
         // height in pixels of the visible scroll area
         height : '250px',
+
+	// max-height in pixels of the visible scroll area
+	maxHeight: "none",
 
         // width in pixels of the scrollbar and rail
         size : '7px',
@@ -150,8 +153,8 @@
             }
         }
 
-        // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
+        // optionally set height to the parent's height in case height is not set to auto
+        o.height = (o.height == 'auto') ? 'auto' : o.height;
 
         // wrap content
         var wrapper = $(divS)
@@ -160,14 +163,16 @@
             position: 'relative',
             overflow: 'hidden',
             width: o.width,
-            height: o.height
+            height: o.height,
+            "max-height": o.maxHeight
           });
 
         // update style for the div
         me.css({
           overflow: 'hidden',
           width: o.width,
-          height: o.height
+          height: o.height,
+          "max-height": o.maxHeight
         });
 
         // create scrollbar rail
