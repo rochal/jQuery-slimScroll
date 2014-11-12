@@ -153,8 +153,8 @@
             }
         }
 
-        // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
+        // optionally set height to the parent's height in case height is not set to auto
+        o.height = (o.height == 'auto') ? 'auto' : o.height;
 
         // wrap content
         var wrapper = $(divS)
