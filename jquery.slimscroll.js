@@ -76,7 +76,10 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+        
+        // whether the scroll div should take the height of its parent when the height is set to auto
+        matchParentHeight : true,
       };
 
       var o = $.extend(defaults, options);
@@ -151,7 +154,7 @@
         }
 
         // optionally set height to the parent's height
-        o.height = (o.height == 'auto') ? me.parent().height() : o.height;
+        o.height = ((o.height == 'auto')&&(o.matchParentHeight === true)) ? me.parent().height() : o.height;
 
         // wrap content
         var wrapper = $(divS)
