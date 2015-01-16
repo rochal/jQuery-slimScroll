@@ -75,6 +75,9 @@
         // sets border radius
         borderRadius: '7px',
 
+         // sets animation status on a given scroll
+        animate: false,
+
         // sets border radius of the rail
         railBorderRadius : '7px'
       };
@@ -369,8 +372,13 @@
             bar.css({ top: offsetTop + 'px' });
           }
 
-          // scroll content
-          me.scrollTop(delta);
+    	  if (o.animate){
+              // scroll content smoothly using jquery animation
+              me.stop(true, true).animate({ scrollTop: delta }, 200, 'linear');
+    	  }else{
+              // scroll content
+              me.scrollTop(delta);
+    	  }
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
