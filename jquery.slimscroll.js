@@ -314,7 +314,7 @@
         function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
-          if (!isOverPanel) { return; }
+           if (!isOverPanel || me.css('display') === '') { return; }
 
           var e = e || window.event;
 
