@@ -48,6 +48,9 @@
         // sets rail color
         railColor : '#333',
 
+        //if already mouse is there
+        mouseOver:false,
+
         // sets rail opacity
         railOpacity : .2,
 
@@ -333,6 +336,13 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
+        //if element is allready hovered
+        if(o.mouseOver){
+          isOverPanel = true;
+          showBar();
+          hideBar();
+        }
+        
         function scrollContent(y, isWheel, isJump)
         {
           releaseScroll = false;
