@@ -50,6 +50,9 @@
 
         //if already mouse is there
         mouseOver:false,
+        
+        // sets animation status on a given scroll
+        animate: false,
 
         // sets rail opacity
         railOpacity : .2,
@@ -338,11 +341,16 @@
 
         //if element is allready hovered
         if(o.mouseOver){
-          isOverPanel = true;
-          showBar();
-          hideBar();
+          rail.trigger('hover')
         }
         
+        // scroll content
+    	  if (o.animate){
+              me.animate({ scrollTop: delta });
+    	  }else{
+              me.scrollTop(delta);
+    	  }
+    	  
         function scrollContent(y, isWheel, isJump)
         {
           releaseScroll = false;
