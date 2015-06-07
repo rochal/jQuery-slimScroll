@@ -1,6 +1,6 @@
 Package.describe({
   name: 'rochal:slimscroll',
-  version: '1.3.5',
+  version: '1.3.6',
   summary: 'jQuery SlimScroll package for meteor.',
   git: 'https://github.com/rochal/jQuery-slimScroll',
   documentation: 'README.md'
