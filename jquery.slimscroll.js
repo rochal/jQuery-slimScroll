@@ -309,7 +309,7 @@
         }
 
         // attach scroll events
-        attachWheel();
+        attachWheel(this);
 
         function _onWheel(e)
         {
@@ -382,12 +382,12 @@
           hideBar();
         }
 
-        function attachWheel()
+        function attachWheel(target)
         {
           if (window.addEventListener)
           {
-            this.addEventListener('DOMMouseScroll', _onWheel, false );
-            this.addEventListener('mousewheel', _onWheel, false );
+            target.addEventListener('DOMMouseScroll', _onWheel, false );
+            target.addEventListener('mousewheel', _onWheel, false );
           }
           else
           {
