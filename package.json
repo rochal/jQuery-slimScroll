@@ -1,5 +1,5 @@
 {
-  "name"        : "slimScroll",
+  "name"        : "jquery-slimscroll",
   "version"     : "1.3.6",
   "title"       : "jQuery slimScroll scrollbar",
   "description" : "slimScroll is a small jQuery plugin that transforms any div into a scrollable area. slimScroll doesn't occupy any visual space as it only appears on a user initiated mouse-over.",
