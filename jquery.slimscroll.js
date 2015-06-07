@@ -48,12 +48,6 @@
         // sets rail color
         railColor : '#333',
 
-        //if already mouse is there
-        mouseOver:false,
-        
-        // sets animation status on a given scroll
-        animate: false,
-
         // sets rail opacity
         railOpacity : .2,
 
@@ -339,18 +333,6 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        //if element is allready hovered
-        if(o.mouseOver){
-          rail.trigger('hover')
-        }
-        
-        // scroll content
-    	  if (o.animate){
-              me.animate({ scrollTop: delta });
-    	  }else{
-              me.scrollTop(delta);
-    	  }
-    	  
         function scrollContent(y, isWheel, isJump)
         {
           releaseScroll = false;
