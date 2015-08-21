@@ -9,7 +9,7 @@
   "download" : "http://rocha.la/jQuery-slimScroll/",
 
   "main": "./jquery.slimscroll.min.js",
-
+  "ignore": [],
   "author" : {
     "name" : "Piotr Rochala",
     "url" : "http://rocha.la/"
