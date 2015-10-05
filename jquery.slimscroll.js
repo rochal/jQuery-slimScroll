@@ -338,11 +338,17 @@
           releaseScroll = false;
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
+          var barHeight;
 
           if (isWheel)
           {
+            // bar.outerHeight() is lower-bound for usability, so when calculating the scroll delta,
+            // to avoid the scroll step growing with the height of the content, we need to use
+            // the un-bound height of the scroll bar
+            barHeight = me.outerHeight() * me.outerHeight() / me[0].scrollHeight;
+
             // move bar with mouse wheel
-            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
+            delta = parseFloat(bar.css('top')) + y * barHeight * parseInt(o.wheelStep) / 100;
 
             // move bar, make sure it doesn't go out
             delta = Math.min(Math.max(delta, 0), maxTop);
@@ -351,14 +357,16 @@
             // scroll position isn't rounded away when the scrollbar's CSS is set
             // this flooring of delta would happened automatically when
             // bar.css is set below, but we floor here for clarity
-            delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
+            // For long content and small view port, rounding to unit causes the scroll step
+            // to be very large so we round to a 1000th of a unit.
+            delta = (y > 0) ? Math.ceil(delta*1000.0)/1000.0 : Math.floor(delta*1000.0)/1000.0;
 
             // scroll the scrollbar
             bar.css({ top: delta + 'px' });
           }
 
           // calculate actual scroll amount
-          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
+          percentScroll = parseFloat(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
           delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
           if (isJump)
