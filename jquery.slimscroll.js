@@ -289,7 +289,10 @@
               pageX = e.pageX;
 
               $doc.bind("mousemove.slimscrollX", function(e){
+                var maxLeft = me.outerWidth() - barX.outerWidth();
                 currLeft = t + e.pageX - pageX;
+                currLeft = Math.min(Math.max(currLeft, 0), maxLeft);
+
                 barX.css('left', currLeft);
                 scrollContent(barX.position().left, null, false);// scroll content
               });
@@ -391,7 +394,9 @@
               pageY = e.pageY;
 
               $doc.bind("mousemove.slimscrollY", function(e){
+                var maxTop = me.outerHeight() - barY.outerHeight();
                 currTop = t + e.pageY - pageY;
+                currTop = Math.min(Math.max(currTop, 0), maxTop);
                 barY.css('top', currTop);
                 scrollContent(null, barY.position().top, false);// scroll content
               });
