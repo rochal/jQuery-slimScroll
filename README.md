@@ -7,6 +7,9 @@ Demo and deocumentation available here: [jQuery slimScroll docs](http://rocha.la
 #Now Supports Horizontal Scrollbars.
 ### The initialization options have been modified to accomodate horizontal scroll bars. See below for details.
 
+*axis* - x(X) or y(Y) or both - Axis to apply scrollbars. Default: both.  
+Note: the plugin detects if the content size exceeds the div dimensions and creates scrollbars accordingly. If width and height are specified in the options, they'll be used in place of the div dimensions.
+
 *width* - Width in pixels of the visible scroll area. Stretch-to-parent if not set. Default: auto
 
 *height* - Height in pixels of the visible scroll area. Also supports auto to set the height to same as parent container. Default: auto
@@ -51,9 +54,9 @@ Demo and deocumentation available here: [jQuery slimScroll docs](http://rocha.la
 
 
 ######Events
-slimScroll publishes slimscrollX and slimscrollY events when scrollbar reaches extremities of the parent container. You can use jQuery bind method to subscribe to this event
+slimScroll publishes slimscrollingX and slimscrollingY events when the corresponding scrollbar moves along the parent container. You can use jQuery bind method to subscribe to these events
 
-        $(selector).slimScroll().bind('slimscrollX', function(e, pos){
+        $(selector).slimScroll().bind('slimscrollingX', function(e, pos){
             console.log("Horizontal Scrollbar Reached " + pos + "px");
         });
 
