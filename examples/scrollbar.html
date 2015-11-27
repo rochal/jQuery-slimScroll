@@ -3,8 +3,8 @@
 <head>
 <title>jquery.slimscroll - scrollbar options</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link href="libs/prettify/prettify.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="libs/prettify/prettify.js"></script>
 <script type="text/javascript" src="../jquery.slimscroll.js"></script>
@@ -35,6 +35,7 @@
 <pre class="prettyprint">
   $('#testDiv').slimscroll({
     size: '15px'
+    height : '250px',
   });
 </pre>
 
@@ -58,7 +59,8 @@
 
 <pre class="prettyprint">
   $('#testDiv2').slimScroll({
-      position: 'left'
+      positionY: 'left',
+      height : '250px',
   });
 </pre>
 
@@ -82,7 +84,8 @@
 
 <pre class="prettyprint">
   $('#testDiv3').slimScroll({
-      color: '#00f'
+      color: '#00f',
+      height : '250px',
   });
 </pre>
 
@@ -108,7 +111,8 @@
 
 <pre class="prettyprint">
   $('#testDiv4').slimScroll({
-      alwaysVisible: true
+      alwaysVisible: true,
+      height : '250px',
   });
 </pre>
 
@@ -135,7 +139,8 @@
 <pre class="prettyprint">
   $('#testDiv5').slimScroll({
       distance: '20px',
-      opacity: 1
+      opacity: 1,
+      height : '250px',
   });
 </pre>
 
@@ -145,24 +150,31 @@
 <script type="text/javascript">
     $(function(){
       $('#testDiv').slimscroll({
-        size: '15px'
+        size: '15px',
+        height : '250px',
+        width : '750px',
+        alwaysVisible: true
       });
 
       $('#testDiv2').slimScroll({
-          position: 'left'
+          positionY: 'left',
+          height : '250px',
       });
 
       $('#testDiv3').slimScroll({
-          color: '#00f'
+          color: '#00f',
+          height : '250px',
       });
 
       $('#testDiv4').slimScroll({
-          alwaysVisible: true
+          alwaysVisible: true,
+          height : '250px',
       });
 
       $('#testDiv5').slimScroll({
           distance: '20px',
-          opacity: 1
+          opacity: 1,
+          height : '250px',
       });
 
     });
