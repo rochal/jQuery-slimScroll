@@ -4,5 +4,58 @@ slimScroll is a small jQuery plugin that transforms any div into a scrollable ar
 
 Demo and deocumentation available here: [jQuery slimScroll docs](http://rocha.la/jQuery-slimScroll)
 
-Copyright (c) 2011 Piotr Rochala (http://rocha.la)
+#Now Supports Horizontal Scrollbars.
+### The initialization options have been modified to accomodate horizontal scroll bars. See below for details.
+
+*width* - Width in pixels of the visible scroll area. Stretch-to-parent if not set. Default: auto
+
+*height* - Height in pixels of the visible scroll area. Also supports auto to set the height to same as parent container. Default: auto
+
+*size* - Width in pixels of the scrollbar. Default: 7px
+
+*positionX* - top or bottom. Sets the position of the horizontal scrollbar. Default: bottom
+
+*positionY* - left or right. Sets the position of the vertical scrollbar. Default: right
+
+*color* - Color in hex of the scrollbar. Default: #000000
+
+*alwaysVisible* - Disables scrollbar hide. Default: false
+
+*distance* - Distance in pixels from the edge of the parent element where scrollbar should appear. It is used together with position property. Default:1px
+
+*startX* - left or right or $(selector) - defines initial position of the horizontal scrollbar. When set to left it automatically scrolls to the left of the scrollable container. When HTML element is passed, slimScroll defaults to offsetLeft of this element. Default: left.
+
+*startY* - top or bottom or $(selector) - defines initial position of the vertical scrollbar. When set to bottom it automatically scrolls to the bottom of the scrollable container. When HTML element is passed, slimScroll defaults to offsetTop of this element. Default: top.
+
+*wheelStep* - Integer value for mouse wheel delta. Default: 5
+
+*railVisible* - Enables scrollbar rail. Default: false
+
+*railColor* - Sets scrollbar rail color, Default: #333333
+
+*railOpacity* - Sets scrollbar rail opacity. Default: 0.2
+
+*allowPageScroll* - Checks if mouse wheel should scroll page when bar reaches extremities of the container. When set to true is scrolls the page. Default: false
+
+*scrollToX* - Jumps to the specified horizontal scroll value. Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollToX: '50px' });
+
+*scrollByX* - Increases/decreases current horizontal scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollByX: '60px' });
+
+*scrollToY* - Jumps to the specified vertical scroll value. Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollToY: '50px' });
+
+*scrollByY* - Increases/decreases current vertical scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollByY: '60px' });
+
+*disableFadeOut* - Disables scrollbar auto fade. When set to true scrollbar doesn't disappear after some time when mouse is over the slimscroll div.Default: false
+
+*touchScrollStep* - Allows to set different sensitivity for touch scroll events. Negative number inverts scroll direction. Default: 20
+
+
+######Events
+slimScroll publishes slimscrollX and slimscrollY events when scrollbar reaches extremities of the parent container. You can use jQuery bind method to subscribe to this event
+
+        $(selector).slimScroll().bind('slimscrollX', function(e, pos){
+            console.log("Horizontal Scrollbar Reached " + pos + "px");
+        });
+
+Copyright (c) 2011 Piotr Rochala (http://rocha.la), Lanre Adebambo
 Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
