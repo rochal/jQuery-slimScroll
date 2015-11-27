@@ -82,7 +82,7 @@
         allowPageScroll : false,
 
         // scroll amount applied to each mouse wheel step
-        wheelStep : 2,
+        wheelStep : 5,
 
         // scroll amount applied when user is using gestures
         touchScrollStep : 20,
@@ -488,25 +488,33 @@
         attachWheel(this);
 
         function _getDeltaFromEvent(e) {
-          var deltaX = e.deltaX;
-          var deltaY = -1 * e.deltaY;
+          var deltaX     = 0;
+          var deltaY     = 0;
 
-          if (typeof deltaX === "undefined" || typeof deltaY === "undefined") {
-            // OS X Safari
-            deltaX = -1 * e.wheelDeltaX / 6;
-            deltaY = e.wheelDeltaY / 6;
-          }
+          // Old school scrollwheel delta
+          if ( 'detail'      in e ) { deltaY = e.detail;      }
+          if ( 'wheelDelta'  in e ) { deltaY = -1 * e.wheelDelta / 6;       }
+          if ( 'wheelDeltaY' in e ) { deltaY = -1 * e.wheelDeltaY / 6;      }
+          if ( 'wheelDeltaX' in e ) { deltaX = e.wheelDeltaX / 6; }
 
-          if (e.deltaMode && e.deltaMode === 1) {
-            // Firefox in deltaMode 1: Line scrolling
-            deltaX *= 10;
-            deltaY *= 10;
+          // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
+          if ( 'axis' in e && e.axis === e.HORIZONTAL_AXIS ) {
+            deltaX = deltaY * -1;
+            deltaY = 0;
           }
 
           if (deltaX !== deltaX && deltaY !== deltaY/* NaN checks */) {
             // IE in some mouse drivers
             deltaX = 0;
             deltaY = e.wheelDelta;
+          }
+
+          // New school wheel delta (wheel event)
+          if ( 'deltaY' in e ) {
+            deltaY = e.deltaY;
+          }
+          if ( 'deltaX' in e ) {
+            deltaX = e.deltaX;
           }
 
           return [deltaX, deltaY];
@@ -521,7 +529,7 @@
 
           var delta = _getDeltaFromEvent(e);
           var deltaX = delta[0];
-          var deltaY = -delta[1];
+          var deltaY = delta[1];
 
           // if (e.wheelDelta) { delta = -e.wheelDelta/120; }
           // if (e.detail) { delta = e.detail / 3; }
@@ -541,14 +549,14 @@
         {
           releaseScroll = false;
 
-          if(hasHorizontalScrollbar){
+          if(hasHorizontalScrollbar && x){
             var deltaX = x;
             var maxLeft = me.outerWidth() - barX.outerWidth();
 
             if (isWheel)
             {
               // move bar with mouse wheel
-              deltaX = parseInt(barX.css('left')) + (x * parseInt(o.wheelStep)/10);
+              deltaX = parseInt(barX.css('left')) + (x * parseInt(o.wheelStep)/100);
 
               // move bar, make sure it doesn't go out
               deltaX = Math.min(Math.max(deltaX, 0), maxLeft);
@@ -591,14 +599,14 @@
           }
 
 
-          if(hasVerticalScrollbar){
+          if(hasVerticalScrollbar && y){
             var deltaY = y;
             var maxTop = me.outerHeight() - barY.outerHeight();
 
             if (isWheel)
             {
               // move bar with mouse wheel
-              deltaY = parseInt(barY.css('top')) + (y * parseInt(o.wheelStep) /10);
+              deltaY = parseInt(barY.css('top')) + (y * parseInt(o.wheelStep) /100);
 
               // move bar, make sure it doesn't go out
               deltaY = Math.min(Math.max(deltaY, 0), maxTop);
