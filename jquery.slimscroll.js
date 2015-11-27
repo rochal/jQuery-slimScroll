@@ -289,12 +289,9 @@
               pageX = e.pageX;
 
               $doc.bind("mousemove.slimscrollX", function(e){
-                var maxLeft = me.outerWidth() - barX.outerWidth();
                 currLeft = t + e.pageX - pageX;
-                currLeft = Math.min(Math.max(currLeft, 0), maxLeft);
-
                 barX.css('left', currLeft);
-                scrollContent(barX.position().left, null, false);// scroll content
+                scrollContent(0, 0, barX.position().left);// scroll content
               });
 
               $doc.bind("mouseup.slimscrollX", function(e) {
@@ -394,11 +391,9 @@
               pageY = e.pageY;
 
               $doc.bind("mousemove.slimscrollY", function(e){
-                var maxTop = me.outerHeight() - barY.outerHeight();
                 currTop = t + e.pageY - pageY;
-                currTop = Math.min(Math.max(currTop, 0), maxTop);
                 barY.css('top', currTop);
-                scrollContent(null, barY.position().top, false);// scroll content
+                scrollContent(0, 0, barY.position().top);// scroll content
               });
 
               $doc.bind("mouseup.slimscrollY", function(e) {
@@ -554,7 +549,7 @@
         {
           releaseScroll = false;
 
-          if(hasHorizontalScrollbar && x){
+          if(hasHorizontalScrollbar){
             var deltaX = x;
             var maxLeft = me.outerWidth() - barX.outerWidth();
 
@@ -583,18 +578,14 @@
             if (isJump)
             {
               deltaX = x;
-              if (deltaX !== null){
-                var offsetLeft = deltaX / me[0].scrollWidth * me.outerWidth();
-                offsetLeft = Math.min(Math.max(offsetLeft, 0), maxLeft);
-                barX.css({ left: offsetLeft + 'px' });
-              }
+              var offsetLeft = deltaX / me[0].scrollWidth * me.outerWidth();
+              offsetLeft = Math.min(Math.max(offsetLeft, 0), maxLeft);
+              barX.css({ left: offsetLeft + 'px' });
             }
 
             // scroll content and fire scrolling event
-            if (deltaX) {
-              me.scrollLeft(deltaX);
-              me.trigger('slimscrollingX', ~~deltaX);
-            }
+            me.scrollLeft(deltaX);
+            me.trigger('slimscrollingX', ~~deltaX);
 
             // ensure bar is visible
             showBarX();
@@ -604,7 +595,7 @@
           }
 
 
-          if(hasVerticalScrollbar && y){
+          if(hasVerticalScrollbar){
             var deltaY = y;
             var maxTop = me.outerHeight() - barY.outerHeight();
 
@@ -633,18 +624,14 @@
             if (isJump)
             {
               deltaY = y;
-              if (deltaY !== null){
-                var offsetTop = deltaY / me[0].scrollHeight * me.outerHeight();
-                offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
-                barY.css({ top: offsetTop + 'px' });
-              }
+              var offsetTop = deltaY / me[0].scrollHeight * me.outerHeight();
+              offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
+              barY.css({ top: offsetTop + 'px' });
             }
 
             // scroll content and fire scrolling event
-            if(deltaY){
-              me.scrollTop(deltaY);
-              me.trigger('slimscrollingY', ~~deltaY);
-            }
+            me.scrollTop(deltaY);
+            me.trigger('slimscrollingY', ~~deltaY);
 
             // ensure bar is visible
             showBarY();
