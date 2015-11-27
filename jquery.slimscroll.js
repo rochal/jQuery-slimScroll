@@ -1,4 +1,4 @@
-/*! Copyright (c) 2011 Piotr Rochala (http://rocha.la)
+/*! Copyright (c) 2011 Piotr Rochala (http://rocha.la), Lanre Adebambo
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
@@ -12,8 +12,8 @@
 
       var defaults = {
 
-        // direction to apply scrollbars x(X) / y(Y) / both
-        direction: 'both',
+        // axis to apply scrollbars x(X) / y(Y) / both
+        axis: 'both',
 
         // width in pixels of the visible scroll area
         width : 'auto',
@@ -97,7 +97,7 @@
       var o = $.extend(defaults, options);
 
       // normalize to lower case for ease of handling
-      o.direction = o.direction.toLowerCase();
+      o.axis = o.axis.toLowerCase();
 
       // do it for every element that matches selector
       this.each(function(){
@@ -235,8 +235,8 @@
         var hasVerticalScrollbar = me[0].scrollHeight>me[0].clientHeight;
 
         //check that scroll bars are enabled
-        hasHorizontalScrollbar = hasHorizontalScrollbar && (o.direction == 'both' || o.direction == 'x');
-        hasVerticalScrollbar = hasVerticalScrollbar && (o.direction == 'both' || o.direction == 'y');
+        hasHorizontalScrollbar = hasHorizontalScrollbar && (o.axis == 'both' || o.axis == 'x');
+        hasVerticalScrollbar = hasVerticalScrollbar && (o.axis == 'both' || o.axis == 'y');
 
         if(hasHorizontalScrollbar){
           // create scrollbar rail
