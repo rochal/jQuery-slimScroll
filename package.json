@@ -7,7 +7,7 @@
   "homepage"    : "http://rocha.la/jQuery-slimScroll/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rochal/jQuery-slimScroll.git"
+    "url": "https://github.com/lanre-ade/jQuery-slimScroll.git"
   },
   "author" : {
     "name"  : "Piotr Rochala",
