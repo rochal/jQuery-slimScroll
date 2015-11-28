@@ -13,7 +13,7 @@
       var defaults = {
 
         // axis to apply scrollbars x(X) / y(Y) / both
-        axis: 'both',
+        axis: 'y',
 
         // width in pixels of the visible scroll area
         width : 'auto',
@@ -127,9 +127,9 @@
             barY = me.siblings('.' + o.barClassY);
             railY = me.siblings('.' + o.railClassY);
 
-            hasHorizontalScrollbar = barX.length && railX.length;
-            hasVerticalScrollbar = barY.length && railY.length;
-            console.log(hasVerticalScrollbar);
+            //check that scroll bars are enabled
+            hasHorizontalScrollbar = (o.axis == 'both' || o.axis == 'x');
+            hasVerticalScrollbar = (o.axis == 'both' || o.axis == 'y');
 
             getBarXWidth();
             getBarYHeight();
@@ -223,10 +223,9 @@
             }
         }
 
-        // if width is specified
-        if(o.width != 'auto'){
-          me.css({'white-space': 'nowrap'});
-        }
+        //check that scroll bars are enabled
+        hasHorizontalScrollbar = (o.axis == 'both' || o.axis == 'x');
+        hasVerticalScrollbar = (o.axis == 'both' || o.axis == 'y');
 
         // optionally set height/width to the parent's height/width
         o.height = (o.height == 'auto') ? me.parent().height() : o.height;
@@ -255,11 +254,14 @@
         // wrap it
         me.wrap(wrapper);
 
-        //check that scroll bars are enabled
-        hasHorizontalScrollbar = (o.axis == 'both' || o.axis == 'x');
-        hasVerticalScrollbar = (o.axis == 'both' || o.axis == 'y');
 
         if(hasHorizontalScrollbar){
+
+          // if width is specified remove wrapping from text
+          if(o.width != 'auto' && hasHorizontalScrollbar){
+            me.css({'white-space': 'nowrap'});
+          }
+
           // create scrollbar rail
           var railX = $(divS)
             .addClass(o.railClassX)
@@ -684,9 +686,8 @@
           barX.css({ width: barWidth + 'px' });
 
           // hide scrollbar if content is not long enough
-          hasHorizontalScrollbar = me[0].scrollWidth>me[0].clientWidth;
           // var display = barWidth == me.outerWidth() ? 'none' : 'block';
-          var display = hasHorizontalScrollbar ? 'block' : 'none';
+          var display = (hasHorizontalScrollbar && (me[0].scrollWidth>me[0].clientWidth)) ? 'block' : 'none';
           barX.css({ display: display });
         }
 
@@ -698,9 +699,8 @@
           barY.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          hasVerticalScrollbar = me[0].scrollHeight>me[0].clientHeight;
           // var display = barHeight == me.outerHeight() ? 'none' : 'block';
-          var display = hasVerticalScrollbar ? 'block' : 'none';
+          var display = (hasVerticalScrollbar && (me[0].scrollHeight>me[0].clientHeight)) ? 'block' : 'none';
           barY.css({ display: display });
         }
 

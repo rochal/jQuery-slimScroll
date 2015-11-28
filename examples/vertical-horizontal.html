@@ -19,14 +19,15 @@ $( document ).ready(function() {
 	// });
   $('#testDiv').slimscroll({
 		height: 150,
-		width: 300
+		width: 300,
+    axis: 'both'
 	});
   $('#testDiv2').slimscroll({
     height: 150,
     width: 300,
     axis: 'y'
   });
-  $('#testDiv2').slimscroll({
+  $('#testDiv3').slimscroll({
     height: 150,
     width: 300,
     axis: 'x'
@@ -56,9 +57,11 @@ $( document ).ready(function() {
   </div>
 
 <pre class="prettyprint">
-$('#testDiv2').slimscroll({
-height: '100px',
-width: '300px'
+$('#testDiv').slimscroll({
+height: '150px',
+width: '300px',
+axis: 'both'
+
 });
 </pre>
 
@@ -82,9 +85,9 @@ width: '300px'
 
 <pre class="prettyprint">
 $('#testDiv2').slimscroll({
-height: '100px',
+height: '150px',
 width: '300px',
-axis: 'x'
+axis: 'y'
 });
 </pre>
 
@@ -108,9 +111,9 @@ axis: 'x'
 
 <pre class="prettyprint">
 $('#testDiv2').slimscroll({
-height: '100px',
+height: '150px',
 width: '300px',
-axis: 'y'
+axis: 'x'
 });
 </pre>
 
