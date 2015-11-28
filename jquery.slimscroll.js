@@ -19,7 +19,7 @@
         width : 'auto',
 
         // height in pixels of the visible scroll area
-        height : 'auto',
+        height : '250px',
 
         // width in pixels of the scrollbar and rail
         size : '7px',
@@ -101,7 +101,8 @@
 
       // do it for every element that matches selector
       this.each(function(){
-
+      var hasHorizontalScrollbar;
+      var hasVerticalScrollbar;
       var isOverPanel, isOverBarX, isOverBarY, isDragg, queueHideX, queueHideY, touchDifX, touchDifY,
         barHeight, barWidth, percentScrollX, lastScrollX, percentScrollY, lastScrollY,
         divS = '<div></div>',
@@ -115,6 +116,7 @@
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass))
         {
+            $.extend(o, (me.data('slimScrollConfig') || {})); //retrieve previous config
             // start from last bar position
             var offset_horizontal = me.scrollLeft();
             var offset_vertical = me.scrollTop();
@@ -125,6 +127,10 @@
             barY = me.siblings('.' + o.barClassY);
             railY = me.siblings('.' + o.railClassY);
 
+            hasHorizontalScrollbar = barX.length && railX.length;
+            hasVerticalScrollbar = barY.length && railY.length;
+            console.log(hasVerticalScrollbar);
+
             getBarXWidth();
             getBarYHeight();
 
@@ -133,32 +139,43 @@
             {
 
               // Pass width: auto to an existing slimscroll object to force a resize after contents have changed
-              if ( 'width' in options ) {
+              if ( 'width' in options && hasHorizontalScrollbar) {
                 if (options.width == 'auto') {
                   me.parent().css('width', 'auto');
                   me.css('width', 'auto');
-                  var width = me.parent().parent().width();
-                  me.parent().css('width', width);
-                  me.css('width', width);
+                  o.width = me.parent().parent().width();
                 }
                 else {
-                  me.css('width', o.width);
-                  me.parent().css('width', o.width);
+                  o.width = options.width;
+                  me.css({'white-space': 'nowrap'});
                 }
               }
 
               // Pass height: auto to an existing slimscroll object to force a resize after contents have changed
-              if ( 'height' in options && options.height == 'auto' ) {
-                me.parent().css('height', 'auto');
-                me.css('height', 'auto');
-                var height = me.parent().parent().height();
-                me.parent().css('height', height);
-                me.css('height', height);
-              } else if ('height' in options) {
-                var h = options.height;
-                me.parent().css('height', h);
-                me.css('height', h);
+              if ( 'height' in options && hasVerticalScrollbar) {
+                if(options.height == 'auto'){
+                  me.parent().css('height', 'auto');
+                  me.css('height', 'auto');
+                  o.height = me.parent().parent().height();
+                } else {
+                  o.height = options.height;
+                }
               }
+
+              // rewrap content
+              me.parent().css({
+                  position: 'relative',
+                  overflow: 'hidden',
+                  width: o.width,
+                  height: o.height
+                });
+
+              // update style for the div
+              me.css({
+                overflow: 'hidden',
+                width: o.width,
+                height: o.height
+              });
 
               if ('scrollToX' in options)
               {
@@ -206,9 +223,17 @@
             }
         }
 
-        // optionally set height to the parent's height
+        // if width is specified
+        if(o.width != 'auto'){
+          me.css({'white-space': 'nowrap'});
+        }
+
+        // optionally set height/width to the parent's height/width
         o.height = (o.height == 'auto') ? me.parent().height() : o.height;
         o.width = (o.width == 'auto') ? me.parent().width() : o.width;
+
+        //store options in DOM
+        me.data('slimScrollConfig', o);
 
         // wrap content
         var wrapper = $(divS)
@@ -230,13 +255,9 @@
         // wrap it
         me.wrap(wrapper);
 
-        // check what scroll bars are required
-        var hasHorizontalScrollbar = me[0].scrollWidth>me[0].clientWidth;
-        var hasVerticalScrollbar = me[0].scrollHeight>me[0].clientHeight;
-
         //check that scroll bars are enabled
-        hasHorizontalScrollbar = hasHorizontalScrollbar && (o.axis == 'both' || o.axis == 'x');
-        hasVerticalScrollbar = hasVerticalScrollbar && (o.axis == 'both' || o.axis == 'y');
+        hasHorizontalScrollbar = (o.axis == 'both' || o.axis == 'x');
+        hasVerticalScrollbar = (o.axis == 'both' || o.axis == 'y');
 
         if(hasHorizontalScrollbar){
           // create scrollbar rail
@@ -663,8 +684,9 @@
           barX.css({ width: barWidth + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barWidth == me.outerWidth() ? 'none' : 'block';
-          // var display = hasHorizontalScrollbar ? 'block' : 'none';
+          hasHorizontalScrollbar = me[0].scrollWidth>me[0].clientWidth;
+          // var display = barWidth == me.outerWidth() ? 'none' : 'block';
+          var display = hasHorizontalScrollbar ? 'block' : 'none';
           barX.css({ display: display });
         }
 
@@ -676,8 +698,9 @@
           barY.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barHeight == me.outerHeight() ? 'none' : 'block';
-          // var display = hasVerticalScrollbar ? 'block' : 'none';
+          hasVerticalScrollbar = me[0].scrollHeight>me[0].clientHeight;
+          // var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          var display = hasVerticalScrollbar ? 'block' : 'none';
           barY.css({ display: display });
         }
 

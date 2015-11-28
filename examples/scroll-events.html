@@ -14,7 +14,7 @@
 <a id="git-fork" href="https://github.com/rochal/jQuery-slimScroll"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
 <div class="examples">
-  <div id="testDiv">
+  <div id="testDiv" style="height:250px">
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rhoncus, felis interdum condimentum consectetur, nisl libero elementum eros, vehicula congue lacus eros non diam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus mauris lorem, lacinia id tempus non, imperdiet et leo. Cras sit amet erat sit amet lacus egestas placerat. Aenean ultricies ultrices mauris ac congue. In vel tortor vel velit tristique tempus ac id nisi. Proin quis lorem velit. Nunc dui dui, blandit a ullamcorper vitae, congue fringilla lectus. Aliquam ultricies malesuada feugiat. Vestibulum placerat turpis et eros lobortis vel semper sapien pulvinar.</p>
     <p>Pellentesque rhoncus aliquet porta. Sed vel magna eu turpis pharetra consequat ut vitae lectus. In molestie sollicitudin mi sit amet convallis. Aliquam erat volutpat. Nullam feugiat placerat ipsum eget malesuada. Nulla facilisis nunc non dolor vehicula pretium. Sed dui magna, sodales id pharetra non, ullamcorper eu sapien. Mauris ac consectetur leo. Mauris consequat, lectus ut bibendum pulvinar, leo magna feugiat enim, eu commodo lacus sem vel ante. Sed tempus metus eget leo mollis vulputate. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
     <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed pulvinar rhoncus quam, vel semper tellus viverra id. Nulla rutrum porttitor odio, a rutrum purus gravida non. Etiam ac purus augue, eget vestibulum purus. Aenean venenatis ullamcorper augue, non consequat elit tempor sed. Donec velit sapien, volutpat sed ultricies egestas, semper a ante. Fusce dapibus, quam eget auctor suscipit, nibh leo posuere ante, at auctor nisi lacus in sem. Morbi interdum consectetur euismod. Cras accumsan est lacus. Nulla eleifend, eros vel consequat commodo, arcu nunc malesuada nunc, quis sagittis felis sem ac turpis.</p>
@@ -27,7 +27,7 @@
 <pre class="prettyprint">
   $('#testDiv').slimscroll({
     alwaysVisible: true
-  }).bind('slimscroll', function(e, pos) {
+  }).bind('slimscrollY', function(e, pos) {
     $('#testDivOut').append("Reached " + pos + ", ");
   });
 </pre>
@@ -43,7 +43,7 @@
   <div style="padding:2px;border:1px dashed #333;margin:2px;" id="testDivOut2"></div>
 
 <pre class="prettyprint">
-  $('#testDiv2').slimscroll().bind('slimscrolling', function(e, pos) {
+  $('#testDiv2').slimscroll().bind('slimscrollingY', function(e, pos) {
     $('#testDivOut2').append("Scroll value: " + pos + "px");
   });
 </pre>
@@ -56,11 +56,11 @@
 
       $('#testDiv').slimscroll({
         alwaysVisible: true
-      }).bind('slimscroll', function(e, pos) {
+      }).bind('slimscrollY', function(e, pos) {
         $('#testDivOut').append("Reached " + pos + ", ");
       });
 
-      $('#testDiv2').slimscroll().bind('slimscrolling', function(e, pos) {
+      $('#testDiv2').slimscroll().bind('slimscrollingY', function(e, pos) {
         $('#testDivOut2').append("Scroll: " + pos + "px, ");
       });
 
