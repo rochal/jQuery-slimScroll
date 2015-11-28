@@ -103,6 +103,7 @@
       this.each(function(){
       var hasHorizontalScrollbar;
       var hasVerticalScrollbar;
+      var t, pageX, pageY;
       var isOverPanel, isOverBarX, isOverBarY, isDragg, queueHideX, queueHideY, touchDifX, touchDifY,
         barHeight, barWidth, percentScrollX, lastScrollX, percentScrollY, lastScrollY,
         divS = '<div></div>',
@@ -112,6 +113,7 @@
 
         // used in event handlers and for better minification
         var me = $(this);
+        var $doc = $(document);
 
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass))
@@ -305,27 +307,46 @@
 
           // make it draggable and no longer dependent on the jqueryUI
           if(o.railDraggable){
-            barX.bind("mousedown", function(e) {
-              var $doc = $(document);
+            barX.on("mousedown", function(e) {
               isDragg = true;
               t = parseFloat(barX.css('left'));
               pageX = e.pageX;
 
-              $doc.bind("mousemove.slimscrollX", function(e){
+              $doc.on("mousemove.slimscrollX", function(e){
                 currLeft = t + e.pageX - pageX;
                 barX.css('left', currLeft);
                 scrollContent(0, 0, barX.position().left);// scroll content
               });
 
-              $doc.bind("mouseup.slimscrollX", function(e) {
+              $doc.on("mouseup.slimscrollX", function(e) {
                 isDragg = false;
                 hideBarX();
                 $doc.unbind('.slimscrollX');
               });
               return false;
-            }).bind("selectstart.slimscrollX", function(e){
+            }).on("selectstart.slimscrollX", function(e){
               e.stopPropagation();
               e.preventDefault();
+              return false;
+            });
+
+            railX.on("mousedown", function(e){
+              var deltaX = (e.offsetX - (barWidth/2))* me[0].scrollWidth / me.outerWidth();
+              scrollContent(deltaX, 0, false, true);// scroll content
+              t = parseFloat(barX.css('left'));
+              pageX = e.pageX;
+
+              $doc.on("mousemove.slimscrollX", function(e){
+                currLeft = t + e.pageX - pageX;
+                barX.css('left', currLeft);
+                scrollContent(0, 0, barX.position().left);// scroll content
+              });
+
+              $doc.on("mouseup.slimscrollX", function(e) {
+                isDragg = false;
+                hideBarX();
+                $doc.unbind('.slimscrollX');
+              });
               return false;
             });
           }
@@ -407,27 +428,46 @@
           me.parent().append(railY);
 
           if(o.railDraggable){
-            barY.bind("mousedown", function(e) {
-              var $doc = $(document);
+            barY.on("mousedown", function(e) {
               isDragg = true;
               t = parseFloat(barY.css('top'));
               pageY = e.pageY;
 
-              $doc.bind("mousemove.slimscrollY", function(e){
+              $doc.on("mousemove.slimscrollY", function(e){
                 currTop = t + e.pageY - pageY;
                 barY.css('top', currTop);
                 scrollContent(0, 0, barY.position().top);// scroll content
               });
 
-              $doc.bind("mouseup.slimscrollY", function(e) {
+              $doc.on("mouseup.slimscrollY", function(e) {
                 isDragg = false;
                 hideBarY();
                 $doc.unbind('.slimscrollY');
               });
               return false;
-            }).bind("selectstart.slimscrollY", function(e){
+            }).on("selectstart.slimscrollY", function(e){
               e.stopPropagation();
               e.preventDefault();
+              return false;
+            });
+
+            railY.on("mousedown", function(e){
+              var deltaY = (e.offsetY - (barHeight/2))* me[0].scrollHeight / me.outerHeight();
+              scrollContent(0, deltaY, false, true);// scroll content
+              t = parseFloat(barY.css('top'));
+              pageY = e.pageY;
+
+              $doc.on("mousemove.slimscrollY", function(e){
+                currTop = t + e.pageY - pageY;
+                barY.css('top', currTop);
+                scrollContent(0, 0, barY.position().top);// scroll content
+              });
+
+              $doc.on("mouseup.slimscrollY", function(e) {
+                isDragg = false;
+                hideBarY();
+                $doc.unbind('.slimscrollY');
+              });
               return false;
             });
           }
@@ -479,7 +519,7 @@
         });
 
         // support for mobile
-        me.bind('touchstart', function(e,b){
+        me.on('touchstart', function(e,b){
           if (e.originalEvent.touches.length)
           {
             // record where touch started
@@ -488,7 +528,7 @@
           }
         });
 
-        me.bind('touchmove', function(e){
+        me.on('touchmove', function(e){
           // prevent scrolling the page if necessary
           if(!releaseScroll)
           {
