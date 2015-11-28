@@ -43,7 +43,7 @@
         startY : 'top',
 
         // sets scrollbar opacity
-        opacity : .4,
+        opacity : 0.4,
 
         // enables always-on mode for the scrollbar
         alwaysVisible : false,
@@ -58,7 +58,7 @@
         railColor : '#333',
 
         // sets rail opacity
-        railOpacity : .2,
+        railOpacity : 0.2,
 
         // whether  we should use jQuery UI Draggable to enable bar dragging
         railDraggable : true,
@@ -548,7 +548,7 @@
           // use mouse wheel only when mouse is over
           if (!isOverPanel) { return; }
 
-          var e = e || window.event;
+          e = e || window.event;
 
           var delta = _getDeltaFromEvent(e);
           var deltaX = delta[0];
@@ -674,13 +674,13 @@
           }
           else
           {
-            document.attachEvent("onmousewheel", _onWheel)
+            document.attachEvent("onmousewheel", _onWheel);
           }
         }
 
         function getBarXWidth()
         {
-          if(!barX){return;};
+          if(!barX){return;}
           // calculate scrollbar height and make sure it is not too small
           barWidth = Math.max((me.outerWidth() / me[0].scrollWidth) * me.outerWidth(), minBarWidth);
           barX.css({ width: barWidth + 'px' });
@@ -693,7 +693,7 @@
 
         function getBarYHeight()
         {
-          if(!barY){return;};
+          if(!barY){return;}
           // calculate scrollbar height and make sure it is not too small
           barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
           barY.css({ height: barHeight + 'px' });
@@ -707,7 +707,7 @@
 
         function showBarX()
         {
-          if(!barX){return;};
+          if(!barX){return;}
           // recalculate bar height
           getBarXWidth();
           clearTimeout(queueHideX);
@@ -721,7 +721,7 @@
             // publish approporiate event
             if (lastScrollX != percentScrollX)
             {
-              var msg = (~~percentScrollX == 0) ? 'left' : 'right';
+              var msg = (~~percentScrollX === 0) ? 'left' : 'right';
               me.trigger('slimscrollX', msg);
             }
           }
@@ -743,7 +743,7 @@
 
         function hideBarX()
         {
-          if(!barX){return;};
+          if(!barX){return;}
           // only hide when options allow it
           if (!o.alwaysVisible)
           {
@@ -759,7 +759,7 @@
 
         function showBarY()
         {
-          if(!barY){return;};
+          if(!barY){return;}
           // recalculate bar height
           getBarYHeight();
           clearTimeout(queueHideY);
@@ -773,7 +773,7 @@
             // publish approporiate event
             if (lastScrollY != percentScrollY)
             {
-                var msg = (~~percentScrollY == 0) ? 'top' : 'bottom';
+                var msg = (~~percentScrollY === 0) ? 'top' : 'bottom';
                 me.trigger('slimscrollY', msg);
             }
           }
@@ -795,7 +795,7 @@
 
         function hideBarY()
         {
-          if(!barY){return;};
+          if(!barY){return;}
           // only hide when options allow it
           if (!o.alwaysVisible)
           {
