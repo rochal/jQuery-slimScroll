@@ -33,7 +33,7 @@ gulp.task('compress',['sanitize'], function() {
 });
 
 // configure which files to watch and what tasks to use on file changes
-gulp.task('watch', function() {
+gulp.task('watch', ['compress'], function() {
   watch('jquery.slimscroll.js', function() {
     gulp.start('compress');
   });

@@ -82,10 +82,10 @@
         allowPageScroll : false,
 
         // scroll amount applied to each mouse wheel step
-        wheelStep : 5,
+        wheelStep : 20,
 
         // scroll amount applied when user is using gestures
-        touchScrollStep : 20,
+        touchScrollStep : 200,
 
         // sets border radius
         borderRadius: '7px',
@@ -210,10 +210,9 @@
                 me.unwrap();
                 return;
               }
-
-              // scroll content by the given offset
-              scrollContent(offset_horizontal, offset_vertical, false, true);
             }
+            // scroll content by the given offset
+            scrollContent(offset_horizontal, offset_vertical, false, true);
 
             return;
         }
@@ -258,7 +257,6 @@
 
 
         if(hasHorizontalScrollbar){
-
           // if width is specified remove wrapping from text
           if(o.width != 'auto' && hasHorizontalScrollbar){
             me.css({'white-space': 'nowrap'});

@@ -30,7 +30,7 @@ Note: the plugin detects if the content size exceeds the div dimensions and crea
 
 *startY* - top or bottom or $(selector) - defines initial position of the vertical scrollbar. When set to bottom it automatically scrolls to the bottom of the scrollable container. When HTML element is passed, slimScroll defaults to offsetTop of this element. Default: top.
 
-*wheelStep* - Integer value for mouse wheel delta. Default: 5
+*wheelStep* - Integer value for mouse wheel delta. Default: 20
 
 *railVisible* - Enables scrollbar rail. Default: false
 
@@ -40,17 +40,21 @@ Note: the plugin detects if the content size exceeds the div dimensions and crea
 
 *allowPageScroll* - Checks if mouse wheel should scroll page when bar reaches extremities of the container. When set to true is scrolls the page. Default: false
 
-*scrollToX* - Jumps to the specified horizontal scroll value. Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollToX: '50px' });
+*scrollToX* - Jumps to the specified horizontal scroll value. Can be called on any element with slimScroll already enabled.  
+Example: `$(element).slimScroll({ scrollToX: '50px' });`
 
-*scrollByX* - Increases/decreases current horizontal scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollByX: '60px' });
+*scrollByX* - Increases/decreases current horizontal scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled.  
+Example: `$(element).slimScroll({ scrollByX: '60px' });`
 
-*scrollToY* - Jumps to the specified vertical scroll value. Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollToY: '50px' });
+*scrollToY* - Jumps to the specified vertical scroll value. Can be called on any element with slimScroll already enabled.   
+Example: `$(element).slimScroll({ scrollToY: '50px' });`
 
-*scrollByY* - Increases/decreases current vertical scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled. Example: $(element).slimScroll({ scrollByY: '60px' });
+*scrollByY* - Increases/decreases current vertical scroll value by specified amount (positive or negative). Can be called on any element with slimScroll already enabled.  
+Example: `$(element).slimScroll({ scrollByY: '60px' });`
 
 *disableFadeOut* - Disables scrollbar auto fade. When set to true scrollbar doesn't disappear after some time when mouse is over the slimscroll div.Default: false
 
-*touchScrollStep* - Allows to set different sensitivity for touch scroll events. Negative number inverts scroll direction. Default: 20
+*touchScrollStep* - Allows to set different sensitivity for touch scroll events. Negative number inverts scroll direction. Default: 200
 
 
 ######Events

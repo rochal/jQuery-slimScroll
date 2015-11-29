@@ -35,8 +35,28 @@
   });
   </pre>
 
+  <div id="testDiv2">
+    <p></p>
+  </div>
 
+  <pre class="prettyprint">
+  // update content every second
+  setInterval(function(){
 
+    $('#testDiv2').find('p').append(' ' + new Date() + ' ');
+
+    // update slimscroll every time content changes
+    $('#testDiv2').slimscroll();
+
+  }, 1000);
+
+  $('#testDiv2').slimscroll({
+    alwaysVisible: true,
+    height: '50px',
+    axis: 'x'
+  });
+
+  </pre>
 </div>
 
 <script type="text/javascript">
@@ -55,6 +75,26 @@
       $('#testDiv').slimscroll({
         alwaysVisible: true,
         height: 150
+      });
+
+    });
+
+    $(function(){
+
+      // update content every second
+      setInterval(function(){
+
+        $('#testDiv2').find('p').append(new Date().getTime() + '||');
+
+        // update slimscroll every time content changes
+        $('#testDiv2').slimscroll();
+
+      }, 1000);
+
+      $('#testDiv2').slimscroll({
+        alwaysVisible: true,
+        height: '50px',
+        axis: 'x'
       });
 
     });
