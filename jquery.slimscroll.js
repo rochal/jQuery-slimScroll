@@ -602,7 +602,10 @@
           }
 
           // stop window scroll
-          if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
+          if (e.preventDefault && !releaseScroll) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
           if (!releaseScroll) { e.returnValue = false; }
         }
 
@@ -707,8 +710,12 @@
         {
           if (window.addEventListener)
           {
+            if (typeof window.onwheel !== "undefined") {
+              target.addEventListener('wheel', _onWheel, false );
+            } else if (typeof window.onmousewheel !== "undefined") {
+              target.addEventListener('mousewheel', _onWheel, false );
+            }
             target.addEventListener('DOMMouseScroll', _onWheel, false );
-            target.addEventListener('mousewheel', _onWheel, false );
           }
           else
           {
