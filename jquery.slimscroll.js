@@ -268,7 +268,7 @@
           hideBar();
         });
 
-        if (window.navigator.msPointerEnabled) {
+        if (window.navigator.msPointerEnabled && (window.navigator.msMaxTouchPoints > 0 || window.navigator.maxTouchPoints > 0)) {
           me.css("-ms-touch-action", "none");
           me.bind('MSPointerDown pointerdown', function(e,b){
                 // record where touch started
