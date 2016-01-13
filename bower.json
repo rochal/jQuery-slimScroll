@@ -22,10 +22,12 @@
     "url": "https://github.com/rochal/jQuery-slimScroll.git"
   },
   "main": [
-    "jquery.slimscroll.js",
     "jquery.slimscroll.min.js"
   ],
-  "licenses" : [
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "licenses": [
     {
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
