@@ -5,7 +5,15 @@
  * Version: 1.3.8
  *
  */
-(function($) {
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    factory(require('jquery'));
+  } else {
+    factory(root.jQuery);
+  }
+}(this, function ($) {
 
   $.fn.extend({
     slimScroll: function(options) {
@@ -471,4 +479,4 @@
     slimscroll: $.fn.slimScroll
   });
 
-})(jQuery);
+}));
