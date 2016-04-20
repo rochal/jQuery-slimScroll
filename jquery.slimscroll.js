@@ -67,6 +67,10 @@
               bar.remove();
               rail.remove();
               me.unwrap();
+              
+              // hotfix remove the style from container
+              me.removeAttr('style');
+              
               return;
             }
 
