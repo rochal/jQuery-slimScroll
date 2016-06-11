@@ -339,6 +339,8 @@
 
         function scrollContent(y, isWheel, isJump)
         {
+          if (y > .75) y = .75;
+          if (y < -.75) y = -.75;
           releaseScroll = false;
           var delta = y;
           var maxTop = me.outerHeight() - bar.outerHeight();
@@ -392,6 +394,7 @@
           {
             target.addEventListener('DOMMouseScroll', _onWheel, false );
             target.addEventListener('mousewheel', _onWheel, false );
+            target.addEventListener('MozMousePixelScroll', _onWheel, false );
           }
           else
           {
