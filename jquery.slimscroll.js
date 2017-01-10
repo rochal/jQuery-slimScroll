@@ -82,7 +82,7 @@
         allowPageScroll : false,
 
         // check if force vertical movement of mousewheel to scroll a area whose axis is 'x'
-        applyVerticalWheelToHolizontal : false,
+        applyVerticalWheelToHorizontal : false,
 
         // scroll amount applied to each mouse wheel step
         wheelStep : 20,
@@ -618,7 +618,7 @@
 
           if(hasHorizontalScrollbar){
             var deltaX = moveFactor = x;
-            if(o.applyVerticalWheelToHolizontal && o.axis == 'x' && !deltaX && !!y){
+            if(o.applyVerticalWheelToHorizontal && o.axis == 'x' && !deltaX && !!y){
               deltaX = moveFactor = y;
             }
             var maxLeft = me.outerWidth() - barX.outerWidth();
