@@ -81,6 +81,9 @@
         // check if mousewheel should scroll the window if we reach top/bottom
         allowPageScroll : false,
 
+        // check if force vertical movement of mousewheel to scroll a area whose axis is 'x'
+        applyVerticalWheelToHorizontal : false,
+
         // scroll amount applied to each mouse wheel step
         wheelStep : 20,
 
@@ -614,13 +617,16 @@
           releaseScroll = false;
 
           if(hasHorizontalScrollbar){
-            var deltaX = x;
+            var deltaX = moveFactor = x;
+            if(o.applyVerticalWheelToHorizontal && o.axis == 'x' && !deltaX && !!y){
+              deltaX = moveFactor = y;
+            }
             var maxLeft = me.outerWidth() - barX.outerWidth();
 
             if (isWheel)
             {
               // move bar with mouse wheel
-              deltaX = parseInt(barX.css('left')) + (x * parseInt(o.wheelStep)/100);
+              deltaX = parseInt(barX.css('left')) + (moveFactor * parseInt(o.wheelStep)/100);
 
               // move bar, make sure it doesn't go out
               deltaX = Math.min(Math.max(deltaX, 0), maxLeft);
@@ -629,7 +635,7 @@
               // scroll position isn't rounded away when the scrollbar's CSS is set
               // this flooring of delta would happened automatically when
               // bar.css is set below, but we floor here for clarity
-              deltaX = (x > 0) ? Math.ceil(deltaX) : Math.floor(deltaX);
+              deltaX = (moveFactor > 0) ? Math.ceil(deltaX) : Math.floor(deltaX);
 
               // scroll the scrollbar
               barX.css({ left: deltaX + 'px' });
@@ -855,6 +861,8 @@
         }
 
       });
+
+      this.trigger('initialized');
 
       // maintain chainability
       return this;
