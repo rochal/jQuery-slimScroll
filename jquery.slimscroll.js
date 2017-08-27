@@ -18,6 +18,9 @@
         // height in pixels of the visible scroll area
         height : '250px',
 
+        // class to ignore element between the current scroller and parent (works only if height is 'auto')
+        heightIgnoreClass: 'listScrollIgnore',
+
         // width in pixels of the scrollbar and rail
         size : '7px',
 
@@ -113,6 +116,9 @@
                 me.parent().css('height', 'auto');
                 me.css('height', 'auto');
                 var height = me.parent().parent().height();
+                if ('heightIgnoreClass' in options & options.heightIgnoreClass !== '') {
+                  height = height - calculateIgnoreHeight(options.heightIgnoreClass);
+                }                
                 me.parent().css('height', height);
                 me.css('height', height);
               } else if ('height' in options) {
@@ -156,6 +162,12 @@
 
         // optionally set height to the parent's height
         o.height = (o.height == 'auto') ? me.parent().height() : o.height;
+        if (options.height == 'auto' && 'heightIgnoreClass' in o & o.heightIgnoreClass !== '') {
+          // NOTE: in above if conditions is correct to use 'options.height' instead of 'o.height'
+          // because I want to check the original value (because heightIgnoreClass is active only
+          // if height == 'auto')
+          o.height = o.height - calculateIgnoreHeight(o.heightIgnoreClass);
+      }        
 
         // wrap content
         var wrapper = $(divS)
@@ -458,6 +470,15 @@
               }
             }, 1000);
           }
+        }
+
+        // returns the grand total of heights to ignore
+        function calculateIgnoreHeight(ignoreClass) {
+          var outerHeight = 0;                   
+          $('.'+ignoreClass).each(function () {
+              outerHeight += $(this).outerHeight();
+          });
+          return outerHeight;
         }
 
       });
