@@ -4,7 +4,7 @@ slimScroll is a small jQuery plugin that transforms any div into a scrollable ar
 
 ##Documentation
 
-Demo and deocumentation available here: [jQuery slimScroll docs](http://rocha.la/jQuery-slimScroll)
+Demo and documentation available here: [jQuery slimScroll docs](http://rocha.la/jQuery-slimScroll)
 
 ###Example
 ```
