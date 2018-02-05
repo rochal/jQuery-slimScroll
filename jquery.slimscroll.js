@@ -563,6 +563,7 @@
                     {
                         target.addEventListener( 'DOMMouseScroll', _onWheel, false );
                         target.addEventListener( 'mousewheel', _onWheel, false );
+                        target.addEventListener( 'MozMousePixelScroll', _onWheel, false );
                     }
                     else
                     {
