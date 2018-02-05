@@ -44,6 +44,8 @@
 
                 horizontal      : false,                // enable scroll horizontal
 
+                animate         : false,                // sets animation status on a given scroll
+
                 railClass       : 'slimScrollRail',     // defautlt CSS class of the slimscroll rail
 
                 barClass        : 'slimScrollBar',      // defautlt CSS class of the slimscroll bar
@@ -526,8 +528,16 @@
                     }
 
                     // scroll content
-                    me.scrollTop( deltaY );
-                    if ( o.horizontal ) { me.scrollLeft( deltaX ); }
+                    if ( o.animate )
+                    {
+                        // scroll content smoothly using jquery animation
+                        me.stop( true, true ).animate( { scrollTop: deltaY, scrollLeft: deltaX }, 200, 'linear' );
+                    }
+                    else
+                    {
+                        me.scrollTop( deltaY );
+                        if ( o.horizontal ) { me.scrollLeft( deltaX ); }
+                    }
 
                     // fire scrolling event
                     me.trigger( 'slimscrolling', ~~deltaY, o.horizontal && deltaX );
