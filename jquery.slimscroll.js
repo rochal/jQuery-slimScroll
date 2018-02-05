@@ -205,7 +205,7 @@
                         'border-radius' :  o.railBorderRadius,
                         background      :  o.railColor,
                         opacity         :  o.railOpacity,
-                        zIndex          :  zIndex
+                        zIndex          :  o.zIndex
                     });
 
                 // create scrollbar
@@ -223,7 +223,7 @@
                         BorderRadius       :  o.borderRadius,
                         MozBorderRadius    :  o.borderRadius,
                         WebkitBorderRadius :  o.borderRadius,
-                        zIndex             :  zIndex + 9
+                        zIndex             :  o.zIndex + 9
                     });
 
                 // create scrollbar (only if you need a horizontal scroll, small acceleration)
@@ -236,12 +236,12 @@
                             width           :  maxLen,
                             height          :  o.size,
                             position        :  'absolute',
-                            left             :  0,
+                            left            :  0,
                             display         :  ( o.alwaysVisible && o.railVisible ) ? 'block' : 'none',
                             'border-radius' :  o.railBorderRadius,
                             background      :  o.railColor,
                             opacity         :  o.railOpacity,
-                            zIndex          :  zIndex
+                            zIndex          :  o.zIndex
                         });
 
                     // create scrollbar
@@ -252,14 +252,14 @@
                             background         :  o.color,
                             height             :  o.size,
                             position           :  'absolute',
-                            left                :  0,
+                            left               :  0,
                             opacity            :  o.opacity,
                             display            :  o.alwaysVisible ? 'block' : 'none',
                             'border-radius'    :  o.borderRadius,
                             BorderRadius       :  o.borderRadius,
                             MozBorderRadius    :  o.borderRadius,
                             WebkitBorderRadius :  o.borderRadius,
-                            zIndex             :  zIndex + 9
+                            zIndex             :  o.zIndex + 9
                         });
                 }
 
@@ -404,8 +404,8 @@
                     // prevent scrolling the page if necessary
                     if( !releaseScroll )
                     {
-    		            e.originalEvent.preventDefault();
-		            }
+                        e.originalEvent.preventDefault();
+                    }
                     if ( e.originalEvent.touches.length )
                     {
                         var touch = e.originalEvent.touches[0];
