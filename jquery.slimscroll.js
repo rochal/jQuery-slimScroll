@@ -392,7 +392,7 @@
                 });
 
                 // support for mobile
-                me.bind( 'touchstart', function(e,b){
+                me.bind( 'touchstart MSPointerDown', function(e,b){
                     if ( e.originalEvent.touches.length )
                     {
                         var touch = e.originalEvent.touches[0];
@@ -402,7 +402,7 @@
                     }
                 });
 
-                me.bind( 'touchmove', function(e){
+                me.bind( 'touchmove MSPointerMove', function(e){
                     // prevent scrolling the page if necessary
                     if( !releaseScroll )
                     {
