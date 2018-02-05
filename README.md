@@ -21,36 +21,37 @@ $('document').ready(function(){
 
 ###Default Options
 
-| Options           | Default              | Type              |   Description                                                          |
-| ----------------- | ---------------------| ----------------- | -----------------------------------------------------------------------
-| `allowPageScroll` | false                | `boolean`         | check if mousewheel should scroll the window if we reach top/bottom    |
-| `alwaysVisible`   | false                | `boolean`         | enables always-on mode for the scrollbar                               |
-| `animate`         | false                | `boolean`         | sets animation status on a given scroll                                |
-| `barClass`        | 'slimScrollBar'      | `string`          | defautlt CSS class of the slimscroll bar                               |
-| `barClassH`       | 'slimScrollBarHor'   | `string`          | defautlt CSS class of the slimscroll bar (horizontal)                  |
-| `borderRadius`    | '7px'                | `string[pixel]`   | sets border radius                                                     |
-| `color`           | '#000'               | `string[hex code]`| scrollbar color, accepts any hex/color value                           |
-| `cursor`          | 'normal'             | `string`          | cursor for for the scroll bar                                          |
-| `disableFadeOut`  | false                | `boolean`         | check if we should hide the scrollbar when user is hovering over       |
-| `distance`        | '1px'                | `string[pixel]`   | distance in pixels between the side edge and the scrollbar             |
-| `height`          | '250px'              | `string[pixel]`   | height in pixels of the visible scroll area                            |
-| `horizontal`      | false                | `boolean`         | enable scroll horizontal                                               |
-| `opacity`         | 0.4                  | `number`          | sets scrollbar opacity                                                 |
-| `position`        | 'right'              | `string`          | scrollbar position - left/right                                        |
-| `railBorderRadius`| '7px'                | `string[pixel]`   | sets border radius of the rail                                         |
-| `railClass`       | 'slimScrollRail'     | `string`          | defautlt CSS class of the slimscroll rail                              |
-| `railClassH`      | 'slimScrollRailHor'  | `string`          | defautlt CSS class of the slimscroll rail (horizontal)                 |
-| `railColor`       | '#333'               | `string[pixel]`   | sets rail color                                                        |
-| `railDraggable`   | true                 | `boolean`         | whether we should use jQuery UI Draggable to enable bar dragging       |
-| `railOpacity`     | 0.2                  | `number`          | sets rail opacity                                                      |
-| `railVisible`     | false                | `boolean`         | sets visibility of the rail                                            |
-| `size`            | '7px'                | `string[pixel]`   | width in pixels of the scrollbar and rail                              |
-| `start`           | 'top'                | `string`          | default scroll position on load - top / bottom / $('selector')         |
-| `touchScrollStep` | 200                  | `number`          | scroll amount applied when user is using gestures                      |
-| `wheelStep`       | 20                   | `number`          | scroll amount applied to each mouse wheel step                         |
-| `width`           | 'auto'               | `number|string`   | width in pixels of the visible scroll area                             |
-| `wrapperClass`    | 'slimScrollDiv'      | `string`          | defautlt CSS class of the slimscroll wrapper                           |
-| `zIndex`          | 90                   | `number`          | z-index for the scroll bar                                             |
+| Options           | Default               | Type              |   Description                                                         |
+| ----------------- | ----------------------| ----------------- | ----------------------------------------------------------------------
+| `allowPageScroll` | false                 | `boolean`         | check if mousewheel should scroll the window if we reach top/bottom   |
+| `alwaysVisible`   | false                 | `boolean`         | enables always-on mode for the scrollbar                              |
+| `animate`         | false                 | `boolean`         | sets animation status on a given scroll                               |
+| `barClass`        | 'slimScrollBar'       | `string`          | defautlt CSS class of the slimscroll bar                              |
+| `barClassH`       | 'slimScrollBarHor'    | `string`          | defautlt CSS class of the slimscroll bar (horizontal)                 |
+| `barFixSize`      | 0                     | `number`          | fixed bar height/width (set size in pixels                            |
+| `borderRadius`    | '7px'                 | `string[pixel]`   | sets border radius                                                    |
+| `color`           | '#000'                | `string[hex code]`| scrollbar color, accepts any hex/color value                          |
+| `cursor`          | 'normal'              | `string`          | cursor for for the scroll bar                                         |
+| `disableFadeOut`  | false                 | `boolean`         | check if we should hide the scrollbar when user is hovering over      |
+| `distance`        | '1px'                 | `string[pixel]`   | distance in pixels between the side edge and the scrollbar            |
+| `height`          | '250px'               | `string[pixel]`   | height in pixels of the visible scroll area                           |
+| `horizontal`      | false                 | `boolean`         | enable scroll horizontal                                              |
+| `opacity`         | 0.4                   | `number`          | sets scrollbar opacity                                                |
+| `position`        | 'right'               | `string`          | scrollbar position - left/right                                       |
+| `railBorderRadius`| '7px'                 | `string[pixel]`   | sets border radius of the rail                                        |
+| `railClass`       | 'slimScrollRail'      | `string`          | defautlt CSS class of the slimscroll rail                             |
+| `railClassH`      | 'slimScrollRailHor'   | `string`          | defautlt CSS class of the slimscroll rail (horizontal)                |
+| `railColor`       | '#333'                | `string[pixel]`   | sets rail color                                                       |
+| `railDraggable`   | true                  | `boolean`         | whether we should use jQuery UI Draggable to enable bar dragging      |
+| `railOpacity`     | 0.2                   | `number`          | sets rail opacity                                                     |
+| `railVisible`     | false                 | `boolean`         | sets visibility of the rail                                           |
+| `size`            | '7px'                 | `string[pixel]`   | width in pixels of the scrollbar and rail                             |
+| `start`           | 'top'                 | `string`          | default scroll position on load - top / bottom / $('selector')        |
+| `touchScrollStep` | 200                   | `number`          | scroll amount applied when user is using gestures                     |
+| `wheelStep`       | 20                    | `number`          | scroll amount applied to each mouse wheel step                        |
+| `width`           | 'auto'                | `number|string`   | width in pixels of the visible scroll area                            |
+| `wrapperClass`    | 'slimScrollDiv'       | `string`          | defautlt CSS class of the slimscroll wrapper                          |
+| `zIndex`          | 90                    | `number`          | z-index for the scroll bar                                            |
 
 
  

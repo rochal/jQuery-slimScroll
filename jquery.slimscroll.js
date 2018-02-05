@@ -46,6 +46,8 @@
 
                 animate         : false,                // sets animation status on a given scroll
 
+                barFixSize      : 0,                    // fixed bar height/width
+
                 railClass       : 'slimScrollRail',     // defautlt CSS class of the slimscroll rail
 
                 barClass        : 'slimScrollBar',      // defautlt CSS class of the slimscroll bar
@@ -571,7 +573,7 @@
                 function getBarHeight()
                 {
                     // calculate scrollbar height and make sure it is not too small
-                    barHeight = Math.max( ( me.outerHeight() / me[0].scrollHeight ) * me.outerHeight(), minBarHeight );
+                    barHeight = o.barFixSize ? parseInt( o.barFixSize ) : Math.max( ( me.outerHeight() / me[0].scrollHeight ) * me.outerHeight(), minBarHeight );
                     bar.css({ height: barHeight + 'px' });
 
                     // hide scrollbar if content is not long enough
@@ -585,7 +587,7 @@
                     if ( !o.horizontal ) { return; }
 
                     // calculate scrollbar width and make sure it is not too small
-                    barWidth = Math.max( ( me.outerWidth() / me[0].scrollWidth ) * me.outerWidth(), minBarWidth );
+                    barWidth = o.barFixSize ? parseInt( o.barFixSize ) : Math.max( ( me.outerWidth() / me[0].scrollWidth ) * me.outerWidth(), minBarWidth );
                     barH.css({ width: barWidth + 'px' });
 
                     // hide scrollbar if content is not long enough
