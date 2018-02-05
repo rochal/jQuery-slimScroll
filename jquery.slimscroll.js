@@ -64,7 +64,9 @@
 
                 borderRadius    : '7px',                // sets border radius
 
-                railBorderRadius: '7px'                 // sets border radius of the rail
+                railBorderRadius: '7px',                // sets border radius of the rail
+
+                zIndex          : 90                    // z-index for the scroll bar
 
             };
 
@@ -201,7 +203,7 @@
                         'border-radius' :  o.railBorderRadius,
                         background      :  o.railColor,
                         opacity         :  o.railOpacity,
-                        zIndex          :  90
+                        zIndex          :  zIndex
                     });
 
                 // create scrollbar
@@ -218,7 +220,7 @@
                         BorderRadius       :  o.borderRadius,
                         MozBorderRadius    :  o.borderRadius,
                         WebkitBorderRadius :  o.borderRadius,
-                        zIndex             :  99
+                        zIndex             :  zIndex + 9
                     });
 
                 // create scrollbar (only if you need a horizontal scroll, small acceleration)
@@ -236,7 +238,7 @@
                             'border-radius' :  o.railBorderRadius,
                             background      :  o.railColor,
                             opacity         :  o.railOpacity,
-                            zIndex          :  90
+                            zIndex          :  zIndex
                         });
 
                     // create scrollbar
@@ -253,7 +255,7 @@
                             BorderRadius       :  o.borderRadius,
                             MozBorderRadius    :  o.borderRadius,
                             WebkitBorderRadius :  o.borderRadius,
-                            zIndex             :  99
+                            zIndex             :  zIndex + 9
                         });
                 }
 
