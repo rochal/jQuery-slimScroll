@@ -170,7 +170,7 @@
                 // optionally set height to the parent's height
                 o.height = ( o.height == 'auto' ) ? me.parent().height() : o.height;
 
-                var maxLen = o.horizontal ? 'calc(100% - {0}px)'.f( o.size ) : '100%';
+                var maxLen = o.horizontal ? ( 'calc(100% - ' + o.size ) : '100%';
 
                 // wrap content
                 var wrapper = $(divS)
