@@ -76,8 +76,7 @@
                     lastScrollX, lastScrollY,
                     touchDifX, touchDifY,
                     barHeight, barWidth,
-                    bar, rail,
-                    barH, railH,
+                    bar, rail, barH, railH,
                     divS          = '<div></div>',
                     minBarHeight  = 30,
                     minBarWidth   = 30,
@@ -560,7 +559,7 @@
                     bar.css({ height: barHeight + 'px' });
 
                     // hide scrollbar if content is not long enough
-                    var display = barHeight == me.outerHeight() ? 'none' : 'block';
+                    var display = ~~barHeight == ~~me.outerHeight() ? 'none' : 'block';
                     bar.css({ display: display });
                 }
 
@@ -615,7 +614,7 @@
                     lastScrollX = percentScrollX;
 
                     // show only when required
-                    if( barHeight >= me.outerHeight() )
+                    if( ~~barHeight >= ~~me.outerHeight() )
                     {
                         //allow window scroll
                         releaseScroll = true;
@@ -629,7 +628,7 @@
                     // only if you need a horizontal scroll (small acceleration)
                     if( o.horizontal )
                     {
-                        if( barWidth >= me.outerWidth() )
+                        if( ~~barWidth >= ~~me.outerWidth() )
                         {
                             //allow window scroll
                             releaseScroll = true;
