@@ -66,6 +66,8 @@
 
                 railBorderRadius: '7px',                // sets border radius of the rail
 
+                cursor          : null,                 // cursor for for the scroll bar
+
                 zIndex          : 90                    // z-index for the scroll bar
 
             };
@@ -210,6 +212,7 @@
                 bar = $(divS)
                     .addClass( o.barClass )
                     .css({
+                        cursor             :  o.cursor,
                         background         :  o.color,
                         width              :  o.size,
                         position           :  'absolute',
@@ -245,6 +248,7 @@
                     barH = $(divS)
                         .addClass( o.barClassH )
                         .css({
+                            cursor             :  o.cursor,
                             background         :  o.color,
                             height             :  o.size,
                             position           :  'absolute',
