@@ -66,7 +66,7 @@
 
                 railBorderRadius: '7px',                // sets border radius of the rail
 
-                cursor          : null,                 // cursor for for the scroll bar
+                cursor          : 'normal',             // cursor for for the scroll bar
 
                 zIndex          : 90                    // z-index for the scroll bar
 
