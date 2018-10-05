@@ -2,7 +2,7 @@
  * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
  * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
  *
- * Version: 1.3.8
+ * Version: 1.4.0
  *
  */
 (function($) {
@@ -76,7 +76,10 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+
+	// sets offset of the scrollbar
+        offset: 0
       };
 
       var o = $.extend(defaults, options);
@@ -300,7 +303,7 @@
         if (o.start === 'bottom')
         {
           // scroll content to bottom
-          bar.css({ top: me.outerHeight() - bar.outerHeight() });
+          bar.css({ top: me.outerHeight() - (bar.outerHeight() + o.offset) });
           scrollContent(0, true);
         }
         else if (o.start !== 'top')
@@ -341,12 +344,12 @@
         {
           releaseScroll = false;
           var delta = y;
-          var maxTop = me.outerHeight() - bar.outerHeight();
+          var maxTop = me.outerHeight() - (bar.outerHeight() + o.offset);
 
           if (isWheel)
           {
             // move bar with mouse wheel
-            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
+            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * (bar.outerHeight() + o.offset);
 
             // move bar, make sure it doesn't go out
             delta = Math.min(Math.max(delta, 0), maxTop);
@@ -362,7 +365,7 @@
           }
 
           // calculate actual scroll amount
-          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
+          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - (bar.outerHeight() + o.offset));
           delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
 
           if (isJump)
@@ -403,7 +406,7 @@
         {
           // calculate scrollbar height and make sure it is not too small
           barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
-          bar.css({ height: barHeight + 'px' });
+          bar.css({ height: (barHeight - o.offset) + 'px' });
 
           // hide scrollbar if content is not long enough
           var display = barHeight == me.outerHeight() ? 'none' : 'block';
