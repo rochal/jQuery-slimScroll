@@ -15,7 +15,7 @@
     "url"   : "http://rocha.la/"
   },
 
-  "dependencies" : {
+  "peerDependencies" : {
     "jquery" : ">= 1.7"
   },
 
