@@ -392,6 +392,7 @@
           {
             target.addEventListener('DOMMouseScroll', _onWheel, false );
             target.addEventListener('mousewheel', _onWheel, false );
+            target.addEventListener('wheel', _onWheel, false);
           }
           else
           {
