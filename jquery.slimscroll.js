@@ -418,22 +418,22 @@
           clearTimeout(queueHide);
 
           // when bar reached top or bottom
-          if (percentScroll == ~~percentScroll)
-          {
-            //release wheel
-            releaseScroll = o.allowPageScroll;
+            //fixing the issue#274 by rubtsovi
+            if (typeof percentScroll != 'undefined') {
+                if (Number(percentScroll.toFixed(2)) == ~~percentScroll) {
+                    //release wheel
+                    releaseScroll = o.allowPageScroll;
 
-            // publish approporiate event
-            if (lastScroll != percentScroll)
-            {
-                var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
-                me.trigger('slimscroll', msg);
+                    // publish approporiate event
+                    if (lastScroll != percentScroll) {
+                        var msg = (~~percentScroll == 0) ? 'top' : 'bottom';
+                        me.trigger('slimscroll', msg);
+                    }
+                }
+                else {
+                    releaseScroll = false;
+                }
             }
-          }
-          else
-          {
-            releaseScroll = false;
-          }
           lastScroll = percentScroll;
 
           // show only when required
