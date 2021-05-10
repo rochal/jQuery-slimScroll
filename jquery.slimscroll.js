@@ -76,7 +76,10 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+
+        // callback to be called after the scrollbars are created
+        onCreate : null
       };
 
       var o = $.extend(defaults, options);
@@ -141,7 +144,7 @@
               }
 
               // scroll content by the given offset
-              scrollContent(offset, false, true);
+              scrollContent(offset, false, true, o.animOptions);
             }
 
             return;
@@ -315,6 +318,9 @@
         // attach scroll events
         attachWheel(this);
 
+        // trigger the onCreate callback
+        triggerCallback('slimcreate', o.onCreate);
+
         function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
@@ -337,7 +343,7 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        function scrollContent(y, isWheel, isJump)
+        function scrollContent(y, isWheel, isJump, animOptions)
         {
           releaseScroll = false;
           var delta = y;
@@ -373,8 +379,15 @@
             bar.css({ top: offsetTop + 'px' });
           }
 
-          // scroll content
-          me.scrollTop(delta);
+          if (animOptions) {
+            // animate scrollTop
+            me.animate({
+              scrollTop: delta
+            },animOptions);
+          } else {
+            // normally scroll content
+            me.scrollTop(delta);
+          }
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
@@ -458,6 +471,17 @@
                 rail.fadeOut('slow');
               }
             }, 1000);
+          }
+        }
+
+        function triggerCallback(event, callback, params)
+        {
+          // fire external scrolling event
+          me.trigger(event, params);
+
+          // call callback
+          if ($.isFunction(callback)) {
+            callback.call(me);
           }
         }
 
