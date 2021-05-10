@@ -22,8 +22,7 @@
     "url": "https://github.com/rochal/jQuery-slimScroll.git"
   },
   "main": [
-    "jquery.slimscroll.js",
-    "jquery.slimscroll.min.js"
+    "jquery.slimscroll.js"
   ],
   "licenses" : [
     {
