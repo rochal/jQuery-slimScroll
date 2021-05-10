@@ -268,6 +268,24 @@
           hideBar();
         });
 
+        if (window.navigator.msPointerEnabled && (window.navigator.msMaxTouchPoints > 0 || window.navigator.maxTouchPoints > 0)) {
+          me.css("-ms-touch-action", "none");
+          me.bind('MSPointerDown pointerdown', function(e,b){
+                // record where touch started
+                touchDif = e.originalEvent.pageY;
+          });
+
+          me.bind('MSPointerMove pointermove', function(e){
+              // prevent scrolling the page if necessary
+              e.originalEvent.preventDefault();
+              // see how far user swiped
+              var diff = (touchDif - e.originalEvent.pageY) / o.touchScrollStep;
+              // scroll content
+              scrollContent(diff, true);
+              touchDif = e.originalEvent.pageY;
+          });
+        }
+
         // support for mobile
         me.bind('touchstart', function(e,b){
           if (e.originalEvent.touches.length)
