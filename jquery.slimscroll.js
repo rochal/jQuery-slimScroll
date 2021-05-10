@@ -74,6 +74,9 @@
 
         // sets border radius
         borderRadius: '7px',
+        
+         // sets animation status on a given scroll
+        animate: false,
 
         // sets border radius of the rail
         railBorderRadius : '7px'
@@ -374,7 +377,11 @@
           }
 
           // scroll content
-          me.scrollTop(delta);
+    	  if (o.animate){
+              me.animate({ scrollTop: delta });
+    	  }else{
+              me.scrollTop(delta);
+    	  }
 
           // fire scrolling event
           me.trigger('slimscrolling', ~~delta);
