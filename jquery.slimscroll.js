@@ -337,47 +337,64 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
+        function barTop2scrollTop(barTop, maxBarTop, maxScrollTop) {
+            return maxScrollTop * barTop / maxBarTop;
+        }
+
+        function scrollTop2barTop(scrollTop, maxScrollTop, maxBarTop) {
+            return maxBarTop * scrollTop  / maxScrollTop;
+        }
+
+
         function scrollContent(y, isWheel, isJump)
         {
           releaseScroll = false;
-          var delta = y;
-          var maxTop = me.outerHeight() - bar.outerHeight();
+          var maxBarTop = me.outerHeight() - bar.outerHeight();
+          var maxScrollTop = me[0].scrollHeight - me.outerHeight();
+          var barTop, scrollTop = y;
 
           if (isWheel)
           {
+            // bar.outerHeight() is lower-bound for usability, so when calculating the scrollTop,
+            // to avoid the scroll step growing with the height of the content, we need to use
+            // the un-bound height of the scroll bar
+            var barHeight = me.outerHeight() * me.outerHeight() / me[0].scrollHeight;
             // move bar with mouse wheel
-            delta = parseInt(bar.css('top')) + y * parseInt(o.wheelStep) / 100 * bar.outerHeight();
+            barTop = parseFloat(bar.css('top')) + y * barHeight * parseInt(o.wheelStep) / 100;
 
             // move bar, make sure it doesn't go out
-            delta = Math.min(Math.max(delta, 0), maxTop);
+            barTop = Math.min(Math.max(barTop, 0), maxBarTop);
 
             // if scrolling down, make sure a fractional change to the
             // scroll position isn't rounded away when the scrollbar's CSS is set
-            // this flooring of delta would happened automatically when
+            // this flooring of barTop would happened automatically when
             // bar.css is set below, but we floor here for clarity
-            delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
+            // For long content and small view port, rounding to unit causes the scroll step
+            // to be very large so we round to a 1000th of a unit.
+            barTop = (y > 0) ? Math.ceil(barTop*1000.0)/1000.0 : Math.floor(barTop*1000.0)/1000.0;
 
-            // scroll the scrollbar
-            bar.css({ top: delta + 'px' });
+            // scroll the content & scrollbar
+            scrollTop = barTop2scrollTop(barTop, maxBarTop, maxScrollTop);
+            bar.css({ top: barTop + 'px' });
           }
-
-          // calculate actual scroll amount
-          percentScroll = parseInt(bar.css('top')) / (me.outerHeight() - bar.outerHeight());
-          delta = percentScroll * (me[0].scrollHeight - me.outerHeight());
-
-          if (isJump)
+          else if (isJump)
           {
-            delta = y;
-            var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
-            offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
-            bar.css({ top: offsetTop + 'px' });
+            scrollTop = y;
+            barTop = scrollTop2barTop(scrollTop, maxScrollTop, maxBarTop);
+            barTop = Math.min(Math.max(barTop, 0), maxBarTop);
+            bar.css({ top: barTop + 'px' });
+          }
+          else // this case is for when dragging the bar
+          {
+            // calculate actual scroll amount (bar is already done by caller)
+            scrollTop = barTop2scrollTop(parseFloat(bar.css('top')), maxBarTop, maxScrollTop);
           }
 
           // scroll content
-          me.scrollTop(delta);
+          me.scrollTop(scrollTop);
 
           // fire scrolling event
-          me.trigger('slimscrolling', ~~delta);
+          me.trigger('slimscrolling', ~~scrollTop);
 
           // ensure bar is visible
           showBar();
