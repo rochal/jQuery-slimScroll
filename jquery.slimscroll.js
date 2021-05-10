@@ -318,7 +318,7 @@
         function _onWheel(e)
         {
           // use mouse wheel only when mouse is over
-          if (!isOverPanel) { return; }
+           if (!isOverPanel || !me.is(':visible')) { return; }
 
           var e = e || window.event;
 
