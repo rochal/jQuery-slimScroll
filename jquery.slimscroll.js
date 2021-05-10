@@ -417,6 +417,9 @@
           getBarHeight();
           clearTimeout(queueHide);
 
+	  //publish slimscrollEnd event
+	  me.trigger('slimscrollEnd', percentScroll);
+
           // when bar reached top or bottom
           if (percentScroll == ~~percentScroll)
           {
