@@ -76,7 +76,13 @@
         borderRadius: '7px',
 
         // sets border radius of the rail
-        railBorderRadius : '7px'
+        railBorderRadius : '7px',
+
+        //default tab index
+        tabIndex: 0,
+
+        //Page scroll threshold
+        pageScrollThreshold: 10
       };
 
       var o = $.extend(defaults, options);
@@ -160,6 +166,9 @@
         // wrap content
         var wrapper = $(divS)
           .addClass(o.wrapperClass)
+          .attr({
+            tabindex: o.tabIndex
+          })
           .css({
             position: 'relative',
             overflow: 'hidden',
@@ -312,6 +321,51 @@
           if (!o.alwaysVisible) { bar.hide(); }
         }
 
+        //attach keyboard events
+        attachKeybd();
+        function _onKeyPress(e)
+        {
+          if (!isOverPanel) { return; }
+          e = e || window.event;
+          var delta = 1;
+          var target = e.target || e.srcTarget || e.srcElement;
+          if ($(target).closest('.' + o.wrapperClass).is(me.parent())) {
+            var key = e.key || e.keyIdentifier || e.keyCode;
+            switch (key) {
+              case 33://pageup
+                scrollContent(-delta, true, true, true);
+                break;
+              case 34://pagedown
+                scrollContent(delta, true, true, true);
+                break;
+              case 38://alert('up');
+                scrollContent(-delta, true);
+              break;
+              case 40://alert('down');
+                scrollContent(delta, true);
+              break;
+              default: return;
+            }
+          }
+          // stop window scroll
+          if (e.preventDefault && !releaseScroll) { e.preventDefault(); }
+          if (!releaseScroll) { e.returnValue = false; }
+        }
+        function attachKeybd()
+        {
+          var parent = me.closest('.'+o.wrapperClass);
+          parent
+          .bind('keydown', _onKeyPress)
+          .bind('focusin', function () {
+            isOverPanel = true;
+            showBar();
+            hideBar();
+          })
+          .bind('focusout', function () {
+            isOverPanel = false;
+            hideBar();
+          });
+        }
         // attach scroll events
         attachWheel(this);
 
@@ -337,7 +391,7 @@
           if (!releaseScroll) { e.returnValue = false; }
         }
 
-        function scrollContent(y, isWheel, isJump)
+        function scrollContent(y, isWheel, isJump, isPageJump)
         {
           releaseScroll = false;
           var delta = y;
@@ -367,7 +421,7 @@
 
           if (isJump)
           {
-            delta = y;
+            delta = (isPageJump)? me.scrollTop() + (y * me.outerHeight()) - o.pageScrollThreshold : y;
             var offsetTop = delta / me[0].scrollHeight * me.outerHeight();
             offsetTop = Math.min(Math.max(offsetTop, 0), maxTop);
             bar.css({ top: offsetTop + 'px' });
