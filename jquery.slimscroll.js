@@ -11,6 +11,8 @@
     slimScroll: function(options) {
 
       var defaults = {
+      	
+      	cursor: 'pointer',
 
         // width in pixels of the visible scroll area
         width : 'auto',
@@ -193,6 +195,7 @@
         var bar = $(divS)
           .addClass(o.barClass)
           .css({
+            cursor: o.cursor,
             background: o.color,
             width: o.size,
             position: 'absolute',
