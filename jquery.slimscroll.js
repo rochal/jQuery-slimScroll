@@ -407,7 +407,7 @@
           bar.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          var display = parseInt(barHeight) == parseInt(me.outerHeight()) ? 'none' : 'block';
           bar.css({ display: display });
         }
 
@@ -437,7 +437,7 @@
           lastScroll = percentScroll;
 
           // show only when required
-          if(barHeight >= me.outerHeight()) {
+          if(parseInt(barHeight) >= parseInt(me.outerHeight())) {
             //allow window scroll
             releaseScroll = true;
             return;
